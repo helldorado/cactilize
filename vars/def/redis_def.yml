@@ -1,0 +1,24 @@
+---
+# /!\  PLEASE ! Do not edit this dictionary definitions unless you know what you are doing
+
+Redis_Def:
+
+ 'Redis Commands':
+   title    : "Percona Redis Commands GT"
+   graphtype: cg
+   tree     : REDIS
+
+ 'Redis Connections':
+   title    : "Percona Redis Connections GT"
+   graphtype: cg
+   tree     : REDIS
+
+ 'Redis Memory':
+   title    : "Percona Redis Memory GT"
+   graphtype: cg
+   tree     : REDIS
+
+ 'Redis Unsaved Changes':
+   title    : "Percona Redis Unsaved Changes GT"
+   graphtype: cg
+   tree     : REDIS

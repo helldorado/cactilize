@@ -1,0 +1,25 @@
+# ************************** WARNING CACTILIZE ANSIBLE PLAYBOOK *******************************
+# File Managed by Ansible
+# Any changes to this file configuration should be done trough ansible
+# other wise configuration will be overwriten on te next ansible cactilize deploy pass.
+# *********************************************************************************************
+
+<IfModule mod_status.c>
+<Location /server-status>
+    SetHandler server-status
+    Order deny,allow
+    Deny from all
+    Allow from 127.0.0.1 ::1
+    Allow from {{ archi_subnet }}.0/24
+</Location>
+
+# Keep track of extended status information for each request
+ExtendedStatus On
+
+<IfModule mod_proxy.c>
+    # Show Proxy LoadBalancer status in mod_status
+    ProxyStatus On
+</IfModule>
+
+
+</IfModule>

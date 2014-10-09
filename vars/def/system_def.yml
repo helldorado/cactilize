@@ -1,0 +1,127 @@
+---
+# /!\  PLEASE ! Do not edit this dictionary definitions unless you know what you are doing
+## You can duplicate some dictionary according your server configuration. Please use lsblk and mount command for more info.
+System_Def:
+
+ 'Traffic - eth0':
+    title          : "Interface - Traffic (bits/sec)"
+    graphtype      : ds
+    snmpquery      : "SNMP - Interface Statistics"
+    snmpquerytype  : "In/Out Bits (64-bit Counters)"
+    snmpfield      : ifName
+    snmpvalue      : eth0
+    tree           : NETWORK
+
+ 'Errors - eth0':
+    title          : "Interface - Errors/Discards"
+    graphtype      : ds
+    snmpquery      : "SNMP - Interface Statistics"
+    snmpquerytype  : "In/Out Errors/Discarded Packets"
+    snmpfield      : ifName
+    snmpvalue      : eth0
+    tree           : NETWORK
+
+ 'Disk Space - /var':
+    title          : "ucd/net - Available Disk Space"
+    graphtype      : ds
+    snmpquery      : "ucd/net -  Get Monitored Partitions"
+    snmpquerytype  : "Available/Used Disk Space"
+    snmpfield      : dskPath
+    snmpvalue      : "/var"
+    tree           : DISK
+
+ 'Disk Space - /var/log':
+    title          : "ucd/net - Available Disk Space"
+    graphtype      : ds
+    snmpquery      : "ucd/net -  Get Monitored Partitions"
+    snmpquerytype  : "Available/Used Disk Space"
+    snmpfield      : dskPath
+    snmpvalue      : "/var/log"
+    tree           : DISK
+
+ 'Disk Space - /home':
+    title          : "ucd/net - Available Disk Space"
+    graphtype      : ds
+    snmpquery      : "ucd/net -  Get Monitored Partitions"
+    snmpquerytype  : "Available/Used Disk Space"
+    snmpfield      : dskPath
+    snmpvalue      : "/home"
+    tree           : DISK
+
+ 'Disk Space - /usr':
+    title          : "ucd/net - Available Disk Space"
+    graphtype      : ds
+    snmpquery      : "ucd/net -  Get Monitored Partitions"
+    snmpquerytype  : "Available/Used Disk Space"
+    snmpfield      : dskPath
+    snmpvalue      : "/usr"
+    tree           : DISK
+
+ 'Disk Space - /var/lib/mysql':
+    title          : "ucd/net - Available Disk Space"
+    graphtype      : ds
+    snmpquery      : "ucd/net -  Get Monitored Partitions"
+    snmpquerytype  : "Available/Used Disk Space"
+    snmpfield      : dskPath
+    snmpvalue      : "/var/lib/mysql"
+    tree           : DISK
+ 
+ 'Disk Space - /var/www':
+    title          : "ucd/net - Available Disk Space"
+    graphtype      : ds
+    snmpquery      : "ucd/net -  Get Monitored Partitions"
+    snmpquerytype  : "Available/Used Disk Space"
+    snmpfield      : dskPath
+    snmpvalue      : "/var/www"
+    tree           : DISK
+
+ 'Disk Space - /tmp':
+    title          : "ucd/net - Available Disk Space"
+    graphtype      : ds
+    snmpquery      : "ucd/net -  Get Monitored Partitions"
+    snmpquerytype  : "Available/Used Disk Space"
+    snmpfield      : dskPath
+    snmpvalue      : "/tmp"
+    tree           : DISK
+
+ 'Disk Space - /var/tmp':
+    title          : "ucd/net - Available Disk Space"
+    graphtype      : ds
+    snmpquery      : "ucd/net -  Get Monitored Partitions"
+    snmpquerytype  : "Available/Used Disk Space"
+    snmpfield      : dskPath
+    snmpvalue      : "/var/tmp"
+    tree           : DISK
+
+ 'Disk Space - /var/lib/postgresql':
+    title          : "ucd/net - Available Disk Space"
+    graphtype      : ds
+    snmpquery      : "ucd/net -  Get Monitored Partitions"
+    snmpquerytype  : "Available/Used Disk Space"
+    snmpfield      : dskPath
+    snmpvalue      : "/var/lib/postgresql"
+    tree           : DISK
+
+ 'Disk Space - /var/lib/mail':
+    title          : "ucd/net - Available Disk Space"
+    graphtype      : ds
+    snmpquery      : "ucd/net -  Get Monitored Partitions"
+    snmpquerytype  : "Available/Used Disk Space"
+    snmpfield      : dskPath
+    snmpvalue      : "/var/lib/mail"
+    tree           : DISK
+
+ 'CPU Usage':
+    title          : "ucd/net - CPU Usage"
+    graphtype      : cg
+    tree           : CPU
+
+ 'Load Average':
+    title          : "ucd/net - Load Average"
+    graphtype      : cg
+    tree           : CPU
+
+ 'Memory Usage':
+    title          : "ucd/net - Memory Usage"
+    graphtype      : cg
+    tree           : MEMORY

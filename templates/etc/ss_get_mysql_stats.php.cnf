@@ -1,0 +1,10 @@
+<?php
+/*
+-- ************************** WARNING CACTILIZE ANSIBLE PLAYBOOK ********************************
+-- File Managed by Ansible
+-- Any changes to this file configuration should be done trough ansible
+-- other wise configuration will be overwriten on te next ansible cactilize deploy pass.
+-- **********************************************************************************************
+*/
+$mysql_user = "{{ cacti_mysql_mon_user }}";
+$mysql_pass = "{{ cacti_mysql_mon_pass }}";

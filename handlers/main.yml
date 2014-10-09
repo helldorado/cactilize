@@ -1,0 +1,27 @@
+---
+- name: restart_apache2
+  service: name=apache2 state=restarted
+
+- name: reload_apache2
+  service: name=apache2 state=reloaded
+
+- name: start_apache2
+  service: name=apache2 state=started
+
+- name: stop_apache2
+  service: name=apache2 state=stoped
+
+- name: restart_nginx
+  service: name=nginx state=restarted
+
+- name: reload_nginx
+  service: name=nginx state=reloaded
+
+- name: start_nginx
+  service: name=nginx state=started
+
+- name: stop_nginx
+  service: name=nginx state=stoped
+
+- name: restart_snmpd
+  service: name=snmpd state=restarted

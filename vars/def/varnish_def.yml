@@ -1,0 +1,119 @@
+---
+# /!\  PLEASE ! Do not edit this dictionary definitions unless you know what you are doing
+
+Varnish_Def:
+
+ 'Varnish - Backend Traffic':
+    title    : "Varnish Stats - Backend Traffic"
+    graphtype: cg
+    tree     : VARNISH
+
+ 'Varnish - Critbit data':
+    title    : "Varnish Stats - Critbit data"
+    graphtype: cg
+    tree     : VARNISH
+
+ 'Varnish - Data structure sizes':
+    title    : "Varnish Stats - Data structure sizes"
+    graphtype: cg
+    tree     : VARNISH
+
+ 'Varnish - ESI':
+    title    : "Varnish Stats - ESI"
+    graphtype: cg
+    tree     : VARNISH
+
+ 'Varnish - Hit rates':
+    title    : "Varnish Stats - Hit rates"
+    graphtype: cg
+    tree     : VARNISH
+
+ 'Varnish - Hitrate %':
+    title    : "Varnish Stats - Hitrate %"
+    graphtype: cg
+    tree     : VARNISH
+
+ 'Varnish - LRU activity':
+    title    : "Varnish Stats - LRU activity"
+    graphtype: cg
+    tree     : VARNISH
+
+ 'Varnish - Memory allocation requests':
+    title    : "Varnish Stats - Memory allocation requests"
+    graphtype: cg
+    tree     : VARNISH
+
+ 'Varnish - Memory Usage':
+    title    : "Varnish Stats - Memory Usage"
+    graphtype: cg
+    tree     : VARNISH
+
+ 'Varnish - Number of objects':
+    title    : "Varnish Stats - Number of objects"
+    graphtype: cg
+    tree     : VARNISH
+
+ 'Varnish - Object expunging':
+    title    : "Varnish Stats - Object expunging"
+    graphtype: cg
+    tree     : VARNISH
+
+ 'Varnish - Objects delivered with sendfile versus write':
+    title    : "Varnish Stats - Objects delivered with sendfile versus write"
+    graphtype: cg
+    tree     : VARNISH
+
+ 'Varnish - Objects overflowing workspace':
+    title    : "Varnish Stats - Objects overflowing workspace"
+    graphtype: cg
+    tree     : VARNISH
+
+ 'Varnish - Objects per objecthead':
+    title    : "Varnish Stats - Objects per objecthead"
+    graphtype: cg
+    tree     : VARNISH
+
+ 'Varnish - Request rates':
+    title    : "Varnish Stats - Request rates"
+    graphtype: cg
+    tree     : VARNISH
+
+ 'Varnish - Session herd':
+    title    : "Varnish Stats - Session herd"
+    graphtype: cg
+    tree     : VARNISH
+
+ 'Varnish - Sessions':
+    title    : "Varnish Stats - Sessions"
+    graphtype: cg
+    tree     : VARNISH
+
+ 'Varnish - Shared memory activity':
+    title    : "Varnish Stats - Shared memory activity"
+    graphtype: cg
+    tree     : VARNISH
+
+ 'Varnish - SHM writes and records':
+    title    : "Varnish Stats - SHM writes and records"
+    graphtype: cg
+    tree     : VARNISH
+
+ 'Varnish - Thread status':
+    title    : "Varnish Stats - Thread status"
+    graphtype: cg
+    tree     : VARNISH
+
+ 'Varnish - Transfer rates':
+    title    : "Varnish Stats - Transfer rates"
+    graphtype: cg
+    tree     : VARNISH
+
+ 'Varnish - Uptime':
+    title    : "Varnish Stats - Uptime"
+    graphtype: cg
+    tree     : VARNISH
+
+ 'Varnish - VCL and purges':
+    title    : "Varnish Stats - VCL and purges"
+    graphtype: cg
+    tree     : VARNISH

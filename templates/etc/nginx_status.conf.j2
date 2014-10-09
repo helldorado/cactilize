@@ -1,0 +1,13 @@
+# ************************** WARNING CACTILIZE ANSIBLE PLAYBOOK ********************************
+# File Managed by Ansible
+# Any changes to this file configuration should be done trough ansible
+# other wise configuration will be overwriten on te next ansible cactilize deploy pass.
+# **********************************************************************************************
+
+location /server-status {
+        stub_status on;
+        access_log   off;
+        allow 127.0.0.1;
+        allow {{ archi_subnet }}.0/24;
+        deny all;
+}

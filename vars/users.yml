@@ -1,0 +1,15 @@
+---
+ ## WEBUI User Permissions
+Users:
+
+  'spyviewer':
+    password            : FleninOfAt
+    full_name           : 'SPY Viewer'
+    enabled             : 'on'
+    must_change_password:
+    permissions         :
+      - View_Graphs
+      - Export_Data
+    policy              :
+      - View_Graphs
+      - View_Tree

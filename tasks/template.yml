@@ -1,0 +1,26 @@
+---
+# File: template.yml
+#
+# Description :
+# Import template task
+#
+# OS: Debian6 Debian7
+
+    - name: Copy Template
+      copy: src=templates/{{ item.value.filename }} dest={{ cacti_root_dir }}/templates owner=root group=root mode=0644
+      with_dict: cacti_templates
+      tags: template
+
+
+    - name: Import template with_template_rras
+      command: php {{ cacti_cli }}/import_template.php --filename={{ cacti_root_dir }}/templates/{{ item.value.filename }} --with-template-rras
+      with_dict: cacti_templates
+      when: (item.value.with_template_rras and item.value.ensure) and (deploy or deploy == "--force") 
+      tags: template
+
+
+    - name: Import template with_user_rras
+      command: php {{ cacti_cli }}/import_template.php --filename={{ cacti_root_dir }}/templates/{{ item.value.filename }} {{ item.value.with_user_rras }}
+      with_dict: cacti_templates
+      when: (item.value.with_user_rras and item.value.ensure ) and (deploy or deploy == "--force")
+      tags: template

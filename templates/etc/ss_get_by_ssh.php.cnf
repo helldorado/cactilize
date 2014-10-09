@@ -1,0 +1,11 @@
+<?php
+/*
+-- ************************** WARNING CACTILIZE ANSIBLE PLAYBOOK ********************************
+-- File Managed by Ansible
+-- Any changes to this file configuration should be done trough ansible
+-- other wise configuration will be overwriten on te next ansible cactilize deploy pass.
+-- **********************************************************************************************
+*/
+$ssh_user   = '{{ cacti_user }}';
+$ssh_iden   = '-i {{ cacti_conf_dir }}.ssh/id_rsa';
+$nc_cmd = 'nc -q1';

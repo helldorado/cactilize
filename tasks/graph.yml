@@ -1,0 +1,115 @@
+---
+# File: graph.yml
+#
+# Description :
+# Add graph to cacti Server
+#
+# OS: Debian6 Debian7
+
+    - name: ADD Graph SYSTEM
+      command: ruby {{ cacti_cli }}/cacti_add_graph.rb --name "{{ System_Def[item[1]].title }}" --device {{ item[0] }} --graphtemplate "{{ System_Def[item[1]].title }}" --graphtype {{ System_Def[item[1]].graphtype }} {% if System_Def[item[1]].snmpquery is defined %} --snmpquery "{{ System_Def[item[1]].snmpquery }}" {% endif %} {% if System_Def[item[1]].snmpquerytype is defined %} --snmpquerytype  "{{ System_Def[item[1]].snmpquerytype }}" {% endif %} {% if System_Def[item[1]].snmpfield is defined %} --snmpfield "{{ System_Def[item[1]].snmpfield }}" {% endif %} {% if System_Def[item[1]].snmpvalue is defined  %} --snmpvalue "{{ System_Def[item[1]].snmpvalue }}" {% endif %}
+      with_nested:
+        - Hosts
+        - System_Def
+      when: "'system' in Hosts[item[0]].graph"
+      tags:
+        - graph
+        - graph-system
+
+
+    - name: ADD Graph MYSQL
+      command: ruby {{ cacti_cli }}/cacti_add_graph.rb --name "{{ Mysql_Def[item[1]].title }}" --device {{ item[0] }} --graphtemplate "{{ Mysql_Def[item[1]].title }}" --graphtype {{ Mysql_Def[item[1]].graphtype }} {% if Mysql_Def[item[1]].snmpquery is defined %} --snmpquery "{{ Mysql_Def[item[1]].snmpquery }}" {% endif %} {% if Mysql_Def[item[1]].snmpquerytype is defined %} --snmpquerytype  "{{ Mysql_Def[item[1]].snmpquerytype }}" {% endif %} {% if Mysql_Def[item[1]].snmpfield is defined %} --snmpfield "{{ Mysql_Def[item[1]].snmpfield }}" {% endif %} {% if Mysql_Def[item[1]].snmpvalue is defined  %} --snmpvalue "{{ Mysql_Def[item[1]].snmpvalue }}" {% endif %}
+      with_nested:
+        - Hosts
+        - Mysql_Def
+      when: "'mysql' in Hosts[item[0]].graph"
+      tags:
+        - graph
+        - graph-mysql
+
+
+    - name: ADD Graph MONGODB
+      command: ruby {{ cacti_cli }}/cacti_add_graph.rb --name "{{ MongoDB_Def[item[1]].title }}" --device {{ item[0] }} --graphtemplate "{{ MongoDB_Def[item[1]].title }}" --graphtype {{ MongoDB_Def[item[1]].graphtype }} {% if MongoDB_Def[item[1]].snmpquery is defined %} --snmpquery "{{ MongoDB_Def[item[1]].snmpquery }}" {% endif %} {% if MongoDB_Def[item[1]].snmpquerytype is defined %} --snmpquerytype  "{{ MongoDB_Def[item[1]].snmpquerytype }}" {% endif %} {% if MongoDB_Def[item[1]].snmpfield is defined %} --snmpfield "{{ MongoDB_Def[item[1]].snmpfield }}" {% endif %} {% if MongoDB_Def[item[1]].snmpvalue is defined  %} --snmpvalue "{{ MongoDB_Def[item[1]].snmpvalue }}" {% endif %}
+      with_nested:
+        - Hosts
+        - MongoDB_Def
+      when: "'mongodb' in Hosts[item[0]].graph"
+      tags:
+        - graph
+        - graph-mongodb
+
+
+    - name: ADD Graph REDIS
+      command: ruby {{ cacti_cli }}/cacti_add_graph.rb --name "{{ Redis_Def[item[1]].title }}" --device {{ item[0] }} --graphtemplate "{{ Redis_Def[item[1]].title }}" --graphtype {{ Redis_Def[item[1]].graphtype }} {% if Redis_Def[item[1]].snmpquery is defined %} --snmpquery "{{ Redis_Def[item[1]].snmpquery }}" {% endif %} {% if Redis_Def[item[1]].snmpquerytype is defined %} --snmpquerytype  "{{ Redis_Def[item[1]].snmpquerytype }}" {% endif %} {% if Redis_Def[item[1]].snmpfield is defined %} --snmpfield "{{ Redis_Def[item[1]].snmpfield }}" {% endif %} {% if Redis_Def[item[1]].snmpvalue is defined  %} --snmpvalue "{{ Redis_Def[item[1]].snmpvalue }}" {% endif %}
+      with_nested:
+        - Hosts
+        - Redis_Def
+      when: "'redis' in Hosts[item[0]].graph"
+      tags: 
+        - graph
+        - graph-redis
+
+    - name: ADD Graph GALERA
+      command: ruby {{ cacti_cli }}/cacti_add_graph.rb --name "{{ Galera_Def[item[1]].title }}" --device {{ item[0] }} --graphtemplate "{{ Galera_Def[item[1]].title }}" --graphtype {{ Galera_Def[item[1]].graphtype }} {% if Galera_Def[item[1]].snmpquery is defined %} --snmpquery "{{ Galera_Def[item[1]].snmpquery }}" {% endif %} {% if Galera_Def[item[1]].snmpquerytype is defined %} --snmpquerytype  "{{ Galera_Def[item[1]].snmpquerytype }}" {% endif %} {% if Galera_Def[item[1]].snmpfield is defined %} --snmpfield "{{ Galera_Def[item[1]].snmpfield }}" {% endif %} {% if Galera_Def[item[1]].snmpvalue is defined  %} --snmpvalue "{{ Galera_Def[item[1]].snmpvalue }}" {% endif %}
+      with_nested:
+        - Hosts
+        - Galera_Def
+      when: "'galera' in Hosts[item[0]].graph"
+      tags: 
+        - graph
+        - graph-galera
+
+
+    - name: ADD Graph VARNISH
+      command: ruby {{ cacti_cli }}/cacti_add_graph.rb --name "{{ Varnish_Def[item[1]].title }}" --device {{ item[0] }} --graphtemplate "{{ Varnish_Def[item[1]].title }}" --graphtype {{ Varnish_Def[item[1]].graphtype }} {% if Varnish_Def[item[1]].snmpquery is defined %} --snmpquery "{{ Varnish_Def[item[1]].snmpquery }}" {% endif %} {% if Varnish_Def[item[1]].snmpquerytype is defined %} --snmpquerytype  "{{ Varnish_Def[item[1]].snmpquerytype }}" {% endif %} {% if Varnish_Def[item[1]].snmpfield is defined %} --snmpfield "{{ Varnish_Def[item[1]].snmpfield }}" {% endif %} {% if Varnish_Def[item[1]].snmpvalue is defined  %} --snmpvalue "{{ Varnish_Def[item[1]].snmpvalue }}" {% endif %}
+      with_nested:
+        - Hosts
+        - Varnish_Def
+      when: "'varnish' in Hosts[item[0]].graph"
+      tags: 
+        - graph
+        - graph-varnish
+
+
+    - name: ADD Graph MEMCACHED
+      command: ruby {{ cacti_cli }}/cacti_add_graph.rb --name "{{ Memcache_Def[item[1]].title }}" --device {{ item[0] }} --graphtemplate "{{ Memcache_Def[item[1]].title }}" --graphtype {{ Memcache_Def[item[1]].graphtype }} {% if Memcache_Def[item[1]].snmpquery is defined %} --snmpquery "{{ Memcache_Def[item[1]].snmpquery }}" {% endif %} {% if Memcache_Def[item[1]].snmpquerytype is defined %} --snmpquerytype  "{{ Memcache_Def[item[1]].snmpquerytype }}" {% endif %} {% if Memcache_Def[item[1]].snmpfield is defined %} --snmpfield "{{ Memcache_Def[item[1]].snmpfield }}" {% endif %} {% if Memcache_Def[item[1]].snmpvalue is defined  %} --snmpvalue "{{ Memcache_Def[item[1]].snmpvalue }}" {% endif %}
+      with_nested:
+        - Hosts
+        - Memcache_Def
+      when: "'memcache' in Hosts[item[0]].graph"
+      tags: 
+        - graph
+        - graph-memcache
+
+
+    - name: ADD Graph APACHE
+      command: ruby {{ cacti_cli }}/cacti_add_graph.rb --name "{{ Apache_Def[item[1]].title }}" --device {{ item[0] }} --graphtemplate "{{ Apache_Def[item[1]].title }}" --graphtype {{ Apache_Def[item[1]].graphtype }} {% if Apache_Def[item[1]].snmpquery is defined %} --snmpquery "{{ Apache_Def[item[1]].snmpquery }}" {% endif %} {% if Apache_Def[item[1]].snmpquerytype is defined %} --snmpquerytype  "{{ Apache_Def[item[1]].snmpquerytype }}" {% endif %} {% if Apache_Def[item[1]].snmpfield is defined %} --snmpfield "{{ Apache_Def[item[1]].snmpfield }}" {% endif %} {% if Apache_Def[item[1]].snmpvalue is defined  %} --snmpvalue "{{ Apache_Def[item[1]].snmpvalue }}" {% endif %}
+      with_nested:
+        - Hosts
+        - Apache_Def
+      when: "'apache' in Hosts[item[0]].graph"
+      tags: 
+        - graph
+        - graph-apache
+
+
+    - name: ADD Graph NGINX
+      command: ruby {{ cacti_cli }}/cacti_add_graph.rb --name "{{ Nginx_Def[item[1]].title }}" --device {{ item[0] }} --graphtemplate "{{ Nginx_Def[item[1]].title }}" --graphtype {{ Nginx_Def[item[1]].graphtype }} {% if Nginx_Def[item[1]].snmpquery is defined %} --snmpquery "{{ Nginx_Def[item[1]].snmpquery }}" {% endif %} {% if Nginx_Def[item[1]].snmpquerytype is defined %} --snmpquerytype  "{{ Nginx_Def[item[1]].snmpquerytype }}" {% endif %} {% if Nginx_Def[item[1]].snmpfield is defined %} --snmpfield "{{ Nginx_Def[item[1]].snmpfield }}" {% endif %} {% if Nginx_Def[item[1]].snmpvalue is defined  %} --snmpvalue "{{ Nginx_Def[item[1]].snmpvalue }}" {% endif %}
+      with_nested:
+        - Hosts
+        - Nginx_Def
+      when: "'nginx' in Hosts[item[0]].graph"
+      tags: 
+        - graph
+        - graph-nginx
+
+
+    - name: ADD Graph Elasticsearch
+      command: ruby {{ cacti_cli }}/cacti_add_graph.rb --name "{{ ES_Def[item[1]].title }}" --device {{ item[0] }} --graphtemplate "{{ ES_Def[item[1]].title }}" --graphtype {{ ES_Def[item[1]].graphtype }} {% if ES_Def[item[1]].snmpquery is defined %} --snmpquery "{{ ES_Def[item[1]].snmpquery }}" {% endif %} {% if ES_Def[item[1]].snmpquerytype is defined %} --snmpquerytype  "{{ ES_Def[item[1]].snmpquerytype }}" {% endif %} {% if ES_Def[item[1]].snmpfield is defined %} --snmpfield "{{ ES_Def[item[1]].snmpfield }}" {% endif %} {% if ES_Def[item[1]].snmpvalue is defined  %} --snmpvalue "{{ ES_Def[item[1]].snmpvalue }}" {% endif %}
+      with_nested:
+        - Hosts
+        - ES_Def
+      when: "'elasticsearch' in Hosts[item[0]].graph"
+      tags:
+        - graph
+        - graph-elasticsearch

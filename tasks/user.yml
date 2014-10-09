@@ -1,0 +1,12 @@
+---
+# File: user.yml
+#
+# Description :
+# Create WebUi user and grants.
+#
+# OS: Debian6 Debian7
+
+    - name: Create WebUI User
+      shell: php {{ cacti_cli }}/copy_user.php guest {{ item.key }} ; mysql -e "UPDATE {{cacti_db_name}}.user_auth SET full_name='{{ item.value.full_name }}' WHERE username='{{ item.key }}'; UPDATE {{cacti_db_name}}.user_auth SET enabled='{{ item.value.enabled }}' WHERE username='{{ item.key }}'; UPDATE {{cacti_db_name}}.user_auth SET password=md5('{{ item.value.password }}') WHERE username='{{ item.key }}'; UPDATE {{cacti_db_name}}.user_auth SET must_change_password='{{ item.value.must_change_password }}' WHERE username='{{ item.key }}';"
+      with_dict: Users
+      tags: user

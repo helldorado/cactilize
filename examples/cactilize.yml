@@ -1,0 +1,30 @@
+# File: cactilize.yml
+# Description:
+# Playbook for cactilize
+#
+# OS: Debian6 debian7
+
+---
+    - hosts: all
+      user: ansible
+      sudo: True
+
+      vars_files:
+        - roles/cactilize/vars/deploy.yml
+        - roles/cactilize/vars/templates.yml
+        - roles/cactilize/vars/hosts.yml
+        - roles/cactilize/vars/users.yml
+        - roles/cactilize/vars/trees.yml
+        - roles/cactilize/vars/def/mysql_def.yml
+        - roles/cactilize/vars/def/elasticsearch_def.yml
+        - roles/cactilize/vars/def/system_def.yml
+        - roles/cactilize/vars/def/varnish_def.yml
+        - roles/cactilize/vars/def/memcache_def.yml
+        - roles/cactilize/vars/def/apache_def.yml
+        - roles/cactilize/vars/def/redis_def.yml
+        - roles/cactilize/vars/def/mongodb_def.yml
+        - roles/cactilize/vars/def/galera_def.yml
+        - roles/cactilize/vars/def/nginx_def.yml
+
+      roles:
+       - cactilize

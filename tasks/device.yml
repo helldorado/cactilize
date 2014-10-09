@@ -1,0 +1,14 @@
+---
+# File: device.yml
+#
+# Description :
+# Create device on cacti server
+#
+# OS: Debian6 Debian7
+
+    - name: ADD device
+      command: ruby {{ cacti_cli }}/cacti_add_device.rb --description {{ item.key }} --ip {{ item.value.IP }} {% if item.value.default_template is defined %} --template item.value.default_template {% endif %} {% if item.value.notes is defined %} --notes item.value.notes {% endif %} {% if item.value.avail is defined %} --avail item.value.avail {% endif %} {% if item.value.pingmethod is defined  %} --pingmethod item.value.pingmethod {% endif %} {% if item.value.pingport is defined %} --pingport item.value.pingport {% endif %} {% if item.value.pingretries is defined %} --pingretries item.value.pingretries {% endif %} {% if item.value.snmpversion is defined %} --snmpversion item.value.snmpversion {% endif %} {% if item.value.snmpcommunity is defined %} --snmpcommunity item.value.snmpcommunity {% endif %} {% if item.value.snmpport is defined %} --snmpport item.value.snmpport {% endif %} {% if item.value.snmptimeout is defined %}  --snmptimeout item.value.snmptimeout {% endif %} {% if item.value.snmpusername is defined %} --snmpusername item.value.snmpusername {% endif %} {% if item.value.snmppassword is defined %} --snmppassword item.value.snmppassword {% endif %} {% if item.value.snmpauthproto is defined %} --snmpauthproto item.value.snmpauthproto {% endif %} {% if item.value.snmpprivpass is defined %} --snmpprivpass item.value.snmpprivpass {% endif %} {% if item.value.snmprivproto is defined %} --snmpprivproto item.value.snmprivproto {% endif %} {% if item.value.snmpcontext is defined %} --snmpcontext item.value.snmpcontext {% endif %} {% if item.value.snmpmaxoids is defined %} --snmpmaxoids item.value.snmpmaxoids {% endif %}
+      register: device
+      with_dict: Hosts
+      tags: device
+

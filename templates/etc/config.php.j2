@@ -1,0 +1,18 @@
+<?php
+/*
+-- ************************** WARNING CACTILIZE ANSIBLE PLAYBOOK ********************************
+-- File Managed by Ansible
+-- Any changes to this file configuration should be done trough ansible
+-- other wise configuration will be overwriten on te next ansible cactilize deploy pass.
+-- **********************************************************************************************
+*/
+
+$database_type = "mysql";
+$database_default = "{{ cacti_db_name }}";
+$database_hostname = "{{ cacti_db_hostname }}";
+$database_username = "{{ cacti_db_user }}";
+$database_password = "{{ cacti_db_password }}";
+$database_port = "3306";
+$database_ssl = false;
+
+?>

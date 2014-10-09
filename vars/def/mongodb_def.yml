@@ -1,0 +1,34 @@
+---
+# /!\  PLEASE ! Do not edit this dictionary definitions unless you know what you are doing
+
+MongoDB_Def:
+
+ 'MongoDB Background Flushes':
+   title    : "Percona MongoDB Background Flushes GT"
+   graphtype: cg
+   tree     : MONGODB
+
+ 'MongoDB Commands':
+   title    : "Percona MongoDB Commands GT"
+   graphtype: cg
+   tree     : MONGODB
+
+ 'MongoDB Connections':
+   title    : "Percona MongoDB Connections GT"
+   graphtype: cg
+   tree     : MONGODB
+
+ 'MongoDB Index Ops':
+   title    : "Percona MongoDB Index Ops GT"
+   graphtype: cg
+   tree     : MONGODB
+
+ 'MongoDB Memory':
+   title    : "Percona MongoDB Memory GT"
+   graphtype: cg
+   tree     : MONGODB
+ 
+ 'MongoDB Slave Lag':
+   title    : "Percona MongoDB Slave Lag GT"
+   graphtype: cg
+   tree     : MONGODB

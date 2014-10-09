@@ -1,0 +1,112 @@
+---
+# /!\  PLEASE ! Do not edit this dictionary definitions unless you know what you are doing
+
+ES_Def:
+
+ 'Elasticsearch CPU percent':
+    title    : "Elasticsearch - CPU percent"
+    graphtype: cg
+    tree     : ES
+
+ 'Elasticsearch CPU Usage':
+    title    : "Elasticsearch - CPU usage"
+    graphtype: cg
+    tree     : ES
+
+ 'Elasticsearch Execution times':
+    title    : "Elasticsearch - Execution times"
+    graphtype: cg
+    tree     : ES
+
+ 'Elasticsearch Executions':
+    title    : "Elasticsearch - Executions"
+    graphtype: cg
+    tree     : ES
+ 
+ 'Elasticsearch Gets':
+     title    : "Elasticsearch - Get requests"
+     graphtype: cg
+     tree     : ES
+ 
+ 
+ 'Elasticsearch Get times':
+     title    : "Elasticsearch - Get times"
+     graphtype: cg
+     tree     : ES
+ 
+ 'Elasticsearch Indeces docs':
+     title    : "Elasticsearch - Indeces docs"
+     graphtype: cg
+     tree     : ES
+ 
+ 'Elasticsearch Indeces store size':
+     title    : "Elasticsearch - Indeces store size"
+     graphtype: cg
+     tree     : ES
+ 
+ 'Elasticsearch Indexing requests':
+     title    : "Elasticsearch - indexing requests"
+     graphtype: cg
+     tree     : ES
+ 
+ 'Elasticsearch JVM Heap Mem':
+     title    : "Elasticsearch - JVM Heap Mem"
+     graphtype: cg
+     tree     : ES
+ 
+ 'Elasticsearch JVM non heap':
+     title    : "Elasticsearch - JVM non heap"
+     graphtype: cg
+     tree     : ES
+ 
+ 
+ 'Elasticsearch JVM non heap':
+     title    : "Elasticsearch - JVM non heap"
+     graphtype: cg
+     tree     : ES
+ 
+ 'Elasticsearch JVM threads':
+     title    : "Elasticsearch - JVM threads"
+     graphtype: cg
+     tree     : ES
+ 
+ 'Elasticsearch JVM uptime':
+     title    : "Elasticsearch - JVM Uptime"
+     graphtype: cg
+     tree     : ES
+ 
+ 'Elasticsearch Merges':
+     title    : "Elasticsearch - Merges"
+     graphtype: cg
+     tree     : ES
+ 
+ 
+ 'Elasticsearch Merge docs':
+     title    : "Elasticsearch - Merges docs"
+     graphtype: cg
+     tree     : ES
+ 
+ 'Elasticsearch Merges size':
+     title    : "Elasticsearch - Merges size"
+     graphtype: cg
+     tree     : ES
+ 
+ 'Elasticsearch Open files':
+     title    : "Elasticsearch - open files"
+     graphtype: cg
+     tree     : ES
+ 
+ 'Elasticsearch Process memory':
+     title    : "Elasticsearch - Process Mem"
+     graphtype: cg
+     tree     : ES
+ 
+ 'Elasticsearch Search requests':
+     title    : "Elasticsearch - Search requests"
+     graphtype: cg
+     tree     : ES
+ 
+ 'Elasticsearch Segments':
+     title    : "Elasticsearch - Segments"
+     graphtype: cg
+     tree     : ES

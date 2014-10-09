@@ -1,0 +1,24 @@
+---
+# File: security.yml
+#
+# Description :
+# Cactilize security check
+#
+# OS: Debian6 Debian7
+
+    - name: Check if Cacti root dir is present
+      stat: path={{ cacti_root_dir  }}
+      register: cacti_exist
+      when: p.stat.isdir is defined and p.stat.isdir == true
+
+
+    - name: check if Cacti DB exists
+      shell: mysql -Bse 'show databases;' | grep {{ cacti_db_name }}
+      register: dbstatus
+      changed_when: dbstatus.rc == 1 and not dbstatus.stdout
+
+
+    - vars_prompt:
+      name: "Are sure you want to redeploy ?"
+      deploy: "Are sure you want to redeploy ?"
+      default: "false"

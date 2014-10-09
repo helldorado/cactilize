@@ -1,0 +1,229 @@
+---
+# /!\  PLEASE ! Do not edit this dictionary definitions unless you know what you are doing
+
+Mysql_Def:
+
+ 'MyISAM Indexes':
+    title    : "Percona MyISAM Indexes GT"
+    graphtype: cg
+    tree     : MYSQL
+
+ 'MyISAM Key Cache':
+    title    : "Percona MyISAM Key Cache GT"
+    graphtype: cg
+    tree     : MYSQL
+
+ 'InnoDB Buffer Pool':
+    title    : "Percona InnoDB Buffer Pool GT"
+    graphtype: cg
+    tree     : MYSQL
+
+ 'InnoDB I/O':
+    title    : "Percona InnoDB I/O GT"
+    graphtype: cg
+    tree     : MYSQL
+
+ 'InnoDB Insert Buffer':
+    title    : "Percona InnoDB Insert Buffer GT"
+    graphtype: cg
+    tree     : MYSQL
+
+ 'InnoDB Insert Buffer Usage':
+    title    : "Percona InnoDB Insert Buffer Usage GT"
+    graphtype: cg
+    tree     : MYSQL
+
+ 'InnoDB Semaphores':
+    title    : "Percona InnoDB Semaphores GT"
+    graphtype: cg
+    tree     : MYSQL
+
+ 'InnoDB Row Operations':
+    title    : "Percona InnoDB Row Operations GT"
+    graphtype: cg
+    tree     : MYSQL
+
+ 'MySQL Table Locks':
+    title    : "Percona MySQL Table Locks GT"
+    graphtype: cg
+    tree     : MYSQL
+
+ 'MySQL Connections':
+    title    : "Percona MySQL Connections GT"
+    graphtype: cg
+    tree     : MYSQL
+
+ 'MySQL Replication':
+    title    : "Percona MySQL Replication GT"
+    graphtype: cg
+    tree     : MYSQL
+
+ 'MySQL Query Cache':
+    title    : "Percona MySQL Query Cache GT"
+    graphtype: cg
+    tree     : MYSQL
+
+ 'MySQL Query Cache Memory':
+    title    : "Percona MySQL Query Cache Memory GT"
+    graphtype: cg
+    tree     : MYSQL
+
+ 'MySQL Command Counters':
+    title     : "Percona MySQL Command Counters GT"
+    graphtype: cg
+    tree     : MYSQL
+
+ 'MySQL Select Types':
+    title    : "Percona MySQL Select Types GT"
+    graphtype: cg
+    tree     : MYSQL
+
+ 'MySQL Sorts':
+    title    : "Percona MySQL Sorts GT"
+    graphtype: cg
+    tree     : MYSQL
+
+ 'MySQL Temporary Objects':
+    title    : "Percona MySQL Temporary Objects GT"
+    graphtype: cg
+    tree     : MYSQL
+
+ 'MySQL Network Traffic':
+    title    : "Percona MySQL Network Traffic GT"
+    graphtype: cg
+    tree     : MYSQL
+
+ 'InnoDB Buffer Pool Activity':
+    title    : "Percona InnoDB Buffer Pool Activity GT"
+    graphtype: cg
+    tree     : MYSQL
+
+ 'InnoDB I/O Pending':
+    title    : "Percona InnoDB I/O Pending GT"
+    graphtype: cg
+    tree     : MYSQL
+
+ 'InnoDB Log':
+    title    : "Percona InnoDB Log GT"
+    graphtype: cg
+    tree     : MYSQL
+
+ 'MySQL Binary/Relay Logs':
+    title    : "Percona MySQL Binary/Relay Logs GT"
+    graphtype: cg
+    tree     : MYSQL
+
+ 'InnoDB Transactions':
+    title    : "Percona InnoDB Transactions GT"
+    graphtype: cg
+    tree     : MYSQL
+
+ 'InnoDB Transactions Active/Locked':
+    title    : "Percona InnoDB Transactions Active/Locked GT"
+    graphtype: cg
+    tree     : MYSQL
+
+ 'MySQL Files and Tables':
+    title    : "Percona MySQL Files and Tables GT"
+    graphtype: cg
+    tree     : MYSQL
+
+ 'MySQL Threacg':
+    title    : "Percona MySQL Threacg GT"
+    graphtype: cg
+    tree     : MYSQL
+
+ 'InnoDB Memory Allocation':
+    title    : "Percona InnoDB Memory Allocation GT"
+    graphtype: cg
+    tree     : MYSQL
+
+ 'InnoDB Adaptive Hash Index':
+    title    : "Percona InnoDB Adaptive Hash Index GT"
+    graphtype: cg
+    tree     : MYSQL
+
+ 'InnoDB Internal Hash Memory Usage':
+    title    : "Percona InnoDB Internal Hash Memory Usage GT"
+    graphtype: cg
+    tree     : MYSQL
+
+ 'InnoDB Tables In Use':
+    title    : "Percona InnoDB Tables In Use GT"
+    graphtype: cg
+    tree     : MYSQL
+
+ 'InnoDB Current Lock Waits':
+    title    : "Percona InnoDB Current Lock Waits GT"
+    graphtype: cg
+    tree     : MYSQL
+
+ 'InnoDB Lock Structures':
+    title    : "Percona InnoDB Lock Structures GT"
+    graphtype: cg
+    tree     : MYSQL
+
+ 'InnoDB Checkpoint Age':
+    title    : "Percona InnoDB Checkpoint Age GT"
+    graphtype: cg
+    tree     : MYSQL
+
+ 'InnoDB Row Lock Time':
+    title    : "Percona InnoDB Row Lock Time GT"
+    graphtype: cg
+    tree     : MYSQL
+
+ 'InnoDB Row Lock Waits':
+    title    : "Percona InnoDB Row Lock Waits GT"
+    graphtype: cg
+    tree     : MYSQL
+
+ 'InnoDB Semaphore Waits':
+    title    : "Percona InnoDB Semaphore Waits GT"
+    graphtype: cg
+    tree     : MYSQL
+
+ 'InnoDB Semaphore Wait Time':
+    title    : "Percona InnoDB Semaphore Wait Time GT"
+    graphtype: cg
+    tree     : MYSQL
+
+ 'MySQL Processlist':
+    title    : "Percona MySQL Processlist GT"
+    graphtype: cg
+    tree     : MYSQL
+
+ 'MySQL Transaction Handler':
+    title    : "Percona MySQL Transaction Handler GT"
+    graphtype: cg
+    tree     : MYSQL
+
+ 'MySQL Handlers':
+    title    : "Percona MySQL Handlers GT"
+    graphtype: cg
+    tree     : MYSQL
+
+ 'MySQL Query Response Time (Microseconds)':
+    title    : "Percona MySQL Query Response Time (Microseconds) GT"
+    graphtype: cg
+    tree     : MYSQL
+    
+ 'MySQL Threads':
+    title    : "Percona MySQL Threads GT"
+    graphtype: cg
+    tree     : MYSQL
+
+ 'MySQL Query Time Histogram (Count)':
+    title    : "Percona MySQL Query Time Histogram (Count) GT"
+    graphtype: cg
+    tree     : MYSQL
+
+ 'MySQL Query Response Time (Microseconcg)':
+    title    : "Percona MySQL Query Response Time (Microseconcg) GT"
+    graphtype: cg
+    tree     : MYSQL
+
+ 'InnoDB Buffer Pool Efficiency':
+    title    : "Percona InnoDB Buffer Pool Efficiency GT"
+    graphtype: cg
+    tree     : MYSQL

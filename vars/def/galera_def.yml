@@ -1,0 +1,44 @@
+---
+# /!\  PLEASE ! Do not edit this dictionary definitions unless you know what you are doing
+
+Galera_Def:
+
+ 'Galera Cluster Size':
+   title     : "Percona Galera Cluster Size GT"
+   graphtype : cg
+   tree      : GALERA
+
+ 'Galera Flow Control':
+   title     : "Percona Galera Flow Control GT"
+   graphtype : cg
+   tree      : GALERA
+
+ 'Galera Parallelization Efficiency':
+   title     : "Percona Galera Replication Queues GT"
+   graphtype : cg
+   tree      : GALERA
+
+ 'Galera Replication Queues':
+   title     : "Percona Galera Replication Queues GT"
+   graphtype : cg
+   tree      : GALERA
+
+ 'Galera Writeset Count':
+   title     : "Percona Galera Writeset Count GT"
+   graphtype : cg
+   tree      : GALERA
+
+ 'Galera Writeset Size':
+   title     : "Percona Galera Writeset Size GT"
+   graphtype : cg
+   tree      : GALERA
+
+ 'Galera Writeset Traffic':
+   title     : "Percona Galera Writeset Traffic GT"
+   graphtype : cg
+   tree      : GALERA
+
+ 'Galera Writing Conflicts':
+   title     : "Percona Galera Writing Conflicts GT"
+   graphtype : cg
+   tree      : GALERA

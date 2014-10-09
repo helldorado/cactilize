@@ -1,0 +1,18 @@
+cactlize_info:
+  author:
+    - Abdoul Bah
+  license: GPL
+  min_ansible_version: 1.6
+  platforms:
+    - name: Debian
+      versions:
+        - wheezy
+        - squeeze
+
+  categories:
+    - monitoring
+  dependencies:
+    - { role: apache2 }
+    - { role: php }
+    - { role: mysql}
+version: 0.0.1

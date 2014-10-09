@@ -1,0 +1,171 @@
+---
+# File: deploy.yml
+#
+# Description :
+# Cacti Server setup task
+#
+# OS: Debian6 Debian7
+
+    - name: Check if Cacti root dir is present
+      stat: path={{ cacti_root_dir  }}
+      ignore_errors: true
+      register: cacti_web_root
+      changed_when: cacti_root_dir.stat.isdir is defined and cacti_root_dir.stat.isdir == true
+
+    - name: check if Cacti DB exists
+      shell: mysql -e "show databases;"
+      ignore_errors: true
+      register: databases
+      changed_when: databases.stdout == 1
+
+    - debug: var=cacti_web_root
+    - debug: var=databases
+
+    - name: Exit Cactilize execution
+      fail: msg="Cacti or Cacti DB exist, please add deploy=--force to extra-vars )"
+      when: (cacti_web_root.stat.exists or databases.stdout.find('{{cacti_db_name}}') != -1) and deploy != "--force"
+
+    - name: Create temp directory
+      file: path={{ cactilize_temp_dir }} state=directory
+
+    - name: Create conf directory
+      file: path={{ cacti_conf_dir }} state=directory
+
+   - name: Create SSH directory
+     file: path={{ cacti_conf_dir }}/.ssh state=directory owner={{ cacti_user }} group={{ cacti_user }}
+
+    - name: Creates LOG directory
+      file: path={{ cacti_log_dir }} state=directory owner=root group={{ apache_group }} mode=0664
+
+    - name: Create LV for RRAs DATA
+      lvol: vg={{ RRA_VG_NAME }} lv={{ RRA_LV_NAME }} size={{ RRA_LV_SIZE }}
+      when: RRA_LV_NAME is defined
+      register: lvcreate
+
+    - name: MKFS RRAs LV
+      filesystem: fstype=ext4 dev=/dev/{{ RRA_VG_NAME }}/{{ RRA_LV_NAME }}
+      when: RRA_LV_NAME is defined and lvcreate|success
+      register: MKFS
+
+    - name: CREATE MOUNT POINT FOR RRAs
+      mount: name={{ RRA_MOUNT_POINT }} src=/dev/{{ RRA_VG_NAME }}/{{ RRA_LV_NAME }} fstype=ext4  opts=defaults state=mounted
+      when: RRA_LV_NAME is defined and MKFS|success
+      register: MOUNTED
+
+    - name: Install requires
+      apt: name={{ item }} update-cache=yes state=present
+      with_items:
+        - "{{ cacti_required_packages }}"
+        - python-mysqldb
+        - python-passlib
+
+    - name: Download Cacti version {{ cacti_version }}
+      get_url: url={{ cacti_package_source }}/cacti-{{ cacti_version }}.tar.gz dest={{ cactilize_temp_dir }}
+
+    - name: Deploy Cacti version {{ cacti_version }} for {{ archi }}
+      unarchive: src={{ cactilize_temp_dir }}/cacti-{{ cacti_version }}.tar.gz dest={{ cactilize_temp_dir }} copy=no
+
+    - name: Move to specified cacti root 
+      command: mv {{ cactilize_temp_dir }}/cacti-{{ cacti_version }} {{ cacti_root_dir }}
+
+    - name: Create Template directory
+      file: path={{ cacti_root_dir  }}/templates owner=root group=root state=directory
+
+    - name: Create Cacti config file
+      template: src=etc/config.php.j2  dest={{ cacti_config_file }} owner=root group=root mode=0644
+
+    - name: Cacti configuration Step One
+      file: src={{ cacti_config_file }} dest={{ cacti_root_dir }}/include/config.php owner=root group=root state=link force=yes 
+
+    - name: Create database {{ cacti_db_name }}
+      mysql_db: name={{ cacti_db_name  }} state=present
+
+    - name: Grants for user {{ cacti_db_user  }}
+      mysql_user: name={{ cacti_db_user }} password={{ cacti_db_password }} priv={{ cacti_db_name }}.*:ALL state=present
+
+    - name: Populate Cacti database
+      mysql_db: name={{ cacti_db_name  }} state=import target={{ cacti_db_populate }}   
+
+    - name: Cacti Alias deploiement Step 1
+      template: src=etc/apache.conf.j2 dest={{ cacti_apache_conf }} owner=root group=root mode=0644
+      when: domain_name is not defined
+      register: ALIAS
+
+    - name: Cacti Alias deploiement Step 2
+      file: src={{ cacti_apache_conf }} dest=/etc/apache2/conf.d/cacti.conf state=link force=yes
+      when: domain_name is not defined and ALIAS|success
+      notify: reload_apache2
+
+    - name: Cacti Vhost deploiement Step 1
+      template: src=etc/vhost.conf.j2 dest=/etc/apache2/sites-available/{{ domain_name }}.conf owner=root group=root mode=0644
+      when: domain_name is defined
+      register: VHOST
+
+    - name: Cacti Vhost deploiement Step 2
+      command: a2ensite {{ domain_name }}.conf
+      when: domain_name is defined and VHOST|success
+      notify: reload_apache2
+
+    - name: Create Htpasswd users
+      htpasswd: path=/etc/apache2/.htpass_cacti name={{ item.key }} password={{ item.value.passwd }} owner=root group={{ apache_group }} mode=0640
+      with_dict: htpasswd_users
+
+    - name: Postinstall Configuration
+      template: src=postinstall.sql.j2 dest={{ cactilize_temp_dir }}/postinstall.sql
+
+    - name: Post Install Step 1 
+      mysql_db: name={{ cacti_db_name }} state=import target={{ cactilize_temp_dir }}/postinstall.sql
+
+    - name: Post Install Step 2
+      file: path={{ RRA_MOUNT_POINT }}/cacti owner={{ apache_user }} group={{ apache_group }} state=directory
+      when: MOUNTED|success
+
+    - name: Post Install Step 3
+      file: path={{ cacti_root_dir }}/rra state=absent
+      when: MOUNTED|success
+
+    - name: Post Install Step 4
+      file: src={{ RRA_MOUNT_POINT }}/cacti dest={{ cacti_root_dir }}/rra  owner={{ apache_user }} group={{ apache_group }} state=link force=yes
+      when: MOUNTED|success
+
+    - name: Post Install Step 5 [ Only If LV not used]
+      file: path={{ cacti_rra_dir }} owner={{ apache_user }} group={{ apache_group }} state=directory
+      when: RRA_LV_NAME is not defined
+
+    - name: Post Install Step 6 [ Only If LV not used]
+      file: src={{ cacti_rra_dir }} dest={{ cacti_root_dir }}/rra  owner={{ apache_user }} group={{ apache_group }} state=link
+      when: RRA_LV_NAME is not defined
+
+    - name: Post Install Step 7 [ Create cacti user]
+      user: name=cacti comment="Cacti user for poller process" generate_ssh_key=yes ssh_key_file={{ cacti_conf_dir }}/.ssh/id_rsa
+
+    - name: Get SSH KEY
+      fetch: src={{ cacti_conf_dir }}/.ssh/id_rsa.pub dest=roles/cactilize/files/id_rsa.pub flat=yes
+
+    - name: Copy Scripts File
+      template: src={{ item }} dest={{ cacti_root_dir }}/scripts/ owner=root group=root mode=0644
+      with_items:
+        - scripts/ss_get_by_ssh.php
+        - scripts/ss_get_mysql_stats.php
+        - scripts/ss_get_rds_stats.py
+        - scripts/ss_get_rds_stats.py
+        - scripts/get_varnish_stats.py
+        - scripts/elasticsearch_stats.rb
+
+    - name: Copy Percona Configuration File
+      template: src={{ item }} dest={{ cacti_conf_dir }} owner=root group=root mode=0644
+      with_items: 
+        - etc/ss_get_mysql_stats.php.cnf
+        - etc/ss_get_by_ssh.php.cnf
+
+    - name: Copy Cactilize ruby wrappers
+      template: src={{ item }} dest={{ cacti_root_dir }}/cli/ owner=root group=root mode=0644
+      with_items: 
+        - lib/cacti_add_device.rb
+        - lib/cacti_add_graph.rb 
+        - lib/cacti_add_tree.rb 
+
+    - name: Report
+      template: src=report.txt.j2 dest=/root/.cacti
+      with_dict: Users
+      tags: report

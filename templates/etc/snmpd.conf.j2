@@ -1,0 +1,28 @@
+# ************************** WARNING CACTILIZE ANSIBLE PLAYBOOK ********************************
+# File Managed by Ansible
+# Any changes to this file configuration should be done trough ansible
+# other wise configuration will be overwriten on te next ansible cactilize deploy pass.
+# **********************************************************************************************
+
+com2sec readonly  default  {{ default_community }}
+group MyROSystem v1        paranoid
+group MyROSystem v2c       paranoid
+group MyROSystem usm       paranoid
+group MyROGroup v1         readonly
+group MyROGroup v2c        readonly
+group MyROGroup usm        readonly
+group MyRWGroup v1         readwrite
+group MyRWGroup v2c        readwrite
+group MyRWGroup usm        readwrite
+rocommunity {{ default_community }}  {{ archi_subnet }}.0/24  -V systemonly
+rocommunity {{ default_community }}  127.0.0.1/32 -V systemonly
+view all    included  .1                               80
+view system included  .iso.org.dod.internet.mgmt.mib-2.system
+access MyROSystem ""     any       noauth    exact  system none   none
+access MyROGroup ""      any       noauth    exact  all    none   none
+access MyRWGroup ""      any       noauth    exact  all    all    none
+syslocation Unknown (configure /etc/snmp/snmpd.local.conf)
+includeAllDisks 10%
+load   12 10 5
+{% if snmp_contact is defined %} syscontact Root <{{ snmp_contact }}> (configure /etc/snmp/snmpd.local.conf) {% endif %}
+{% if nfs_client is defined %} extend .1.3.6.1.4.1.2021.66 nfs_client /bin/sh /usr/local/scripts/nfs_client.sh {% endif %} 

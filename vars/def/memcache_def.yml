@@ -1,0 +1,39 @@
+---
+# /!\  PLEASE ! Do not edit this dictionary definitions unless you know what you are doing
+
+Memcache_Def:
+
+ 'Memcached Additions and Evictions':
+   title    : "Percona Memcached Additions and Evictions GT"
+   graphtype: cg
+   tree     : MEMCACHE
+
+ 'Memcached Connections':
+   title    : "Percona Memcached Connections GT"
+   graphtype: cg
+   tree     : MEMCACHE
+
+ 'Memcached Current Items':
+   title    : "Percona Memcached Current Items GT"
+   graphtype: cg
+   tree     : MEMCACHE
+
+ 'Memcaced Memory':
+   title    : "Percona Memcached Memory GT"
+   graphtype: cg
+   tree     : MEMCACHE
+
+ 'Memcached Requests':
+   title    : "Percona Memcached Requests GT"
+   graphtype: cg
+   tree     : MEMCACHE
+
+ 'Memcached Rusage':
+   title    : "Percona Memcached Rusage GT"
+   graphtype: cg
+   tree     : MEMCACHE
+
+ 'Memcached Traffic':
+   title    : "Percona Memcached Traffic GT"
+   graphtype: cg
+   tree     : MEMCACHE

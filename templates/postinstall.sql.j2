@@ -1,0 +1,39 @@
+-- ************************** WARNING CACTILIZE ANSIBLE PLAYBOOK ********************************
+-- File Managed by Ansible
+-- Any changes to this file configuration should be done trough ansible
+-- other wise configuration will be overwriten on te next ansible cactilize deploy pass.
+-- ***********************************************************************************************
+REPLACE INTO settings (name,value) VALUES ('path_rrdtool','/usr/bin/rrdtool');
+REPLACE INTO settings (name,value) VALUES ('path_php_binary','/usr/bin/php');
+REPLACE INTO settings (name,value) VALUES ('path_snmpwalk','/usr/bin/snmpwalk');
+REPLACE INTO settings (name,value) VALUES ('path_snmpget','/usr/bin/snmpget');
+REPLACE INTO settings (name,value) VALUES ('path_snmpbulkwalk','/usr/bin/snmpbulkwalk');
+REPLACE INTO settings (name,value) VALUES ('path_snmpgetnext','/usr/bin/snmpgetnext');
+REPLACE INTO settings (name,value) VALUES ('path_cactilog','/var/log/cacti/cacti.log');
+REPLACE INTO settings (name,value) VALUES ('snmp_version','net-snmp');
+REPLACE INTO settings (name,value) VALUES ('rrdtool_version','rrd-1.4.x');
+REPLACE INTO settings (name,value) VALUES ('snmp_community','{{ default_community }}');
+REPLACE INTO settings (name,value) VALUES ('snmp_ver','{{ cacti_default_snmpversion }}');
+REPLACE INTO settings (name,value) VALUES ('snmp_username','');
+REPLACE INTO settings (name,value) VALUES ('snmp_password','');
+REPLACE INTO settings (name,value) VALUES ('snmp_auth_protocol','MD5');
+REPLACE INTO settings (name,value) VALUES ('snmp_priv_passphrase','');
+REPLACE INTO settings (name,value) VALUES ('snmp_priv_protocol','DES');
+REPLACE INTO settings (name,value) VALUES ('snmp_timeout','500');
+REPLACE INTO settings (name,value) VALUES ('snmp_port','161');
+REPLACE INTO settings (name,value) VALUES ('snmp_retries','3');
+UPDATE settings SET value='{{ cacti_max_concurrent_poller_process }}' WHERE name='concurrent_processes';
+UPDATE settings SET value='{{ cacti_number_php_scripts_servers }} ' WHERE name='php_servers';
+UPDATE settings SET value='{{ cacti_scripts_server_timeout }}' WHERE name='script_timeout';
+UPDATE settings SET value='{{ cacti_max_title_graph }}' WHERE name='max_title_graph';
+UPDATE settings SET value='{{ cacti_max_title_field_lenght }}' WHERE name='max_data_query_field_length';
+UPDATE settings SET value='{{ cacti_max_title_data_source }}' WHERE name='max_title_data_source';
+UPDATE host_snmp_cache SET present=0 WHERE host_id='1' AND snmp_query_id='6';
+UPDATE graph_tree SET name="{{ archi_name }}" WHERE id=1;
+UPDATE user_auth SET username='{{ webui_admin_user }}' WHERE username='admin';
+UPDATE user_auth SET password=md5('{{ webui_admin_password }}') WHERE username='{{ webui_admin_user }}';
+UPDATE user_auth SET must_change_password='' WHERE username='{{ webui_admin_user }}';
+DELETE FROM host_snmp_cache WHERE host_id='1' AND snmp_query_id='6' AND present='0';
+DELETE FROM host where id=1;
+DELETE FROM version;
+INSERT INTO version (cacti) VALUES ('{{ cacti_version }}');

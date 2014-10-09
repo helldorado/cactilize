@@ -1,0 +1,21 @@
+---
+# File: main.yml
+#
+# Description :
+# Catilize main task file
+#
+# OS: Debian6 Debian7
+
+    - include: deploy.yml
+      when: deploy and inventory_hostname in groups['server']
+    - include: template.yml
+      when: inventory_hostname in groups['server']
+    - include: device.yml
+      when: inventory_hostname in groups['server']
+    - include: graph.yml
+      when: inventory_hostname in groups['server']
+    - include: tree.yml
+      when: inventory_hostname in groups['server']
+    - include: user.yml
+      when: inventory_hostname in groups['server']
+    - include: host.yml

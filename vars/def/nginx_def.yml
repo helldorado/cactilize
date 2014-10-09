@@ -1,0 +1,19 @@
+---
+# /!\  PLEASE ! Do not edit this dictionary definitions unless you know what you are doing
+
+Nginx_Def:
+
+ 'Nginx Accepts/Handled':
+   title    : "Percona Nginx Accepts/Handled GT"
+   graphtype: cg
+   tree     : NGINX
+
+ 'Nginx Requests':
+   title    : "Percona Nginx Requests GT"
+   graphtype: cg
+   tree     : NGINX
+
+ 'Nginx Scoreboard':
+   title    : "Percona Nginx Scoreboard GT"
+   graphtype: cg
+   tree     : NGINX

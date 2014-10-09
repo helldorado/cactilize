@@ -1,0 +1,29 @@
+---
+# /!\  PLEASE ! Do not edit this dictionary definitions unless you know what you are doing
+
+Apache_Def:
+
+ 'Apache Bytes':
+   title     : "Percona Apache Bytes GT"
+   graphtype : cg
+   tree      : APACHE
+
+ 'Apache CPU Load':
+   title     : "Percona Apache CPU Load GT"
+   graphtype : cg
+   tree      : APACHE
+
+ 'Apache Requests':
+   title     : "Percona Apache Requests GT"
+   graphtype : cg
+   tree      : APACHE
+
+ 'Apache Scoreboard':
+   title     : "Percona Apache Scoreboard GT"
+   graphtype : cg
+   tree      : APACHE
+
+ 'Apache Workers':
+   title     : "Percona Apache Workers GT"
+   graphtype : cg
+   tree      : APACHE
