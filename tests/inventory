@@ -1,0 +1,11 @@
+### cacti server
+[server]
+spymedia
+
+### Client to graph
+[client]
+spyweb[1:8]
+spycache[1:3]
+spybdd1[1:2]
+spywatch1
+spymail
