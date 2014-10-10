@@ -18,8 +18,14 @@ install:
   - "printf '[defaults]\nroles_path = ../' > ansible.cfg"
   
 before_script:
-  # check tree on travis-ci
-  tree -L 4 /home/travis/build/helldorado/cactilize/tests
+  # Ensure /root/.my.cnf exist in travis-ci mysql server
+  cat <<'EOF' > /root/.my.cnf
+  [client]
+  user=root
+  host=localhost
+  password=
+  EOF
+  
 
 script:
   # Check the role/playbook's syntax.
