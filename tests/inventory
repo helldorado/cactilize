@@ -1,2 +1,5 @@
 [server]
 localhost
+
+[client]
+localhosts
