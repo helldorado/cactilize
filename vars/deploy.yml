@@ -15,8 +15,8 @@ RRA_VG_NAME           : system
 #RRA_LV_NAME          : var_lib_rra
 RRA_LV_SIZE           : 5G
 RRA_MOUNT_POINT       : '/var/lib/rra'
-DEFAULT_IP            : 'x.x.x.0/24'
-WHITELIST             : 'x.x.x.1/32 y.y.y.2/32 z.z.z.0/16'
+DEFAULT_IP            : '127.0.0.1'
+#WHITELIST            : 'x.x.x.1/32 y.y.y.2/32 z.z.z.0/16'
 
 ### HTPASSWD USERS
 htpasswd_users:
