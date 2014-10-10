@@ -7,8 +7,7 @@ env:
 
 before_install:
   - sudo apt-get update -qq
-  - sudo apt-get install -y curl tree
-  - sudo apt-get install -y mysql-server
+  - sudo apt-get install -y curl mysql-server
 
 install:
   # Install Ansible.
@@ -29,10 +28,8 @@ script:
   # Run the role/playbook with ansible-playbook.
   - "ansible-playbook -i tests/inventory tests/$SITE --limit server --extra-vars deploy=true --connection=local --sudo"
 
-  # Run the role/playbook again, checking to make sure it's idempotent with deploy=false.
-  - "ansible-playbook -i tests/inventory tests/$SITE --limit server --connection=local --sudo"
-    #&& (echo 'Idempotence test: pass' && exit 0)
-    #|| (echo 'Idempotence test: fail' && exit 1)
+  # Run the role/playbook again to configure client.
+  - "ansible-playbook -i tests/inventory tests/$SITE --limit client --connection=local --sudo"
 
-  # Request a page via Apache, to make sure Apache is running and responds.
+  # Request a page via Apache, to make sure Apache is running and request to /cacti is responds with "401 Authorization Required".
   - "curl http://localhost/cacti"
