@@ -31,7 +31,7 @@
     - name: Create conf directory
       file: path={{ cacti_conf_dir }} state=directory
 
-   - name: Create SSH directory
+    - name: Create SSH directory
      file: path={{ cacti_conf_dir }}/.ssh state=directory owner={{ cacti_user }} group={{ cacti_user }}
 
     - name: Creates LOG directory
