@@ -10,21 +10,21 @@
       sudo: True
 
       vars_files:
-        - vars/deploy.yml
-        - vars/templates.yml
-        - vars/hosts.yml
-        - vars/users.yml
-        - vars/trees.yml
-        - vars/def/mysql_def.yml
-        - vars/def/elasticsearch_def.yml
-        - vars/def/system_def.yml
-        - vars/def/varnish_def.yml
-        - vars/def/memcache_def.yml
-        - vars/def/apache_def.yml
-        - vars/def/redis_def.yml
-        - vars/def/mongodb_def.yml
-        - vars/def/galera_def.yml
-        - vars/def/nginx_def.yml
+        - deploy.yml
+        - templates.yml
+        - hosts.yml
+        - users.yml
+        - trees.yml
+        - def/mysql_def.yml
+        - def/elasticsearch_def.yml
+        - def/system_def.yml
+        - def/varnish_def.yml
+        - def/memcache_def.yml
+        - def/apache_def.yml
+        - def/redis_def.yml
+        - def/mongodb_def.yml
+        - def/galera_def.yml
+        - def/nginx_def.yml
 
       roles:
        - cactilize
