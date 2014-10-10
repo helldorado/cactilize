@@ -59,6 +59,7 @@ cacti_add_perms                     : '{{ cacti_cli }}/add_perms.php'
 cacti_add_tree                      : '{{ cacti_cli }}/add_tree.php'
 cacti_host_update_template          : '{{ cacti_cli }}/host_update_template.php'
 cactilize_temp_dir                  : '/tmp/cactilize'
+cacti_user                          : cacti
 apache_user                         : 'www-data'
 apache_group                        : 'www-data'
 apache_configtest_enable            : true
