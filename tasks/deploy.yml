@@ -25,6 +25,10 @@
     - name: Create temp directory
       file: path={{ cactilize_temp_dir }} state=directory
 
+    - name: Create cacti user
+      user: name=cacti comment="Cacti user for poller process and configuration"
+      tags: master_user
+      
     - name: Create conf directory
       file: path={{ cacti_conf_dir }} state=directory
 
