@@ -19,13 +19,13 @@ install:
   
 before_script:
   # Ensure /root/.my.cnf exist in travis-ci mysql server
-  - sudo cat << EOF > /root/.my.cnf
+  - sudo cat > /root/.my.cnf <<End-of-message
     [client]
     user=root
     host=localhost
     password=
-    EOF
-  
+End-of-message
+    
 
 script:
   # Check the role/playbook's syntax.
