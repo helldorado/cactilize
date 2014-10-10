@@ -29,7 +29,7 @@ script:
   - "ansible-playbook -i tests/inventory tests/$SITE --limit server --extra-vars deploy=true --connection=local --sudo"
 
   # Run the role/playbook again to configure client.
-  - "ansible-playbook -i tests/inventory tests/$SITE --limit client --connection=local --sudo"
+  #- "ansible-playbook -i tests/inventory tests/$SITE --limit client --connection=local --sudo"
 
   # Request a page via Apache, to make sure Apache is running and request to /cacti is responds with "401 Authorization Required".
   - "curl http://localhost/cacti"
