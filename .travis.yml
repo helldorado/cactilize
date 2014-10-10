@@ -19,11 +19,12 @@ install:
   
 before_script:
   # Ensure /root/.my.cnf exist in travis-ci mysql server
-  - sudo cat > /root/.my.cnf <<End-of-message
-    [client]
-    user=root
-    host=localhost
-    password=
+  - > 
+  sudo cat > /root/.my.cnf <<End-of-message
+  [client]
+  user=root
+  host=localhost
+  password=
 End-of-message
     
 
