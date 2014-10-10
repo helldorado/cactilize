@@ -2,6 +2,16 @@
 
 Ansible role and playbook for deploying and maintaining cacti server and host (graph, devices, templates, tree)
 
+Travis CI [![Build Status](https://travis-ci.org/helldorado/cactilize.png?branch=master)](https://travis-ci.org/helldorado/cactilize)
+---------------------
+
+Travis CI is a continuous integration service used by this repo (see [.travis.yml](https://github.com/helldorado/cactilize/blob/master/.travis.yml) for details).
+
+On every new pull request or commit, Travis CI will run a series of checks on the repo.
+
+See [https://travis-ci.org/helldorado/cactilize](https://travis-ci.org/helldorado/cactilize)
+
+
 * [Definitions](#definitions)
 * [Description](#description)
 * [Requirements](#requirements)
@@ -424,10 +434,9 @@ Push to your fork and [submit a pull request](https://github.com/helldorado/cact
 
 Some things that will increase the chance that your pull request is accepted:
 
-* Write tests, see ansible [Testing Strategies](http://docs.ansible.com/test_strategies.html)
+* Write tests, see Travis CI section or/and ansible [Testing Strategies](http://docs.ansible.com/test_strategies.html)
 * Follow ansible playbook best pratices [style guide]().
 * Write a [good commit message](http://tbaggery.com/2008/04/19/a-note-about-git-commit-messages.html).
-
 
 
 ## Credits
