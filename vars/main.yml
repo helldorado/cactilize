@@ -72,5 +72,5 @@ apache_conf_dir                     : "/etc/apache2"
 nginx_conf_dir                      : "/etc/nginx"
 is_alias                            : false
 PORT_HTTP                           : 80
-AWH_IP                              : 89.31.149.185
+DEFAULT_IP                          : 127.0.0.1
 WHITELIST                           : ''
