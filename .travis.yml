@@ -19,7 +19,7 @@ install:
   
 before_script:
   # Ensure /root/.my.cnf exist in travis-ci mysql server
-  - sudo cp my.cnf /root/.my.cnf
+  - sudo cp tests/my.cnf /root/.my.cnf
     
 
 script:
