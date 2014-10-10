@@ -7,7 +7,7 @@ env:
 
 before_install:
   - sudo apt-get update -qq
-  - sudo apt-get install -y curl
+  - sudo apt-get install -y curl tree
   - sudo apt-get install -y mysql-server
 
 install:
@@ -16,6 +16,10 @@ install:
 
   # Add ansible.cfg to pick up roles path.
   - "printf '[defaults]\nroles_path = ../' > ansible.cfg"
+  
+before_script:
+  # check tree on travis-ci
+  tree -L 4 /home/travis/build/helldorado/cactilize/tests
 
 script:
   # Check the role/playbook's syntax.
