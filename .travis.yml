@@ -30,7 +30,7 @@ script:
   - "ansible-playbook -i tests/inventory tests/$SITE --limit server --extra-vars deploy=true --connection=local --sudo"
 
   # Run the role/playbook again, checking to make sure it's idempotent with deploy=false.
-  - ansible-playbook -i tests/inventory tests/$SITE --limit server --connection=local --sudo | grep 'failed'
+  - "ansible-playbook -i tests/inventory tests/$SITE --limit server --connection=local --sudo"
     #&& (echo 'Idempotence test: pass' && exit 0)
     #|| (echo 'Idempotence test: fail' && exit 1)
 
