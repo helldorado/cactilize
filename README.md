@@ -16,10 +16,11 @@ See [https://travis-ci.org/helldorado/cactilize](https://travis-ci.org/helldorad
 * [Definitions](#definitions)
 * [Description](#description)
 * [Requirements](#requirements)
+* [Host template and Graph Dictionary](#host-template-and-graph-dictionary)
 * [Installation](#installation)
 * [QuickStart](#QuickStart)
-  - [Install and bootstrap an cacti server instance](#Install-and-bootstrap-an-cacti-server-instance)
-  - [Ready to fire ? GO !](#Ready-to-fire-?-GO-!)
+  - [Install and bootstrap an cacti server instance](#install-and-bootstrap-an-cacti-server-instance)
+  - [Ready to fire ? GO !](#ready-to-fire-?-go-!)
   - [Tips](#Tips)
 * [Development](#development)
 * [Documentation](#documentation)
@@ -53,6 +54,20 @@ password='You mysql server root password'
 
 > This role is created for Debian (Squeeze/Wheezy) and compatible with ***ansible 1.6 and ansible 1.7***.
 
+## Host template and Graph Dictionary
+
+- [Apache Server HT](https://github.com/helldorado/cactilize/blob/master/vars/def/apache_def.yml)
+- [Elasticsearch Host](https://github.com/helldorado/cactilize/blob/master/vars/def/elasticsearch_def.yml)
+- [Galera Server HT](https://github.com/helldorado/cactilize/blob/master/vars/def/galera_def.yml)
+- [Nginx Server HT](https://github.com/helldorado/cactilize/blob/master/vars/def/nginx_def.yml)
+- [Memcached Server HT](https://github.com/helldorado/cactilize/blob/master/vars/def/memcache_def.yml)
+- [MongoDB Server HT](https://github.com/helldorado/cactilize/blob/master/vars/def/mongodb_def.yml)
+- [MySQL Server HT](https://github.com/helldorado/cactilize/blob/master/vars/def/mysql_def.yml)
+- [Redis Server HT](https://github.com/helldorado/cactilize/blob/master/vars/def/redis_def.yml)
+- [Varnish Cache](https://github.com/helldorado/cactilize/blob/master/vars/def/varnish_def.yml)
+- [ucd/net SNMP Host](https://github.com/helldorado/cactilize/blob/master/vars/def/system_def.yml)
+
+> *For more info about definitions dictionary and howto to modify or add your own definitions dictionnary please refere to the [wiki page](https://github.com/helldorado/cactilize/wiki)*
 
 ## Installation
 
