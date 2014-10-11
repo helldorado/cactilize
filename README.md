@@ -410,13 +410,22 @@ nginx -t && service nginx reload
 ## Tips
 - Allways use and ABUSE **TAGs** 
 
-| List of Tags  | Description | File|
-| ------------- | ------------- |--------
-|   device      | Create all device  | task/devices.yml 
-|   graph       | Create all graph |task/graph.yml| 
-|   graph-system| Create only system graph|
-|   graph-mysql | Create only mysql graph |
-|  graph-mongodb|Create only mongodb graph|
+| List of Tags | Description |         Examples |            
+| -------------| ------------- |----------------|
+|  master_user | Create cacti user on Cacti server  |```ansible-playbook cactilize.yml -i cactilize --limit server --tags master_user ```|
+|  report      | Create report file  |```ansible-playbook cactilize.yml -i cactilize --limit server --tags report``` |
+|  device      | Create all device  | ```ansible-playbook cactilize.yml -i cactilize --limit server --tags device```|
+|  graph       | Create all graph | ```ansible-playbook cactilize.yml -i cactilize --limit server --tags graph``` |
+|  graph-$SERVICE| Create only $SERVICE graph; replace $SERVICE with (mysql , mongodb , redis , galera , varnish , memcache , apache , nginx , elasticsearch)| ```ansible-playbook cactilize.yml -i cactilize --limit server --tags graph-nginx```|
+|  snmp|Configure the snmpd service| ```ansible-playbook cactilize.yml -i cactilize --limit server --tags snmp```|
+|  user |Create cacti user on client hosts| ```ansible-playbook cactilize.yml -i cactilize --limit client --tags user```|
+|  nginx_server| Configure Nginx Extendend Status on client host| ```ansible-playbook cactilize.yml -i cactilize --limit client --tags nginx_server```|
+|  apache_server|Configure Apache Extendend Status on client host| ```ansible-playbook cactilize.yml -i cactilize --limit client --tags apache_server```|
+|  ssh_key | Deploy the ssh key used by the poller| ```ansible-playbook cactilize.yml -i cactilize --limit client --tags ssh_key```|
+|template |Prepare and import host template|```ansible-playbook cactilize.yml -i cactilize --limit server --tags template```|
+|tree|Create all tree|```ansible-playbook cactilize.yml -i cactilize --limit server --tags tree```|
+|tree-$SERVICE|Create only $SERVICE tree; replace $SERVICE with (mysql , mongodb , redis , galera , varnish , memcache , apache , nginx , elasticsearch)|```ansible-playbook cactilize.yml -i cactilize --limit server --tags tree-varnish```|
+
 - If possible or necessary  start from a specific task 
 
 ```bash
