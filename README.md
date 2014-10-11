@@ -376,17 +376,18 @@ ansible-playbook cactilize.yml -i cactilize --limit client
 
 | List of Tags | Description |         Examples |            
 | -------------| ------------- |----------------|
-|  master_user | Create cacti user on Cacti server  |```ansible-playbook cactilize.yml -i cactilize --limit server --tags master_user ```|
+|  master_user | Create cacti user on server  |```ansible-playbook cactilize.yml -i cactilize --limit server --tags master_user ```|
 |  report      | Create report file  |```ansible-playbook cactilize.yml -i cactilize --limit server --tags report``` |
 |  device      | Create all device  | ```ansible-playbook cactilize.yml -i cactilize --limit server --tags device```|
 |  graph       | Create all graph | ```ansible-playbook cactilize.yml -i cactilize --limit server --tags graph``` |
-|  graph-$SERVICE| Create only $SERVICE graph; replace $SERVICE| ```ansible-playbook cactilize.yml -i cactilize --limit server --tags graph-nginx```|
-|  snmp|Configure the snmpd service| ```ansible-playbook cactilize.yml -i cactilize --limit server --tags snmp```|
-|  user |Create cacti user on client hosts| ```ansible-playbook cactilize.yml -i cactilize --limit client --tags user```|
-|  nginx_server| Configure Nginx Extendend Status on client host| ```ansible-playbook cactilize.yml -i cactilize --limit client --tags nginx_server```|
-|  apache_server|Configure Apache Extendend Status on client host| ```ansible-playbook cactilize.yml -i cactilize --limit client --tags apache_server```|
-|  ssh_key | Deploy the ssh key used by the poller| ```ansible-playbook cactilize.yml -i cactilize --limit client --tags ssh_key```|
-|template |Prepare and import host template|```ansible-playbook cactilize.yml -i cactilize --limit server --tags template```|
+|  graph-$SERVICE| only $SERVICE graph| ```ansible-playbook cactilize.yml -i cactilize --limit server --tags graph-nginx```|
+|  snmp|Configure snmpd service|```ansible-playbook cactilize.yml -i cactilize --limit server --tags snmp```|
+|  user |Create cacti user on client| ```ansible-playbook cactilize.yml -i cactilize --limit client --tags user```|
+|  nginx_server| Enable Nginx Status| ```ansible-playbook cactilize.yml -i cactilize --limit client --tags nginx_server```|
+|  apache_server|Enable Apache Status| ```ansible-playbook cactilize.yml -i cactilize --limit client --tags apache_server```|
+|  mysql_server|Grants monitor user| ```ansible-playbook cactilize.yml -i cactilize --limit client --tags mysql_server```|
+|  ssh_key | Deploy the ssh key| ```ansible-playbook cactilize.yml -i cactilize --limit client --tags ssh_key```|
+|template |Import host template|```ansible-playbook cactilize.yml -i cactilize --limit server --tags template```|
 |tree|Create all tree|```ansible-playbook cactilize.yml -i cactilize --limit server --tags tree```|
 |tree-$SERVICE|Create only $SERVICE tree|```ansible-playbook cactilize.yml -i cactilize --limit server --tags tree-varnish```|
 
