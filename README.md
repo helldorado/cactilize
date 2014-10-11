@@ -365,50 +365,14 @@ This will take some time according your devices and graph list, be patient...
 ansible-playbook cactilize.yml -i cactilize --limit client
 ```
 
-- Step 3 :: check the report file `/root/.cacti` in you cacti server. For example
-
-```
--- ************************** WARNING CACTILIZE ANSIBLE PLAYBOOK ********************************
--- File Managed by Ansible
--- Any changes to this report file  should be done trough ansible
--- other wise report will be overwriten on te next ansible cactilize deploy pass.
--- **********************************************************************************************
-
-  /$$$$$$                        /$$     /$$ /$$ /$$
- /$$__  $$                      | $$    |__/| $$|__/
-| $$  \__/  /$$$$$$   /$$$$$$$ /$$$$$$   /$$| $$ /$$ /$$$$$$$$  /$$$$$$
-| $$       |____  $$ /$$_____/|_  $$_/  | $$| $$| $$|____ /$$/ /$$__  $$
-| $$        /$$$$$$$| $$        | $$    | $$| $$| $$   /$$$$/ | $$$$$$$$
-| $$    $$ /$$__  $$| $$        | $$ /$$| $$| $$| $$  /$$__/  | $$_____/
-|  $$$$$$/|  $$$$$$$|  $$$$$$$  |  $$$$/| $$| $$| $$ /$$$$$$$$|  $$$$$$$
- \______/  \_______/ \_______/   \___/  |__/|__/|__/|________/ \_______/
-
-
-[ACCESS]
-   URL   => http://IP_PUB/cacti , https://IP_PUB/cacti (according your server and archi configuration)
-
-   - WebUI
-       Administrator:
-          Login  => helldorado
-          Pass   => 2A2169234F6BC1360CFC29EEF8
-
-       SPY Viewer:
-          Login  => spyviewer
-          Pass   => FleninOfAt
-
-
-/!\ Please for nginx server, put this line in your default virtual host:
-
-include /etc/nginx/conf.d/status.conf ;
-
-And reload nginx:
-
-nginx -t && service nginx reload
-```
-
+- Step 3 :: check the report file `/root/.cacti` in you cacti server.
 
 ## Tips
 - Allways use and ABUSE **TAGs** 
+
+`SERVICE => mysql | mongodb | redis | galera | varnish | memcache | apache | nginx | elasticsearch
+`
+
 
 | List of Tags | Description |         Examples |            
 | -------------| ------------- |----------------|
@@ -416,7 +380,7 @@ nginx -t && service nginx reload
 |  report      | Create report file  |```ansible-playbook cactilize.yml -i cactilize --limit server --tags report``` |
 |  device      | Create all device  | ```ansible-playbook cactilize.yml -i cactilize --limit server --tags device```|
 |  graph       | Create all graph | ```ansible-playbook cactilize.yml -i cactilize --limit server --tags graph``` |
-|  graph-$SERVICE| Create only $SERVICE graph; replace $SERVICE with (mysql , mongodb , redis , galera , varnish , memcache , apache , nginx , elasticsearch)| ```ansible-playbook cactilize.yml -i cactilize --limit server --tags graph-nginx```|
+|  graph-$SERVICE| Create only $SERVICE graph; replace $SERVICE| ```ansible-playbook cactilize.yml -i cactilize --limit server --tags graph-nginx```|
 |  snmp|Configure the snmpd service| ```ansible-playbook cactilize.yml -i cactilize --limit server --tags snmp```|
 |  user |Create cacti user on client hosts| ```ansible-playbook cactilize.yml -i cactilize --limit client --tags user```|
 |  nginx_server| Configure Nginx Extendend Status on client host| ```ansible-playbook cactilize.yml -i cactilize --limit client --tags nginx_server```|
@@ -424,7 +388,7 @@ nginx -t && service nginx reload
 |  ssh_key | Deploy the ssh key used by the poller| ```ansible-playbook cactilize.yml -i cactilize --limit client --tags ssh_key```|
 |template |Prepare and import host template|```ansible-playbook cactilize.yml -i cactilize --limit server --tags template```|
 |tree|Create all tree|```ansible-playbook cactilize.yml -i cactilize --limit server --tags tree```|
-|tree-$SERVICE|Create only $SERVICE tree; replace $SERVICE with (mysql , mongodb , redis , galera , varnish , memcache , apache , nginx , elasticsearch)|```ansible-playbook cactilize.yml -i cactilize --limit server --tags tree-varnish```|
+|tree-$SERVICE|Create only $SERVICE tree|```ansible-playbook cactilize.yml -i cactilize --limit server --tags tree-varnish```|
 
 - If possible or necessary  start from a specific task 
 
