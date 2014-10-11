@@ -1,0 +1,598 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset='utf-8'>
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+
+    <link rel="stylesheet" type="text/css" href="stylesheets/stylesheet.css" media="screen">
+    <link rel="stylesheet" type="text/css" href="stylesheets/pygment_trac.css" media="screen">
+    <link rel="stylesheet" type="text/css" href="stylesheets/print.css" media="print">
+
+    <title>Cactilize by helldorado</title>
+  </head>
+
+  <body>
+
+    <header>
+      <div class="container">
+        <h1>Cactilize</h1>
+        <h2>Ansible playbook for deploying and maintaining cacti server and host (graph, devices, templates, tree ...)</h2>
+
+        <section id="downloads">
+          <a href="https://github.com/helldorado/cactilize/zipball/master" class="btn">Download as .zip</a>
+          <a href="https://github.com/helldorado/cactilize/tarball/master" class="btn">Download as .tar.gz</a>
+          <a href="https://github.com/helldorado/cactilize" class="btn btn-github"><span class="icon"></span>View on GitHub</a>
+        </section>
+      </div>
+    </header>
+
+    <div class="container">
+      <section id="main_content">
+        <h1>
+<a name="cactilize" class="anchor" href="#cactilize"><span class="octicon octicon-link"></span></a>Cactilize</h1>
+
+<p>Ansible role and playbook for deploying and maintaining cacti server and host (graph, devices, templates, tree)</p>
+
+<h2>
+<a name="travis-ci-" class="anchor" href="#travis-ci-"><span class="octicon octicon-link"></span></a>Travis CI <a href="https://travis-ci.org/helldorado/cactilize"><img src="https://travis-ci.org/helldorado/cactilize.png?branch=master" alt="Build Status"></a>
+</h2>
+
+<p>Travis CI is a continuous integration service used by this repo (see <a href="https://github.com/helldorado/cactilize/blob/master/.travis.yml">.travis.yml</a> for details).</p>
+
+<p>On every new pull request or commit, Travis CI will run a series of checks on the repo.</p>
+
+<p>See <a href="https://travis-ci.org/helldorado/cactilize">https://travis-ci.org/helldorado/cactilize</a></p>
+
+<h2>
+<a name="summary" class="anchor" href="#summary"><span class="octicon octicon-link"></span></a>Summary</h2>
+
+<ul>
+<li><a href="#definitions">Definitions</a></li>
+<li><a href="#description">Description</a></li>
+<li><a href="#requirements">Requirements</a></li>
+<li><a href="#host-template-and-graph-dictionary">Host template and Graph Dictionary</a></li>
+<li><a href="#installation">Installation</a></li>
+<li>
+<a href="#QuickStart">QuickStart</a>
+
+<ul>
+<li><a href="#install-and-bootstrap-an-cacti-server-instance">Install and bootstrap an cacti server instance</a></li>
+<li><a href="#ready-to-fire?-go-!">Ready to fire ? GO !</a></li>
+<li><a href="#tips">Tips</a></li>
+</ul>
+</li>
+<li><a href="#development">Development</a></li>
+<li><a href="#credits">Credits</a></li>
+<li><a href="#licence">Licence</a></li>
+<li><a href="#references">References</a></li>
+</ul>
+
+<h2>
+<a name="definitions" class="anchor" href="#definitions"><span class="octicon octicon-link"></span></a>Definitions</h2>
+
+<p>In the following :</p>
+
+<ul>
+<li>
+<p>The <strong>Server</strong> is the host where <strong>cacti server</strong> is installed. Cacti is a complete network graphing solution designed to harness the power of <a href="http://www.rrdtool.org/"><em>RRDTool's</em></a> data storage and graphing functionality. Cacti provides a fast poller, advanced graph templating, multiple data acquisition methods, and user management features out of the box. All of this is wrapped in an intuitive, easy to use interface that makes sense for LAN-sized installations up to complex networks with hundreds of devices.</p>
+
+<p><img src="http://www.cacti.net/images/cacti_promo_main.png" alt="cacti"></p>
+</li>
+<li><p>The <strong>Cacti client</strong> A device, be anything which can be monitored remotely or locally. This can include storage devices, Windows or UNIX servers, and of course network devices. For Cacti to be able to monitor a device, it needs to be reachable by ping or SNMP, but the actual data retrieval can also be done using scripts and commands, or a set of SNMP queries.</p></li>
+</ul>
+
+<h2>
+<a name="requirements" class="anchor" href="#requirements"><span class="octicon octicon-link"></span></a>Requirements</h2>
+
+<ul>
+<li><p><a href="http://www.ansibleworks.com">Ansible</a> installed and ready to work. If not and you have <a href="http://puppetlabs.com/">puppet</a> master in you architecure, I highly recommend the <a href="http://forge.puppetlabs.com/nvogel/ansible">nvogel/ansible</a> Module.</p></li>
+<li><p>MySQL 5.x or greater and ensure you have set a auto-login for root by creating a <code>/root/.my.cnf</code> on 0400 mode and put this 3 lines according your mysql server configuration. </p></li>
+</ul>
+
+<div class="highlight highlight-bash"><pre><span class="o">[</span>client<span class="o">]</span>
+<span class="nv">user</span><span class="o">=</span>root
+<span class="nv">host</span><span class="o">=</span>localhost
+<span class="nv">password</span><span class="o">=</span><span class="s1">'You mysql server root password'</span>
+</pre></div>
+
+<blockquote>
+<p>This role is created for Debian (Squeeze/Wheezy) and compatible with <strong><em>ansible 1.6 and ansible 1.7</em></strong>.</p>
+</blockquote>
+
+<h2>
+<a name="host-template-and-graph-dictionary" class="anchor" href="#host-template-and-graph-dictionary"><span class="octicon octicon-link"></span></a>Host template and Graph Dictionary</h2>
+
+<ul>
+<li><a href="https://github.com/helldorado/cactilize/blob/master/vars/def/apache_def.yml">Apache Server HT</a></li>
+<li><a href="https://github.com/helldorado/cactilize/blob/master/vars/def/elasticsearch_def.yml">Elasticsearch Host</a></li>
+<li><a href="https://github.com/helldorado/cactilize/blob/master/vars/def/galera_def.yml">Galera Server HT</a></li>
+<li><a href="https://github.com/helldorado/cactilize/blob/master/vars/def/nginx_def.yml">Nginx Server HT</a></li>
+<li><a href="https://github.com/helldorado/cactilize/blob/master/vars/def/memcache_def.yml">Memcached Server HT</a></li>
+<li><a href="https://github.com/helldorado/cactilize/blob/master/vars/def/mongodb_def.yml">MongoDB Server HT</a></li>
+<li><a href="https://github.com/helldorado/cactilize/blob/master/vars/def/mysql_def.yml">MySQL Server HT</a></li>
+<li><a href="https://github.com/helldorado/cactilize/blob/master/vars/def/redis_def.yml">Redis Server HT</a></li>
+<li><a href="https://github.com/helldorado/cactilize/blob/master/vars/def/varnish_def.yml">Varnish Cache</a></li>
+<li><a href="https://github.com/helldorado/cactilize/blob/master/vars/def/system_def.yml">ucd/net SNMP Host</a></li>
+</ul>
+
+<blockquote>
+<p><em>For more info about definitions dictionary and howto to modify or add your own definitions dictionnary please refere to the <a href="https://github.com/helldorado/cactilize/wiki">wiki page</a></em></p>
+</blockquote>
+
+<h2>
+<a name="installation" class="anchor" href="#installation"><span class="octicon octicon-link"></span></a>Installation</h2>
+
+<p>From Ansible Galaxy :</p>
+
+<div class="highlight highlight-bash"><pre>su - ansible
+<span class="nv">$ </span>ansible-galaxy install helldorado.cactilize
+</pre></div>
+
+<p>Or with <a href="https://github.com/bcoe/librarian-ansible">Librarian ansible</a>, for example add to your <strong>Ansiblefile</strong> :</p>
+
+<pre><code>role "cactilize", :git =&gt; "https://github.com/helldorado/cactilize"
+:ref =&gt; '0.1'
+</code></pre>
+
+<p>And update your roles</p>
+
+<div class="highlight highlight-bash"><pre><span class="nv">$ </span>librarian-ansible update
+</pre></div>
+
+<h2>
+<a name="quickstart" class="anchor" href="#quickstart"><span class="octicon octicon-link"></span></a>QuickStart</h2>
+
+<h3>
+<a name="install-and-bootstrap-an-cacti-server-instance" class="anchor" href="#install-and-bootstrap-an-cacti-server-instance"><span class="octicon octicon-link"></span></a>Install and bootstrap an cacti server instance</h3>
+
+<h3>
+<a name="examples-" class="anchor" href="#examples-"><span class="octicon octicon-link"></span></a>Examples :</h3>
+
+<p>Please edit these files before run the playbook.</p>
+
+<ul>
+<li>The ansible host file: <code>cactilize</code>
+</li>
+</ul>
+
+<div class="highlight highlight-ini"><pre><span class="c1">### cacti server</span>
+<span class="err">[server]</span> 
+<span class="err">spymedia</span>
+
+<span class="c1">### Client to graph</span>
+<span class="k">[client]</span>
+<span class="err">spyweb</span><span class="k">[1:8]</span>
+<span class="err">spycache</span><span class="k">[1:3]</span>
+<span class="err">spybdd1</span><span class="k">[1:2]</span>
+<span class="err">spywatch1</span>
+<span class="err">spymail</span>
+</pre></div>
+
+<ul>
+<li>The playbook file: <code>cactilize.yml</code> /!\ PLEASE ! Do not edit this file, unless you know what you are doing</li>
+</ul>
+
+<div class="highlight highlight-yaml"><pre><span class="c1"># File: cactilize.yml</span>
+<span class="c1"># Description:</span>
+<span class="c1"># Playbook for cactilize</span>
+<span class="c1">#</span>
+<span class="c1"># OS: Debian6 debian7</span>
+
+<span class="nn">---</span>
+    <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">hosts</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">all</span>
+      <span class="l-Scalar-Plain">user</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">ansible</span>
+      <span class="l-Scalar-Plain">sudo</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">True</span>
+
+      <span class="l-Scalar-Plain">vars_files</span><span class="p-Indicator">:</span>
+        <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">roles/cactilize/vars/deploy.yml</span>
+        <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">roles/cactilize/vars/templates.yml</span>
+        <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">roles/cactilize/vars/hosts.yml</span>
+        <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">roles/cactilize/vars/users.yml</span>
+        <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">roles/cactilize/vars/trees.yml</span>
+        <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">roles/cactilize/vars/def/mysql_def.yml</span>
+        <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">roles/cactilize/vars/def/elasticsearch_def.yml</span>
+        <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">roles/cactilize/vars/def/system_def.yml</span>
+        <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">roles/cactilize/vars/def/varnish_def.yml</span>
+        <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">roles/cactilize/vars/def/memcache_def.yml</span>
+        <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">roles/cactilize/vars/def/apache_def.yml</span>
+        <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">roles/cactilize/vars/def/redis_def.yml</span>
+        <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">roles/cactilize/vars/def/mongodb_def.yml</span>
+        <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">roles/cactilize/vars/def/galera_def.yml</span>
+        <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">roles/cactilize/vars/def/nginx_def.yml</span>
+
+      <span class="l-Scalar-Plain">roles</span><span class="p-Indicator">:</span>
+       <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">cactilize</span>
+
+</pre></div>
+
+<ul>
+<li>The deploy vars file: <code>roles/cactilize/vars/deploy.yml</code>
+</li>
+</ul>
+
+<div class="highlight highlight-yaml"><pre><span class="nn">---</span>
+<span class="c1">### DEPLOIEMENT </span>
+<span class="l-Scalar-Plain">deploy</span>                <span class="p-Indicator">:</span> <span class="l-Scalar-Plain">false</span>
+<span class="l-Scalar-Plain">webui_admin_user</span>      <span class="p-Indicator">:</span> <span class="l-Scalar-Plain">helldorado</span>
+<span class="l-Scalar-Plain">webui_admin_password</span>  <span class="p-Indicator">:</span> <span class="l-Scalar-Plain">2A2169234F6BC1360CFC29EEF8</span>
+<span class="l-Scalar-Plain">archi_name</span>            <span class="p-Indicator">:</span> <span class="l-Scalar-Plain">spy</span>
+<span class="l-Scalar-Plain">archi_subnet</span>          <span class="p-Indicator">:</span> <span class="s">'10.0.2'</span>
+<span class="l-Scalar-Plain">default_community</span>     <span class="p-Indicator">:</span> <span class="l-Scalar-Plain">spynol</span>
+<span class="l-Scalar-Plain">cacti_db_hostname</span>     <span class="p-Indicator">:</span> <span class="l-Scalar-Plain">localhost</span>
+<span class="l-Scalar-Plain">cacti_db_password</span>     <span class="p-Indicator">:</span> <span class="l-Scalar-Plain">tNSimlfnER7d6</span>
+<span class="l-Scalar-Plain">cacti_mysql_mon_user</span>  <span class="p-Indicator">:</span> <span class="l-Scalar-Plain">monitoring</span>
+<span class="l-Scalar-Plain">cacti_mysql_mon_pass</span>  <span class="p-Indicator">:</span> <span class="l-Scalar-Plain">4vtYd5axfavQo</span>
+<span class="c1">#domain_name          : spynol.info</span>
+<span class="l-Scalar-Plain">RRA_VG_NAME</span>           <span class="p-Indicator">:</span> <span class="l-Scalar-Plain">system</span>
+<span class="c1">#RRA_LV_NAME          : var_lib_rra</span>
+<span class="l-Scalar-Plain">RRA_LV_SIZE</span>           <span class="p-Indicator">:</span> <span class="l-Scalar-Plain">5G</span>
+<span class="l-Scalar-Plain">RRA_MOUNT_POINT</span>       <span class="p-Indicator">:</span> <span class="s">'/var/lib/rra'</span>
+<span class="l-Scalar-Plain">DEFAULT_IP</span>            <span class="p-Indicator">:</span> <span class="s">'x.x.x.0/24'</span>
+<span class="l-Scalar-Plain">WHITELIST</span>             <span class="p-Indicator">:</span> <span class="s">'x.x.x.1/32</span><span class="nv"> </span><span class="s">y.y.y.2/32</span><span class="nv"> </span><span class="s">z.z.z.0/16'</span>
+
+<span class="c1">### HTPASSWD USERS</span>
+<span class="l-Scalar-Plain">htpasswd_users</span><span class="p-Indicator">:</span>
+  <span class="l-Scalar-Plain">spyadm</span><span class="p-Indicator">:</span>
+    <span class="l-Scalar-Plain">passwd</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">tSuMCNaKvASaU</span> 
+  <span class="l-Scalar-Plain">spycombo</span><span class="p-Indicator">:</span>
+    <span class="l-Scalar-Plain">passwd</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">YbXpnONCIG9V2</span>
+</pre></div>
+
+<ul>
+<li>The host (devices) vars file:  <code>roles/cactilize/vars/hosts.yml</code>
+</li>
+</ul>
+
+<div class="highlight highlight-yaml"><pre><span class="nn">---</span>
+<span class="l-Scalar-Plain">Hosts</span><span class="p-Indicator">:</span>
+  <span class="s">'spyweb1'</span><span class="p-Indicator">:</span>
+    <span class="l-Scalar-Plain">IP</span>   <span class="p-Indicator">:</span> <span class="l-Scalar-Plain">10.0.2.11</span>
+    <span class="l-Scalar-Plain">graph</span><span class="p-Indicator">:</span> 
+      <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">system</span>
+      <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">nginx</span>
+      <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">apache</span>
+    <span class="l-Scalar-Plain">tree</span> <span class="p-Indicator">:</span> <span class="l-Scalar-Plain">LEMP</span>
+
+  <span class="s">'spybdd1'</span><span class="p-Indicator">:</span>
+    <span class="l-Scalar-Plain">IP</span>   <span class="p-Indicator">:</span> <span class="l-Scalar-Plain">10.0.2.51</span>
+    <span class="l-Scalar-Plain">graph</span><span class="p-Indicator">:</span>
+      <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">system</span>
+      <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">mysql</span>
+      <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">memcache</span>
+      <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">redis</span>
+      <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">mongodb</span>
+    <span class="l-Scalar-Plain">tree</span> <span class="p-Indicator">:</span> <span class="l-Scalar-Plain">Mysql</span>
+    <span class="l-Scalar-Plain">notes</span><span class="p-Indicator">:</span> <span class="s">'Database</span><span class="nv"> </span><span class="s">Server'</span>
+
+  <span class="s">'spycache1'</span><span class="p-Indicator">:</span>
+    <span class="l-Scalar-Plain">IP</span>   <span class="p-Indicator">:</span> <span class="l-Scalar-Plain">10.0.2.16</span>
+    <span class="l-Scalar-Plain">graph</span><span class="p-Indicator">:</span> 
+      <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">system</span>
+      <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">varnish</span>
+      <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">memcache</span>
+      <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">galera</span>
+    <span class="l-Scalar-Plain">tree</span> <span class="p-Indicator">:</span> <span class="l-Scalar-Plain">Varnish</span>
+    <span class="l-Scalar-Plain">notes</span><span class="p-Indicator">:</span> <span class="s">'Cache</span><span class="nv"> </span><span class="s">Server'</span>
+
+  <span class="s">'spywatch'</span><span class="p-Indicator">:</span>
+    <span class="l-Scalar-Plain">IP</span>   <span class="p-Indicator">:</span> <span class="l-Scalar-Plain">10.0.2.40</span>
+    <span class="l-Scalar-Plain">graph</span><span class="p-Indicator">:</span> 
+      <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">system</span>
+      <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">elasticsearch</span>
+      <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">redis</span>
+    <span class="l-Scalar-Plain">tree</span> <span class="p-Indicator">:</span> <span class="l-Scalar-Plain">ES</span>
+    <span class="l-Scalar-Plain">notes</span><span class="p-Indicator">:</span> <span class="s">'Elasticsearch</span><span class="nv"> </span><span class="s">server'</span>
+
+  <span class="s">'spymail'</span><span class="p-Indicator">:</span>
+    <span class="l-Scalar-Plain">IP</span>   <span class="p-Indicator">:</span> <span class="l-Scalar-Plain">10.0.2.70</span>
+    <span class="l-Scalar-Plain">graph</span><span class="p-Indicator">:</span> 
+      <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">system</span>
+      <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">postfix</span>
+    <span class="l-Scalar-Plain">tree</span> <span class="p-Indicator">:</span> <span class="l-Scalar-Plain">Mail</span>
+    <span class="l-Scalar-Plain">notes</span><span class="p-Indicator">:</span> <span class="s">'Mail</span><span class="nv"> </span><span class="s">Server'</span>
+</pre></div>
+
+<ul>
+<li>The tree vars file: <code>roles/cactilize/vars/trees.yml</code>
+</li>
+</ul>
+
+<div class="highlight highlight-yaml"><pre><span class="nn">---</span>
+
+<span class="c1">## TREE SERVICE HOST BASED</span>
+<span class="c1">#tree_mode          : host_by_role</span>
+<span class="l-Scalar-Plain">tree_mode</span>         <span class="p-Indicator">:</span> <span class="l-Scalar-Plain">graph_by_role</span>
+<span class="c1">#tree_mode          : mixed</span>
+<span class="l-Scalar-Plain">parentnode_host</span>    <span class="p-Indicator">:</span> <span class="l-Scalar-Plain">HOSTS</span>
+<span class="l-Scalar-Plain">parentnode_service</span> <span class="p-Indicator">:</span> <span class="l-Scalar-Plain">SERVICES</span>
+
+
+<span class="c1">## HOST BY ROLES</span>
+<span class="l-Scalar-Plain">Tree_Mode_Host</span><span class="p-Indicator">:</span>
+
+ <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">node</span><span class="p-Indicator">:</span> <span class="s">"{{</span><span class="nv"> </span><span class="s">parentnode_host</span><span class="nv"> </span><span class="s">}}"</span>
+   <span class="l-Scalar-Plain">subnodes</span><span class="p-Indicator">:</span>
+     <span class="p-Indicator">-</span>
+
+ <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">node</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">LVS</span>
+   <span class="l-Scalar-Plain">subnodes</span><span class="p-Indicator">:</span>
+     <span class="p-Indicator">-</span>
+
+ <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">node</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">WEB</span>
+   <span class="l-Scalar-Plain">subnodes</span><span class="p-Indicator">:</span>
+     <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">Nginx</span>
+     <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">Apache</span>
+     <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">Litghttpd</span>
+
+ <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">node</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">CACHE</span>
+   <span class="l-Scalar-Plain">subnodes</span><span class="p-Indicator">:</span>
+     <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">Varnish</span>
+
+ <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">node</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">DATABASES</span>
+   <span class="l-Scalar-Plain">subnodes</span><span class="p-Indicator">:</span>
+     <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">Mysql</span>
+     <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">Galera</span>
+     <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">Postgresql</span>
+
+ <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">node</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">NoSQL</span>
+   <span class="l-Scalar-Plain">subnodes</span><span class="p-Indicator">:</span>
+     <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">Redis</span>
+     <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">Memcache</span>
+     <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">Mongodb</span>
+     <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">ES</span>
+
+ <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">node</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">LAMP</span>
+   <span class="l-Scalar-Plain">subnodes</span><span class="p-Indicator">:</span>
+      <span class="p-Indicator">-</span>
+
+ <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">node</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">LEMP</span>
+   <span class="l-Scalar-Plain">subnodes</span><span class="p-Indicator">:</span>
+      <span class="p-Indicator">-</span>
+
+<span class="c1">## GRAPH BY ROLE</span>
+<span class="l-Scalar-Plain">Tree_Mode_Graph</span><span class="p-Indicator">:</span>
+
+ <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">node</span><span class="p-Indicator">:</span> <span class="s">"{{</span><span class="nv"> </span><span class="s">parentnode_service</span><span class="nv"> </span><span class="s">}}"</span>
+   <span class="l-Scalar-Plain">subnodes</span><span class="p-Indicator">:</span>
+     <span class="p-Indicator">-</span>
+
+ <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">node</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">WEB</span>
+   <span class="l-Scalar-Plain">subnodes</span><span class="p-Indicator">:</span>
+     <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">NGINX</span>
+     <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">APACHE</span>
+     <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">LIGHTTPD</span>
+
+ <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">node</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">CACHE</span>
+   <span class="l-Scalar-Plain">subnodes</span><span class="p-Indicator">:</span>
+     <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">VARNISH</span>
+     <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">OPCODE</span>
+
+ <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">node</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">DATABASES</span>
+   <span class="l-Scalar-Plain">subnodes</span><span class="p-Indicator">:</span>
+     <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">MYSQL</span>
+     <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">GALERA</span>
+
+ <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">node</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">NoSQL</span>
+   <span class="l-Scalar-Plain">subnodes</span><span class="p-Indicator">:</span>
+     <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">REDIS</span>
+     <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">MEMCACHE</span>
+     <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">MONGODB</span>
+     <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">ES</span>
+
+ <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">node</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">SYSTEM</span>
+   <span class="l-Scalar-Plain">subnodes</span><span class="p-Indicator">:</span>
+     <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">NETWORK</span>
+     <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">CPU</span>
+     <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">MEMORY</span>
+     <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">DISK</span>
+</pre></div>
+
+<ul>
+<li>The users vars file: <code>roles/cactilize/vars/users.yml</code>
+</li>
+</ul>
+
+<div class="highlight highlight-yaml"><pre><span class="nn">---</span>
+ <span class="c1">## WEBUI User Permissions</span>
+<span class="l-Scalar-Plain">Users</span><span class="p-Indicator">:</span>
+
+  <span class="s">'spyviewer'</span><span class="p-Indicator">:</span>
+    <span class="l-Scalar-Plain">password</span>            <span class="p-Indicator">:</span> <span class="l-Scalar-Plain">FleninOfAt</span>
+    <span class="l-Scalar-Plain">full_name</span>           <span class="p-Indicator">:</span> <span class="s">'SPY</span><span class="nv"> </span><span class="s">Viewer'</span>
+    <span class="l-Scalar-Plain">enabled</span>             <span class="p-Indicator">:</span> <span class="s">'on'</span>
+    <span class="l-Scalar-Plain">must_change_password</span><span class="p-Indicator">:</span>
+    <span class="l-Scalar-Plain">permissions</span>         <span class="p-Indicator">:</span>
+      <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">View_Graphs</span>
+      <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">Export_Data</span>
+    <span class="l-Scalar-Plain">policy</span>              <span class="p-Indicator">:</span>
+      <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">View_Graphs</span>
+      <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">View_Tree</span>
+</pre></div>
+
+<p><strong>/!\  For the other vars files, PLEASE <g-emoji alias="bangbang" fallback-src="https://assets-cdn.github.com/images/icons/emoji/unicode/203c.png">‼️</g-emoji> Do not edit setting unless you know what you are doing</strong></p>
+
+<blockquote>
+<p>You can create several devices, tree and users.</p>
+</blockquote>
+
+<h3>
+<a name="ready-to-fire--go-" class="anchor" href="#ready-to-fire--go-"><span class="octicon octicon-link"></span></a>Ready to fire ? GO !</h3>
+
+<ul>
+<li>Step 1 :: Deploy cacti server </li>
+</ul>
+
+<div class="highlight highlight-bash"><pre>ansible-playbook cactilize.yml -i cactilize --limit server -extra-vars <span class="nv">deploy</span><span class="o">=</span><span class="nb">true</span>
+</pre></div>
+
+<p>This will take some time according your devices and graph list, be patient...</p>
+
+<ul>
+<li>Step 2 :: Configure your client to send information via SNMP, Scripts and others to the cacti server.</li>
+</ul>
+
+<div class="highlight highlight-bash"><pre>ansible-playbook cactilize.yml -i cactilize --limit client
+</pre></div>
+
+<ul>
+<li>Step 3 :: check the report file <code>/root/.cacti</code> in you cacti server. For example</li>
+</ul>
+
+<pre><code>-- ************************** WARNING CACTILIZE ANSIBLE PLAYBOOK ********************************
+-- File Managed by Ansible
+-- Any changes to this report file  should be done trough ansible
+-- other wise report will be overwriten on te next ansible cactilize deploy pass.
+-- **********************************************************************************************
+
+  /$$$$$$                        /$$     /$$ /$$ /$$
+ /$$__  $$                      | $$    |__/| $$|__/
+| $$  \__/  /$$$$$$   /$$$$$$$ /$$$$$$   /$$| $$ /$$ /$$$$$$$$  /$$$$$$
+| $$       |____  $$ /$$_____/|_  $$_/  | $$| $$| $$|____ /$$/ /$$__  $$
+| $$        /$$$$$$$| $$        | $$    | $$| $$| $$   /$$$$/ | $$$$$$$$
+| $$    $$ /$$__  $$| $$        | $$ /$$| $$| $$| $$  /$$__/  | $$_____/
+|  $$$$$$/|  $$$$$$$|  $$$$$$$  |  $$$$/| $$| $$| $$ /$$$$$$$$|  $$$$$$$
+ \______/  \_______/ \_______/   \___/  |__/|__/|__/|________/ \_______/
+
+
+[ACCESS]
+   URL   =&gt; http://IP_PUB/cacti , https://IP_PUB/cacti (according your server and archi configuration)
+
+   - WebUI
+       Administrator:
+          Login  =&gt; helldorado
+          Pass   =&gt; 2A2169234F6BC1360CFC29EEF8
+
+       SPY Viewer:
+          Login  =&gt; spyviewer
+          Pass   =&gt; FleninOfAt
+
+
+/!\ Please for nginx server, put this line in your default virtual host:
+
+include /etc/nginx/conf.d/status.conf ;
+
+And reload nginx:
+
+nginx -t &amp;&amp; service nginx reload
+</code></pre>
+
+<h2>
+<a name="tips" class="anchor" href="#tips"><span class="octicon octicon-link"></span></a>Tips</h2>
+
+<ul>
+<li>Allways use and ABUSE <strong>TAGs</strong> </li>
+</ul>
+
+<table>
+<thead>
+<tr>
+<th>List of Tags</th>
+<th>Description</th>
+<th>File</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>device</td>
+<td>Create all device</td>
+<td>task/devices.yml</td>
+</tr>
+<tr>
+<td>graph</td>
+<td>Create all graph</td>
+<td>task/graph.yml</td>
+</tr>
+<tr>
+<td>graph-system</td>
+<td>Create only system graph</td>
+<td></td>
+</tr>
+<tr>
+<td>graph-mysql</td>
+<td>Create only mysql graph</td>
+<td></td>
+</tr>
+<tr>
+<td>graph-mongodb</td>
+<td>Create only mongodb graph</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+
+<ul>
+<li>If possible or necessary  start from a specific task </li>
+</ul>
+
+<div class="highlight highlight-bash"><pre>ansible-playbook cactilize.yml -i cactilize --limit client --start-at-task <span class="s2">"SNMP CONF"</span>
+</pre></div>
+
+<h2>
+<a name="development" class="anchor" href="#development"><span class="octicon octicon-link"></span></a>Development</h2>
+
+<h3>
+<a name="bugs-and-feature-requests" class="anchor" href="#bugs-and-feature-requests"><span class="octicon octicon-link"></span></a>Bugs and feature requests</h3>
+
+<p>Have a bug or a feature request? Please first check the list of issues.</p>
+
+<p>If your problem or idea is not addressed yet, please open a new issue, or contact me at <a href="devops@helldorado.info">devops@helldorado.info</a></p>
+
+<h3>
+<a name="contributing" class="anchor" href="#contributing"><span class="octicon octicon-link"></span></a>Contributing</h3>
+
+<p>You're welcome to propose pull requests. Here's a quick guide.</p>
+
+<p>Fork, then clone the repo:</p>
+
+<pre><code>git clone git@github.com:your-username/cactilize
+</code></pre>
+
+<p>Set up your ansible environement for test suite.</p>
+
+<p>Make sure the tests pass:</p>
+
+<p>Make your change. Add examples and documentation for your change. 
+Push to your fork and <a href="https://github.com/helldorado/cactilize/compare/">submit a pull request</a>.</p>
+
+<p>Some things that will increase the chance that your pull request is accepted:</p>
+
+<ul>
+<li>Write tests, see Travis CI section or/and ansible <a href="http://docs.ansible.com/test_strategies.html">Testing Strategies</a>
+</li>
+<li>Follow ansible playbook best pratices <a href="">style guide</a>.</li>
+<li>Write a <a href="http://tbaggery.com/2008/04/19/a-note-about-git-commit-messages.html">good commit message</a>.</li>
+</ul>
+
+<h2>
+<a name="credits" class="anchor" href="#credits"><span class="octicon octicon-link"></span></a>Credits</h2>
+
+<ul>
+<li><strong>Abdoul Bah</strong></li>
+<li><a href="https://github.com/helldorado/cactilize/graphs/contributors">All contributors</a></li>
+</ul>
+
+<h2>
+<a name="licence" class="anchor" href="#licence"><span class="octicon octicon-link"></span></a>Licence</h2>
+
+<p>Cactilize ansible role is released under the GPL2 License. Check the <a href="https://github.com/helldorado/cactilize/blob/master/LICENSE">LICENSE</a> file for details.</p>
+
+<h2>
+<a name="references" class="anchor" href="#references"><span class="octicon octicon-link"></span></a>References</h2>
+
+<ul>
+<li><a href="http://www.ansibleworks.com">Ansible</a></li>
+<li><a href="http://docs.ansible.com/playbooks.html">Ansible Playbook</a></li>
+<li><a href="http://docs.ansible.com/playbooks_roles.html">Ansible Role</a></li>
+<li><a href="https://galaxy.ansible.com/">Ansible Galaxy</a></li>
+<li><a href="http://www.yaml.org/spec/1.2/spec.html">YAML Gotchas</a></li>
+<li><a href="http://www.cacti.net/">Cacti® - The Complete RRDTool-based Graphing Solution</a></li>
+<li><a href="http://www.percona.com/doc/percona-monitoring-plugins/1.1/">Percona Monitoring Plugins</a></li>
+<li><a href="https://guides.github.com/activities/contributing-to-open-source">Contributing to open-source</a></li>
+<li><a href="https://help.github.com/categories/commits/">About commit</a></li>
+</ul>
+      </section>
+    </div>
+
+    
+  </body>
+</html>
