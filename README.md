@@ -368,7 +368,7 @@ ansible-playbook cactilize.yml -i cactilize --limit client
 - Step 3 :: check the report file `/root/.cacti` in you cacti server.
 
 ## Tips
-- Allways use and ABUSE **TAGs** 
+- Allways use and ABUSE **--tags** and **--skip-tags**
 
 `SERVICE => mysql | mongodb | redis | galera | varnish | memcache | apache | nginx | elasticsearch
 `
@@ -380,7 +380,7 @@ ansible-playbook cactilize.yml -i cactilize --limit client
 |  report      | Create report file  |```ansible-playbook cactilize.yml -i cactilize --limit server --tags report``` |
 |  device      | Create all device  | ```ansible-playbook cactilize.yml -i cactilize --limit server --tags device```|
 |  graph       | Create all graph | ```ansible-playbook cactilize.yml -i cactilize --limit server --tags graph``` |
-|  graph-$SERVICE| only $SERVICE graph| ```ansible-playbook cactilize.yml -i cactilize --limit server --tags graph-nginx```|
+|  graph-$SERVICE| Create $SERVICE graph only| ```ansible-playbook cactilize.yml -i cactilize --limit server --tags graph-nginx```|
 |  snmp|Configure snmpd service|```ansible-playbook cactilize.yml -i cactilize --limit server --tags snmp```|
 |  user |Create cacti user on client| ```ansible-playbook cactilize.yml -i cactilize --limit client --tags user```|
 |  nginx_server| Enable Nginx Status| ```ansible-playbook cactilize.yml -i cactilize --limit client --tags nginx_server```|
@@ -388,15 +388,40 @@ ansible-playbook cactilize.yml -i cactilize --limit client
 |  mysql_server|Grants monitor user| ```ansible-playbook cactilize.yml -i cactilize --limit client --tags mysql_server```|
 |  ssh_key | Deploy the ssh key| ```ansible-playbook cactilize.yml -i cactilize --limit client --tags ssh_key```|
 |template |Import host template|```ansible-playbook cactilize.yml -i cactilize --limit server --tags template```|
-|tree|Create all tree|```ansible-playbook cactilize.yml -i cactilize --limit server --tags tree```|
-|tree-$SERVICE|Create only $SERVICE tree|```ansible-playbook cactilize.yml -i cactilize --limit server --tags tree-varnish```|
+|tree|Create all tree|```ansible-playbook cactilize.yml -i cactilize --limit server --tags tree --skip-tags tree-apache```|
+|tree-$SERVICE|Create $SERVICE tree only|```ansible-playbook cactilize.yml -i cactilize --limit server --tags tree-varnish```|
 
-- If possible or necessary  start from a specific task 
+- If possible or necessary use **--start-at-task** to start from a specific task 
 
 ```bash
 ansible-playbook cactilize.yml -i cactilize --limit client --start-at-task "SNMP CONF"
 ``` 
-
+For example to show task related device or graph, type: 
+``` bash 
+$ ansible-playbook cactilize.yml -i cactilize  --list-tasks |grep -Ei 'device|graph'
+    ADD device
+    ADD Graph SYSTEM
+    ADD Graph MYSQL
+    ADD Graph MONGODB
+    ADD Graph REDIS
+    ADD Graph GALERA
+    ADD Graph VARNISH
+    ADD Graph MEMCACHED
+    ADD Graph APACHE
+    ADD Graph NGINX
+    ADD Graph Elasticsearch
+    ADD NODES TREE WHEN TREE MODE LIKE GRAPH BY ROLE
+    ADD SUB NODES WHEN TREE MODE LIKE GRAPH BY ROLE
+    ADD HOST ON TREE HOST WHEN TREE MODE LIKE GRAPH BY ROLE
+    ADD GRAPH MYSQL ON TREE OR NODE
+    ADD GRAPH APACHE ON TREE OR NODE
+    ADD GRAPH NGINX ON TREE OR NODE
+    ADD GRAPH MEMCACHE ON TREE OR NODE
+    ADD GRAPH REDIS ON TREE OR NODE
+    ADD GRAPH VARNISH ON TREE OR NODE
+    ADD GRAPH ELASTICSEARCH ON TREE OR NODE 
+  ```
+    
 ## Development
 
 ### Bugs and feature requests
