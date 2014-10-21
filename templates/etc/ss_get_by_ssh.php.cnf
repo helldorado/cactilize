@@ -7,5 +7,5 @@
 -- **********************************************************************************************
 */
 $ssh_user   = '{{ cacti_user }}';
-$ssh_iden   = '-i {{ cacti_conf_dir }}.ssh/id_rsa';
+$ssh_iden   = '-i {{ cacti_conf_dir }}/.ssh/id_rsa';
 $nc_cmd = 'nc -q1';
