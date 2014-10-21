@@ -32,7 +32,7 @@ Alias /cacti {{ cacti_root_dir }}
         DirectoryIndex index.php
 </Directory>
 
-<Directory ~ "{{ cacti_root_dir }}/(rra|scripts|site/scripts|cli|\.boto|\.ssh|.*\.cnf)">
+<Directory ~ "{{ cacti_root_dir }}/(cli|\.boto|\.ssh|.*\.cnf)">
      <IfModule mod_rewrite.c>
              Redirect 404 /
      </IfModule>
