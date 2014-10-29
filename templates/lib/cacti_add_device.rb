@@ -162,7 +162,7 @@ class Cacti_add_device
 
   def create
     templateid = `mysql --defaults-file=/root/.my.cnf -Nbe 'select id from {{ cacti_db_name }}.host_template WHERE name=\"#{$options[:template]}\"'`
-    `php /usr/share/cacti/cli/add_device.php --description=#{$options[:description]} --ip=#{$options[:ip]} --template=#{templateid}`
+    `php {{ cacti_cli }}/add_device.php --description=#{$options[:description]} --ip=#{$options[:ip]} --template=#{templateid}`
 
     # Set notes
     notes = $options[:notes]
@@ -261,7 +261,7 @@ class Cacti_add_device
     end
 
     hostid = `mysql -NBe 'select id from {{ cacti_db_name }}.host WHERE description=\"#{$options[:description]}\"'`.match(/.*/)[0]
-    `php /usr/share/cacti/cli/poller_reindex_hosts.php --id=#{hostid}`
+    `php {{ cacti_cli }}/poller_reindex_hosts.php --id=#{hostid}`
   end
 
   def destroy
@@ -409,7 +409,7 @@ class Cacti_add_device
 
   def exists?
     begin
-      `php /usr/share/cacti/cli/add_graphs.php  --list-hosts`.match(/#{options[:description]}/)
+      `php {{ cacti_cli }}/add_graphs.php  --list-hosts`.match(/#{options[:description]}/)
     rescue => e
       debug(e.message)
       return nil

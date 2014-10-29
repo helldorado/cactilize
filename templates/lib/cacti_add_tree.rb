@@ -60,7 +60,7 @@ class Cacti_add_tree
   def create
 
     if $options[:type] == 'tree'
-      `php /usr/share/cacti/cli/add_tree.php --type=tree --name=#{$options[:name]}`
+      `php {{ cacti_cli }}/add_tree.php --type=tree --name=#{$options[:name]}`
     else
 
       treeid = `mysql -NBe  'select id from {{ cacti_db_name }}.graph_tree WHERE name=\"#{$options[:tree]}\"'`.match(/.*/)[0]
@@ -71,9 +71,9 @@ class Cacti_add_tree
 
         if $options[:parentnode] == ''
 
-          `php /usr/share/cacti/cli/add_tree.php --type=node --tree-id=#{treeid} --node-type=header --name=#{$options[:name]}`
+          `php {{ cacti_cli }}/add_tree.php --type=node --tree-id=#{treeid} --node-type=header --name=#{$options[:name]}`
         else
-          `php /usr/share/cacti/cli/add_tree.php --type=node --tree-id=#{treeid} --node-type=header --name=#{$options[:name]} --parent-node=#{parentid}`
+          `php {{ cacti_cli }}/add_tree.php --type=node --tree-id=#{treeid} --node-type=header --name=#{$options[:name]} --parent-node=#{parentid}`
           puts $options[:name]
         end
 
@@ -82,18 +82,18 @@ class Cacti_add_tree
         hostid = `mysql -NBe 'select id from {{ cacti_db_name }}.host WHERE description=\"#{$options[:name]}\"'`.match(/.*/)[0]
 
         if $options[:parentnode] == ''
-          `php /usr/share/cacti/cli/add_tree.php --type=node --tree-id=#{treeid} --node-type=host --host-id=#{hostid}`
+          `php {{ cacti_cli }}/add_tree.php --type=node --tree-id=#{treeid} --node-type=host --host-id=#{hostid}`
         else
-          `php /usr/share/cacti/cli/add_tree.php  --type=node --tree-id=#{treeid} --node-type=host --host-id=#{hostid} --parent-node=#{parentid}`
+          `php {{ cacti_cli }}/add_tree.php  --type=node --tree-id=#{treeid} --node-type=host --host-id=#{hostid} --parent-node=#{parentid}`
         end
 
       elsif $options[:nodetype] == 'graph'
         graphid = `mysql -NBe 'select local_graph_id from {{ cacti_db_name }}.graph_templates_graph WHERE title_cache=\"#{$options[:name]}\"'`.match(/.*/)[0]
 
         if $options[:parentnode] == ''
-          `php /usr/share/cacti/cli/add_tree.php --type=node --tree-id=#{treeid} --node-type=graph --graph-id=#{graphid}`
+          `php {{ cacti_cli }}/add_tree.php --type=node --tree-id=#{treeid} --node-type=graph --graph-id=#{graphid}`
         else
-          `php /usr/share/cacti/cli/add_tree.php --type=node --tree-id=#{treeid} --node-type=graph --graph-id=#{graphid} --parent-node=#{parentid}`
+          `php {{ cacti_cli }}/add_tree.php --type=node --tree-id=#{treeid} --node-type=graph --graph-id=#{graphid} --parent-node=#{parentid}`
         end
 
       end

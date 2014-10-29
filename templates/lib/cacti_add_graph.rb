@@ -67,13 +67,13 @@ class Cacti_add_graph
     templateid = `mysql -NBe 'select id from {{ cacti_db_name }}.graph_templates WHERE name=\"#{$options[:graphtemplate]}\"'`.match(/.*/)[0]
 
     if $options[:graphtype] == "cg"
-    `php /usr/share/cacti/cli/add_graphs.php --host-id=#{hostid} --graph-type=#{$options[:graphtype]} --graph-template-id=#{templateid}`
+    `php {{ cacti_cli }}/add_graphs.php --host-id=#{hostid} --graph-type=#{$options[:graphtype]} --graph-template-id=#{templateid}`
     
     else
       snmpqueryid = `mysql -NBe 'select id from {{ cacti_db_name }}.snmp_query WHERE name=\"#{$options[:snmpquery]}\"'`.match(/.*/)[0]
       snmpquerytypeid= `mysql -NBe 'select id from {{ cacti_db_name }}.snmp_query_graph WHERE name=\"#{$options[:snmpquerytype]}\"'`.match(/.*/)[0]
 
-      `php /usr/share/cacti/cli/add_graphs.php --host-id=#{hostid} --graph-type=#{$options[:graphtype]} --graph-template-id=#{templateid} --snmp-query-id=#{snmpqueryid} --snmp-query-type-id=#{snmpquerytypeid} --snmp-field=#{$options[:snmpfield]} --snmp-value=#{$options[:snmpvalue]}`
+      `php {{ cacti_cli }}/add_graphs.php --host-id=#{hostid} --graph-type=#{$options[:graphtype]} --graph-template-id=#{templateid} --snmp-query-id=#{snmpqueryid} --snmp-query-type-id=#{snmpquerytypeid} --snmp-field=#{$options[:snmpfield]} --snmp-value=#{$options[:snmpvalue]}`
     end
   end
 
