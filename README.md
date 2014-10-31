@@ -353,7 +353,7 @@ Users:
 
  - Step 1 :: Configure your client to send information via SNMP, Scripts and others to the cacti server.
  
- ```bash
+```bash
 ansible-playbook cactilize.yml -i cactilize --limit client --skip-tags ssh_key
 ```
  
