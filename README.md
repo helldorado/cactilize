@@ -351,7 +351,13 @@ Users:
 
 ### Ready to fire ? GO ! 
 
- - Step 1 :: Deploy cacti server 
+ - Step 1 :: Configure your client to send information via SNMP, Scripts and others to the cacti server.
+ 
+ ```bash
+ansible-playbook cactilize.yml -i cactilize --limit client --skip-tags ssh_key
+```
+ 
+ - Step 2 :: Deploy cacti server (Be careful don't run this again whith the deploy=true) 
 
 ```bash
 ansible-playbook cactilize.yml -i cactilize --limit server -extra-vars deploy=true
@@ -359,13 +365,13 @@ ansible-playbook cactilize.yml -i cactilize --limit server -extra-vars deploy=tr
 
 This will take some time according your devices and graph list, be patient...
 
-- Step 2 :: Configure your client to send information via SNMP, Scripts and others to the cacti server.
+- Step 3 :: Push the ssh public key to your all client.
 
 ```bash
-ansible-playbook cactilize.yml -i cactilize --limit client
+ansible-playbook cactilize.yml -i cactilize --limit client -tags ssh_key
 ```
 
-- Step 3 :: check the report file `/root/.cacti` in you cacti server.
+- Step 4 :: check the report file `/root/.cacti` in you cacti server.
 
 ## Tips
 - Allways use and ABUSE **--tags** and **--skip-tags**
