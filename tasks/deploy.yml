@@ -166,6 +166,25 @@
         - lib/cacti_add_graph.rb 
         - lib/cacti_add_tree.rb 
 
+    - name: action | install | ensures {{cact_root_dir}} have good mode and chown
+      file:
+      path="{{cacti_root_dir}}"
+      state=directory
+      recurse=yes
+      mode=g+W
+      owner={{cacti_user}}
+      group={{apache_user}}
+
+    - cron: action | set poller cron
+      name="Cacti poller cron"
+      user={{cacti_user}}
+      minute="*/5"
+      hour="*"
+      day="*"
+      month"*"
+      job="php --define suhosin.memory_limit=512M /usr/share/cacti/poller.php 2>&1 >/dev/null | if [ -f /usr/bin/ts ] ; then ts ; else tee ; fi >> /usr/share/cacti/log/cacti.log"
+      state=present
+
     - name: Report
       template: src=report.txt.j2 dest=/root/.cacti
       with_dict: Users

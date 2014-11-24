@@ -360,7 +360,7 @@ ansible-playbook cactilize.yml -i cactilize --limit client --skip-tags ssh_key
  - Step 2 :: Deploy cacti server (Be careful don't run this again whith the deploy=true) 
 
 ```bash
-ansible-playbook cactilize.yml -i cactilize --limit server -extra-vars deploy=true
+ansible-playbook cactilize.yml -i cactilize --limit server --extra-vars deploy=true
 ```
 
 This will take some time according your devices and graph list, be patient...
@@ -368,7 +368,7 @@ This will take some time according your devices and graph list, be patient...
 - Step 3 :: Push the ssh public key to your all client.
 
 ```bash
-ansible-playbook cactilize.yml -i cactilize --limit client -tags ssh_key
+ansible-playbook cactilize.yml -i cactilize --limit client --tags ssh_key
 ```
 
 - Step 4 :: check the report file `/root/.cacti` in you cacti server.
