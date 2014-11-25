@@ -175,16 +175,16 @@
         owner={{cacti_user}}
         group={{apache_user}}
 
-    - name: action | set poller cron
-      cron:
-        name="Cacti poller cron"
-        state=present
-        user="{{cacti_user}}"
-        minute="*/5"
-        hour="*"
-        day="*"
-        month="*"
-        job="php --define suhosin.memory_limit=512M /usr/share/cacti/poller.php 2>&1 >/dev/null | if [ -f /usr/bin/ts ] ; then ts ; else tee ; fi >> /usr/share/cacti/log/cacti.log"
+    #- name: action | set poller cron
+    #  cron:
+    #    name="Cacti poller cron"
+    #    state=present
+    #    user="{{cacti_user}}"
+    #    minute="*/5"
+    #    hour="*"
+    #    day="*"
+    #    month="*"
+    #    job="php --define suhosin.memory_limit=512M /usr/share/cacti/poller.php 2>&1 >/dev/null | if [ -f /usr/bin/ts ] ; then ts ; else tee ; fi >> /usr/share/cacti/log/cacti.log"
 
     - name: Report
       template: src=report.txt.j2 dest=/root/.cacti
