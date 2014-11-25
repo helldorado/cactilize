@@ -11,6 +11,14 @@ On every new pull request or commit, Travis CI will run a series of checks on th
 
 See [https://travis-ci.org/helldorado/cactilize](https://travis-ci.org/helldorado/cactilize)
 
+Ansible Galaxy [![galaxy](https://galaxy.ansible.com/list#/roles/1931)](https://galaxy.ansible.com/list#/roles/1931)
+---------------------
+
+Install this role directly from Ansible Galaxy
+```
+ansible-galaxy install helldorado.cactilize
+```
+
 ## Summary
 
 * [Definitions](#definitions)
