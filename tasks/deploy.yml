@@ -175,7 +175,8 @@
         owner={{cacti_user}}
         group={{apache_user}}
 
-    - cron: action | set poller cron
+    - name: action | set poller cron
+      cron:
         name="Cacti poller cron"
         user={{cacti_user}}
         minute="*/5"
