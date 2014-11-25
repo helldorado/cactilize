@@ -171,7 +171,7 @@
         path="{{cacti_root_dir}}"
         state=directory
         recurse=yes
-        mode=g+W
+        mode=0755
         owner={{cacti_user}}
         group={{apache_user}}
 
