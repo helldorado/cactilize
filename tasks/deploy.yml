@@ -28,7 +28,7 @@
     - name: Create cacti user
       user: name=cacti comment="Cacti user for poller process and configuration"
       tags: master_user
-      
+
     - name: Create conf directory
       file: path={{ cacti_conf_dir }} state=directory
 
@@ -114,7 +114,7 @@
     - name: Postinstall Configuration
       template: src=postinstall.sql.j2 dest={{ cactilize_temp_dir }}/postinstall.sql
 
-    - name: Post Install Step 1 
+    - name: Post Install Step 1
       mysql_db: name={{ cacti_db_name }} state=import target={{ cactilize_temp_dir }}/postinstall.sql
 
     - name: Post Install Step 2
@@ -155,16 +155,16 @@
 
     - name: Copy Percona Configuration File
       template: src={{ item }} dest={{ cacti_conf_dir }} owner=root group=root mode=0644
-      with_items: 
+      with_items:
         - etc/ss_get_mysql_stats.php.cnf
         - etc/ss_get_by_ssh.php.cnf
 
     - name: Copy Cactilize ruby wrappers
       template: src={{ item }} dest={{ cacti_root_dir }}/cli/ owner=root group=root mode=0644
-      with_items: 
+      with_items:
         - lib/cacti_add_device.rb
-        - lib/cacti_add_graph.rb 
-        - lib/cacti_add_tree.rb 
+        - lib/cacti_add_graph.rb
+        - lib/cacti_add_tree.rb
 
     - name: action | install | ensures {{cact_root_dir}} have good mode and chown
       file:
@@ -178,13 +178,13 @@
     - name: action | set poller cron
       cron:
         name="Cacti poller cron"
-        user={{cacti_user}}
+        state=present
+        user="{{cacti_user}}"
         minute="*/5"
         hour="*"
         day="*"
         month"*"
         job="php --define suhosin.memory_limit=512M /usr/share/cacti/poller.php 2>&1 >/dev/null | if [ -f /usr/bin/ts ] ; then ts ; else tee ; fi >> /usr/share/cacti/log/cacti.log"
-        state=present
 
     - name: Report
       template: src=report.txt.j2 dest=/root/.cacti
