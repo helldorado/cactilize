@@ -14,8 +14,11 @@ install:
   - pip install ansible
 
   # Add ansible.cfg to pick up roles path.
-  - "printf '[defaults]\nroles_path = ../' > ansible.cfg"
-  - "cat /home/travis/build/helldorado/cactilize/ansible.cfg"
+  - "printf '[defaults]\nroles_path = ../' > ansible.cfg.old"
+  - "{ echo '[defaults]'; echo 'roles_path = ../'; } >> ansible.cfg"
+  - cat ansible.cfg.old
+  - cat ansible.cfg
+
 before_script:
   # Ensure /root/.my.cnf exist in travis-ci mysql server
   - sudo cp tests/my.cnf /root/.my.cnf
