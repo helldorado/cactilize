@@ -1,0 +1,22 @@
+VAGRANTFILE_API_VERSION = "2"
+
+Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
+  config.vm.box = "debian-7.7.0-amd64"
+
+  config.vm.box_url = "https://vagrantcloud.com/ffuenf/boxes/debian-7.7.0-amd64/versions/1/providers/virtualbox.box"
+
+  config.vm.provision "ansible" do |ansible|
+    ansible.playbook = "playbook.yml"
+    ansible.sudo = true
+    ansible.host_key_checking = false
+  end
+
+  config.vm.define "master" do |master|
+    master.vm.box = "master"
+    master.vm.network "private_network", ip: "172.20.20.20"
+    master.vm.network "forwarded_port", guest: 8080, host: 8080
+
+
+  end
+
+end
