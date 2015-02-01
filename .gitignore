@@ -1,1 +1,4 @@
 .DS_Store
+.vagrant
+test/.vagrant
+files/id_rsa.pub

@@ -1,5 +1,5 @@
 [server]
-localhost
+server
 
 [client]
-localhost
+client

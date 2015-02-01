@@ -6,7 +6,7 @@
 
 ---
     - hosts: all
-      user: ansible
+      user: vagrant
       sudo: True
 
       vars_files:

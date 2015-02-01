@@ -1,6 +1,6 @@
 ---
 ### DEPLOIEMENT 
-deploy                : false
+deploy                : true
 webui_admin_user      : helldorado
 webui_admin_password  : 2A2169234F6BC1360CFC29EEF8
 archi_name            : spy
@@ -21,6 +21,6 @@ DEFAULT_IP            : '127.0.0.1'
 ### HTPASSWD USERS
 htpasswd_users:
   spyadm:
-    passwd: tSuMCNaKvASaU 
+    passwd: tSuMCNaKvASaU
   spycombo:
     passwd: YbXpnONCIG9V2

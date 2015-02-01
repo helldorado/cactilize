@@ -11,12 +11,10 @@
       notify: restart_snmpd
       tags: snmp
 
-    
     - name: Create scripts dir
       file: path=/usr/local/scripts/ state=directory
       tags: scripts_dir
-      
-    
+
     - name: Copy NFS CLIENT SCRIPT
       copy: src=hosts_scripts/nfs_client.sh dest=/usr/local/scripts/nfs_client.sh owner=root group=root mode=0744
       when: nfs_client is defined
@@ -53,6 +51,6 @@
       tags: apache_server
 
 
-    - name: ssh key for cacti
-      authorized_key: user=cacti key="{{ lookup('file', 'id_rsa.pub') }}"
-      tags: ssh_key
+    #- name: ssh key for cacti
+    #  authorized_key: user=cacti key="{{ lookup('file', 'id_rsa.pub') }}"
+    #  tags: ssh_key

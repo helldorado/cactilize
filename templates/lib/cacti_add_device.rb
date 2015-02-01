@@ -287,7 +287,7 @@ class Cacti_add_device
   end
 
   def avail
-    `mysql -NBe 'select availability_method from {{ cacti_db_name }}.host WHERE description=\"#{$options[:description]}\"'`.match(/\d+/)[0]
+    `mysql -NBe 'select availability_method from {{ cacti_db_name }}.host WHERE description=\"#{$options[:description]}\"'`.match(/\d+/)
   end
 
   def avail=(value)
@@ -295,7 +295,7 @@ class Cacti_add_device
   end
 
   def pingmethod
-    `mysql -NBe 'select ping_method from {{ cacti_db_name }}.host WHERE description=\"#{$options[:description]}\"'`.match(/\d+/)[0]
+    `mysql -NBe 'select ping_method from {{ cacti_db_name }}.host WHERE description=\"#{$options[:description]}\"'`.match(/\d+/)
   end
 
   def pingmethod=(value)
@@ -303,7 +303,7 @@ class Cacti_add_device
   end
 
   def pingport
-    `mysql -NBe 'select ping_port from {{ cacti_db_name }}.host WHERE description=\"#{$options[:description]}\"'`.match(/\d+/)[0]
+    `mysql -NBe 'select ping_port from {{ cacti_db_name }}.host WHERE description=\"#{$options[:description]}\"'`.match(/\d+/)
   end
 
   def pingport=(value)
@@ -312,7 +312,7 @@ class Cacti_add_device
   end
 
   def pingretries
-    `mysql -NBe 'select ping_retries from {{ cacti_db_name }}.host WHERE description=\"#{$options[:description]}\"'`.match(/\d+/)[0]
+    `mysql -NBe 'select ping_retries from {{ cacti_db_name }}.host WHERE description=\"#{$options[:description]}\"'`.match(/\d+/)
   end
 
   def pingretries=(value)
@@ -320,7 +320,7 @@ class Cacti_add_device
   end
 
   def snmpversion
-    `mysql -NBe 'select snmp_version from {{ cacti_db_name }}.host WHERE description=\"#{$options[:description]}\"'`.match(/0|1|2|3/)[0]
+    `mysql -NBe 'select snmp_version from {{ cacti_db_name }}.host WHERE description=\"#{$options[:description]}\"'`.match(/0|1|2|3/)
   end
 
   def snmpversion=(value)
@@ -328,7 +328,7 @@ class Cacti_add_device
   end
 
   def snmpcommunity
-    `mysql -NBe 'select snmp_community from {{ cacti_db_name }}.host WHERE description=\"#{$options[:description]}\"'`.match(/(?:[a-z][a-z0-9_]*)/)[0]
+    `mysql -NBe 'select snmp_community from {{ cacti_db_name }}.host WHERE description=\"#{$options[:description]}\"'`.match(/(?:[a-z][a-z0-9_]*)/)
   end
 
   def snmpcommunity=(value)

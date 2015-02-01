@@ -6,6 +6,7 @@
 #
 # OS: Debian6 Debian7
 
+    - debug: var=inventory_hostname
     - include: deploy.yml
       when: deploy and inventory_hostname in groups['server']
     - include: template.yml
