@@ -364,7 +364,12 @@ Users:
 ```bash
 ansible-playbook cactilize.yml -i cactilize --limit client --skip-tags ssh_key
 ```
- 
+Check response from client.
+
+```bash```
+ansible all  --sudo  -m shell -a "snmpget -v2c -c YOUR_COMMUNITY localhost RFC1213-MIB::sysUpTime.0"
+```
+
  - Step 2 :: Deploy cacti server (Be careful don't run this again whith the deploy=true) 
 
 ```bash

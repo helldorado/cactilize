@@ -66,7 +66,7 @@ apache_configtest_enable            : true
 cacti_package_version               : undef
 cacti_package_source                : 'http://www.cacti.net/downloads'
 cacti_version                       : '0.8.8b'
-cacti_required_packages             : ['apache2', 'php5', 'php5-mysql', 'php5-cli', 'php5-snmp', 'snmp', 'snmpd', 'rrdtool']
+cacti_required_packages             : ['apache2', 'php5', 'php5-mysql', 'php5-cli', 'php5-snmp', 'snmp', 'snmpd', 'snmp-mibs-downloader', 'rrdtool']
 snmp_conf_dir                       : "/etc/snmp"
 apache_conf_dir                     : "/etc/apache2"
 nginx_conf_dir                      : "/etc/nginx"
