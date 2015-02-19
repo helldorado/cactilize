@@ -154,7 +154,7 @@
         - scripts/elasticsearch_stats.rb
 
     - name: Copy Percona Configuration File
-      template: src={{ item }} dest={{ cacti_conf_dir }} owner=root group=root mode=0644
+      template: src={{ item }} dest={{ cacti_conf_dir }}/{{ item }} owner=root group=root mode=0644
       with_items:
         - etc/ss_get_mysql_stats.php.cnf
         - etc/ss_get_by_ssh.php.cnf
