@@ -7,14 +7,13 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   config.vm.define :client do |client|
     config.vm.hostname = "cacti-client"
     client.vm.network "private_network", ip: "172.20.20.10"
-    client.vm.network "forwarded_port", guest: 8080, host: 8080
     client.vm.network "forwarded_port", guest: 161, host: 161
   end
 
   config.vm.define :server do |server|
     config.vm.hostname = "cacti-server"
     server.vm.network "private_network", ip: "172.20.20.20"
-    server.vm.network "forwarded_port", guest: 8080, host: 8090
+    server.vm.network "forwarded_port", guest: 80, host: 8080
   end
 
   config.vm.provision "ansible" do |ansible|

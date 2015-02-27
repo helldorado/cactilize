@@ -1,1 +1,50 @@
 ---
+
+Hosts:
+  'spyhc1':
+    IP   : 172.20.20.20
+    graph:
+      - system
+    tree : LEMP
+
+##### TREE #####################
+
+Tree:
+
+  - node: "{{ cacti_tree_parentnode_service }}"
+    subnodes:
+      -
+
+  - node: "{{ cacti_tree_parentnode_host }}"
+    subnodes:
+      -
+
+  - node: WEB
+    subnodes:
+      - NGINX
+      - APACHE
+      - LIGHTTPD
+
+  - node: CACHE
+    subnodes:
+      - VARNISH
+      - OPCODE
+
+  - node: DATABASES
+    subnodes:
+      - MYSQL
+      - GALERA
+
+  - node: NoSQL
+    subnodes:
+      - REDIS
+      - MEMCACHE
+      - MONGODB
+      - ES
+
+  - node: SYSTEM
+    subnodes:
+      - NETWORK
+      - CPU
+      - MEMORY
+      - DISK

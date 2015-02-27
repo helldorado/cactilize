@@ -10,19 +10,18 @@
   sudo: True
   gather_facts:  yes
   vars:
-    # ABSTRACT
     deploy                : false
     webui_admin_user      : helldorado
     webui_admin_password  : 2A2169234F6BC1360CFC29EEF8
     archi_name            : SPYNOL
-    archi_subnet          : '172.20.20'
+    archi_subnet          : '10.0.2'
     default_community     : spynol
     cacti_db_hostname     : localhost
     cacti_db_password     : tNSimlfnER7d6
     cacti_mysql_mon_user  : monitoring
     cacti_mysql_mon_pass  : 4vtYd5axfavQo
     RRA_VG_NAME           : system
-    #RRA_LV_NAME           : var_lib_rra
+    RRA_LV_NAME           : var_lib_rra
     RRA_LV_SIZE           : 5G
     RRA_MOUNT_POINT       : '/var/lib/rra'
     DEFAULT_IP            : '127.0.0.1'
@@ -35,18 +34,10 @@
       spycombo:
         passwd: YbXpnONCIG9V2
 
-     ## WEBUI User Permissions
-    Users:
-      'spyviewer':
-         password            : FleninOfAt
-         full_name           : 'SPY Viewer'
-         enabled             : 'on'
-         must_change_password:
-         permissions         :
-           - View_Graphs
-           - Export_Data
-         policy              :
-           - View_Graphs
-           - View_Tree
+    cacti_abstract_files:
+       - '/etc/ansible/data/cactilize/hosts.yml'
+       - '/etc/ansible/data/cactilize/users.yml'
+       - '/etc/ansible/data/cactilize/tree.yml'
+
   roles:
    - cactilize

@@ -9,7 +9,7 @@ REPLACE INTO settings (name,value) VALUES ('path_snmpwalk','/usr/bin/snmpwalk');
 REPLACE INTO settings (name,value) VALUES ('path_snmpget','/usr/bin/snmpget');
 REPLACE INTO settings (name,value) VALUES ('path_snmpbulkwalk','/usr/bin/snmpbulkwalk');
 REPLACE INTO settings (name,value) VALUES ('path_snmpgetnext','/usr/bin/snmpgetnext');
-REPLACE INTO settings (name,value) VALUES ('path_cactilog','/var/log/cacti/cacti.log');
+REPLACE INTO settings (name,value) VALUES ('path_cactilog','{{ cacti_log_dir }}/cacti.log');
 REPLACE INTO settings (name,value) VALUES ('snmp_version','net-snmp');
 REPLACE INTO settings (name,value) VALUES ('rrdtool_version','rrd-1.4.x');
 REPLACE INTO settings (name,value) VALUES ('snmp_community','{{ default_community }}');

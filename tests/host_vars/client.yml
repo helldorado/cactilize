@@ -1,1 +1,10 @@
 ---
+Hosts:
+  'spyweb1':
+    IP   : 172.20.20.10
+    graph:
+      - system
+      - nginx
+      - apache
+    tree : LEMP
+

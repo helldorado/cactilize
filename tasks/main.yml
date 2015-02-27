@@ -6,17 +6,45 @@
 #
 # OS: Debian6 Debian7
 
-    - debug: var=inventory_hostname
-    - include: deploy.yml
-      when: deploy and inventory_hostname in groups['server']
-    - include: template.yml
-      when: inventory_hostname in groups['server']
-    - include: device.yml
-      when: inventory_hostname in groups['server']
-    - include: graph.yml
-      when: inventory_hostname in groups['server']
-    - include: tree.yml
-      when: inventory_hostname in groups['server']
-    - include: user.yml
-      when: inventory_hostname in groups['server']
-    - include: host.yml
+
+- include_vars: "{{ item }}"
+  with_items:
+    - def/apache_def.yml
+    - def/mysql_def.yml
+    - def/elasticsearch_def.yml
+    - def/system_def.yml
+    - def/varnish_def.yml
+    - def/memcache_def.yml
+    - def/apache_def.yml
+    - def/redis_def.yml
+    - def/mongodb_def.yml
+    - def/galera_def.yml
+    - def/nginx_def.yml
+
+- debug: var=Users
+- debug: var=Apache_Def
+
+- include: deploy.yml
+  when: deploy and inventory_hostname in groups['server']
+  tags: deploy
+
+- include: template.yml
+  when: inventory_hostname in groups['server']
+  tags: template
+
+- include: device.yml
+  tags: device
+
+- include: graph.yml
+  tags: graph
+
+- include: tree.yml
+  #when: inventory_hostname in groups['server']
+  tags: tree
+
+- include: user.yml
+  when: inventory_hostname in groups['server']
+  tags: user
+
+- include: host.yml
+  tags: hosts
