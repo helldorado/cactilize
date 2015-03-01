@@ -52,7 +52,7 @@ In the following :
 
  - MySQL 5.x or greater and ensure you have set a auto-login for root by creating a `/root/.my.cnf` on 0400 mode and put this 3 lines according your mysql server configuration. 
 
- - ::coffee:: or ::beerr:: 
+ - :coffee: or :beers: 
 
 ```bash
 [client]
@@ -121,7 +121,7 @@ spybdd1
 spyweb[1:5]
 
 [caches]
-spycache[1:1]
+spycache[1:2]
 
 [databases]
 spybdd1
@@ -129,9 +129,8 @@ spybdd1
 
 - The playbook example file: `[cactilize.yml](https://github.com/helldorado/cactilize/blob/master/examples/cactilize.yml)`.
 
-	**:information_source:**
-	  - `gather_facts` MUST BE SET TO `yes` 
-	  - DO NOT SET `deploy` to `true` in the playbook. use `--extra-vars "deploy=true"` in the command line.
+	  - ```gather_facts``` **MUST BE SET TO** ```yes``` 
+	  - **DO NOT SET** ```deploy``` to ```true``` in the playbook. use ```--extra-vars "deploy=true"``` in the command line.
 
 ```yaml
 # File: cactilize.yml
