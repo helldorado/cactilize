@@ -127,7 +127,7 @@ spycache[1:2]
 spybdd1
 ```
 
-- The playbook example file: `[cactilize.yml](https://github.com/helldorado/cactilize/blob/master/examples/cactilize.yml)`.
+- The playbook example file: [cactilize.yml](https://github.com/helldorado/cactilize/blob/master/examples/cactilize.yml).
 
 	  - ```gather_facts``` **MUST BE SET TO** ```yes``` 
 	  - **DO NOT SET** ```deploy``` to ```true``` in the playbook. use ```--extra-vars "deploy=true"``` in the command line.
