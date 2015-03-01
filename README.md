@@ -52,6 +52,8 @@ In the following :
 
  - MySQL 5.x or greater and ensure you have set a auto-login for root by creating a `/root/.my.cnf` on 0400 mode and put this 3 lines according your mysql server configuration. 
 
+ - ::coffee:: or ::beerr:: 
+
 ```bash
 [client]
 user=root
@@ -101,8 +103,7 @@ $ librarian-ansible update
 ### Examples :
 Please edit these files before run the playbook.
 
-- The ansible host file: `cactilize`
-
+- The ansible host file example: [`cactilize-hosts`](https://github.com/helldorado/cactilize/blob/master/examples/cactilize-hosts)
 
 ```ini
 ## Cacti Server
@@ -126,7 +127,11 @@ spycache[1:1]
 spybdd1
 ```
 
-- The playbook file: `cactilize.yml`. **:information_source: gather_facts must be set to yes**
+- The playbook example file: `[cactilize.yml](https://github.com/helldorado/cactilize/blob/master/examples/cactilize.yml)`.
+
+	**:information_source:**
+	  - `gather_facts` MUST BE SET TO `yes` 
+	  - DO NOT SET `deploy` to `true` in the playbook. use `--extra-vars "deploy=true"` in the command line.
 
 ```yaml
 # File: cactilize.yml
@@ -160,7 +165,7 @@ spybdd1
     DEFAULT_IP            : '127.0.0.1'
     WHITELIST             : ''
 
-     ## User Access and Permissions
+    ## Users Access and Permissions
     Users:
       'spyviewer':
          htpassword          : YbXpnONCIG9V2
@@ -178,202 +183,131 @@ spybdd1
    - cactilize
  ```
  
-- The deploy vars file: `roles/cactilize/vars/deploy.yml`
+### Manage host_vars and group_vars according your infrastructure
+
+Some examples provided in [Examples](https://github.com/helldorado/cactilize/tree/master/examples) directory :
+
+
+All hosts can be grouped for setting which services to graph. Ensure if you use an heritage method to leave blank for the item key and do not set the IP. I will get it for you dynamicaly. You can set the `cacti_client_iface` in `group_vars`  or host by host in `host_vars`. Look like:
+  
+  - [group_vars/webs.yml](://github.com/helldorado/cactilize/blob/master/examples/group_vars/webs.yml)
 
 ```yaml
 ---
-### DEPLOIEMENT 
-deploy                : false
-webui_admin_user      : helldorado
-webui_admin_password  : 2A2169234F6BC1360CFC29EEF8
-archi_name            : spy
-archi_subnet          : '10.0.2'
-default_community     : spynol
-cacti_db_hostname     : localhost
-cacti_db_password     : tNSimlfnER7d6
-cacti_mysql_mon_user  : monitoring
-cacti_mysql_mon_pass  : 4vtYd5axfavQo
-#domain_name          : spynol.info
-RRA_VG_NAME           : system
-#RRA_LV_NAME          : var_lib_rra
-RRA_LV_SIZE           : 5G
-RRA_MOUNT_POINT       : '/var/lib/rra'
-DEFAULT_IP            : 'x.x.x.0/24':
-WHITELIST             : 'x.x.x.1/32 y.y.y.2/32 z.z.z.0/16'
+cacti_client_iface: eth1
+apache_server: true
+nginx_server: true
 
-### HTPASSWD USERS
-htpasswd_users:
-  spyadm:
-    passwd: tSuMCNaKvASaU 
-  spycombo:
-    passwd: YbXpnONCIG9V2
+Hosts:
+  '':
+    graph:
+      - system
+      - apache
+      - nginx
+    tree : WEB
 ```
-- The host (devices) vars file:  `roles/cactilize/vars/hosts.yml`
+
+   - [group_vars/caches.yml](://github.com/helldorado/cactilize/blob/master/examples/group_vars/caches.yml)
+	
+``` 
+---
+# group_vars/caches.yml
+
+cacti_client_iface: eth0:varnish
+
+Hosts:
+  '':
+    #IP   : 172.20.20.10
+    graph:
+      - system
+      - varnish
+      - memcache
+    tree : CACHE
+```
+
+- [group_vars/databases.yml](://github.com/helldorado/cactilize/blob/master/examples/group_vars/databases.yml)
+
+```yaml
+---
+# group_vars/databases.yml
+
+cacti_client_iface: eth0:mysql
+mysql_server: true
+```
+
+- [host_vars/spybdd1.yml](://github.com/helldorado/cactilize/blob/master/examples/host_vars/spybdd1.yml)
 
 ```yaml
 ---
 Hosts:
-  'spyweb1':
-    IP   : 10.0.2.11
-    graph: 
-      - system
-      - nginx
-      - apache
-    tree : LEMP
-
   'spybdd1':
-    IP   : 10.0.2.51
+    #IP   : 172.20.20.10
     graph:
       - system
       - mysql
       - memcache
-      - redis
-      - mongodb
-    tree : Mysql
-    notes: 'Database Server'
-  
-  'spycache1':
-    IP   : 10.0.2.16
-    graph: 
-      - system
-      - varnish
-      - memcache
-      - galera
-    tree : Varnish
-    notes: 'Cache Server'
-  
-  'spywatch':
-    IP   : 10.0.2.40
-    graph: 
-      - system
-      - elasticsearch
-      - redis
-    tree : ES
-    notes: 'Elasticsearch server'
-  
-  'spymail':
-    IP   : 10.0.2.70
-    graph: 
-      - system
-      - postfix
-    tree : Mail
-    notes: 'Mail Server'
-```
-- The tree vars file: `roles/cactilize/vars/trees.yml`
+    tree : DATABASES
 
+  'spybdd1_redis':
+    IP   : 172.20.20.70
+    graph:
+      - redis
+    tree : NoSQL
+```
+
+- [host_vars/spyhc1.yml](://github.com/helldorado/cactilize/blob/master/examples/host_vars/spyhc1.yml) :bangbang: Tree Dict need to be set only in Cacti server host_vars. Remove/Add/Organize them according your tree plan.
 
 ```yaml
 ---
 
-## TREE SERVICE HOST BASED
-#tree_mode          : host_by_role
-tree_mode         : graph_by_role
-#tree_mode          : mixed
-parentnode_host    : HOSTS
-parentnode_service : SERVICES
+Hosts:
+  'spyhc1':
+    IP   : 172.20.20.20
+    graph:
+      - system
+    tree : SYS
 
+## TREE
+Tree:
 
-## HOST BY ROLES
-Tree_Mode_Host:
- 
- - node: "{{ parentnode_host }}"
-   subnodes:
-     -
-
- - node: LVS
-   subnodes:
-     -
-
- - node: WEB
-   subnodes:
-     - Nginx
-     - Apache
-     - Litghttpd
-
- - node: CACHE
-   subnodes:
-     - Varnish
- 
- - node: DATABASES
-   subnodes:
-     - Mysql
-     - Galera
-     - Postgresql
-
- - node: NoSQL
-   subnodes:
-     - Redis
-     - Memcache
-     - Mongodb
-     - ES
- 
- - node: LAMP
-   subnodes:
+  - node: "{{ cacti_tree_parentnode_service }}"
+    subnodes:
       -
 
- - node: LEMP
-   subnodes:
+  - node: "{{ cacti_tree_parentnode_host }}"
+    subnodes:
       -
 
-## GRAPH BY ROLE
-Tree_Mode_Graph:
+  - node: WEB
+    subnodes:
+      - NGINX
+      - APACHE
+      - LIGHTTPD
 
- - node: "{{ parentnode_service }}"
-   subnodes:
-     -
+  - node: CACHE
+    subnodes:
+      - VARNISH
+      - OPCODE
 
- - node: WEB
-   subnodes:
-     - NGINX
-     - APACHE
-     - LIGHTTPD
+  - node: DATABASES
+    subnodes:
+      - MYSQL
+      - GALERA
 
- - node: CACHE
-   subnodes:
-     - VARNISH
-     - OPCODE
+  - node: NoSQL
+    subnodes:
+      - REDIS
+      - MEMCACHE
+      - MONGODB
+      - ES
 
- - node: DATABASES
-   subnodes:
-     - MYSQL
-     - GALERA
-
- - node: NoSQL
-   subnodes:
-     - REDIS
-     - MEMCACHE
-     - MONGODB
-     - ES
-
- - node: SYSTEM
-   subnodes:
-     - NETWORK
-     - CPU
-     - MEMORY
-     - DISK
-```  
-
-- The users vars file: `roles/cactilize/vars/users.yml`
-
-```yaml
----
- ## WEBUI User Permissions
-Users:
-
-  'spyviewer':
-    password            : FleninOfAt
-    full_name           : 'SPY Viewer'
-    enabled             : 'on'
-    must_change_password:
-    permissions         :
-      - View_Graphs
-      - Export_Data
-    policy              :
-      - View_Graphs
-      - View_Tree
+  - node: SYSTEM
+    subnodes:
+      - NETWORK
+      - CPU
+      - MEMORY
+      - DISK
 ```
-
-
 
 **/!\  For the other vars files, PLEASE ‼️ Do not edit setting unless you know what you are doing**
 
