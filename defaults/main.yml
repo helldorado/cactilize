@@ -16,8 +16,8 @@ cacti_apache_conf                   : '{{ cacti_conf_dir }}/apache.conf'
 cacti_cron_file                     : '/etc/cron.d/cacti'
 cacti_db_name                       : 'cacti_ansible'
 cacti_db_user                       : 'cacti_ansible'
-cacti_db_hostname                   : undef
-cacti_db_password                   : undef
+cacti_db_hostname                   : localhost
+cacti_db_password                   : 037F31C918B75C48ACADF43DB2
 cacti_db_populate                   : '{{ cacti_root_dir }}/cacti.sql'
 cacti_default_host_templates        : 'ucd/net SNMP Host'
 cacti_default_snmpversion           : 2
@@ -66,7 +66,8 @@ apache_configtest_enable            : true
 cacti_package_version               : undef
 cacti_package_source                : 'http://www.cacti.net/downloads'
 cacti_version                       : '0.8.8b'
-cacti_required_packages             : ['apache2', 'php5', 'php5-mysql', 'php5-cli', 'php5-snmp', 'snmp', 'snmpd', 'snmp-mibs-downloader', 'rrdtool']
+cacti_required_packages             : ['apache2', 'php5', 'php5-mysql', 'php5-cli', 'php5-snmp', 'snmp', 'snmpd', 'rrdtool']
+cacti_client_required_packages      : ['snmp' , 'snmpd']
 snmp_conf_dir                       : "/etc/snmp"
 apache_conf_dir                     : "/etc/apache2"
 nginx_conf_dir                      : "/etc/nginx"
@@ -74,3 +75,99 @@ is_alias                            : false
 PORT_HTTP                           : 80
 DEFAULT_IP                          : 127.0.0.1
 WHITELIST                           : ''
+
+### TEMPLATE
+cacti_templates:
+  'Percona GNU/Linux Server HT':
+    filename          : cacti_host_template_percona_gnu_linux_server_ht_0.8.6i-sver1.1.4.xml
+    with_template_rras: true
+    with_user_rras    : false
+    ensure            : true
+
+  'Percona MySQL Server HT':
+    filename          : cacti_host_template_percona_mysql_server_ht_0.8.6i-sver1.1.4.xml
+    with_template_rras: true
+    with_user_rras    : false
+    ensure            : true
+
+  'Percona MongoDB Server HT':
+    filename          : cacti_host_template_percona_mongodb_server_ht_0.8.6i-sver1.1.4.xml
+    with_template_rras: true
+    with_user_rras    : false
+    ensure            : true
+
+  'Percona Amazon RDS Server HT':
+    filename          : cacti_host_template_percona_rds_server_ht_0.8.6i-sver1.1.4.xml
+    with_template_rras: true
+    with_user_rras    : false
+    ensure            : true
+
+  'Percona Galera Server HT':
+    filename          : cacti_host_template_percona_galera_server_ht_0.8.6i-sver1.1.4.xml
+    with_template_rras: true
+    with_user_rras    : false
+    ensure            : true
+
+  'Percona Memcached Server HT':
+    filename          : cacti_host_template_percona_memcached_server_ht_0.8.6i-sver1.1.4.xml
+    with_template_rras: true
+    with_user_rras    : false
+    ensure            : true
+
+  'Percona Apache Server HT':
+    filename          : cacti_host_template_percona_apache_server_ht_0.8.6i-sver1.1.4.xml
+    with_template_rras: true
+    with_user_rras    : false
+    ensure            : true
+
+  'Percona Nginx Server HT':
+    filename          : cacti_host_template_percona_nginx_server_ht_0.8.6i-sver1.1.4.xml
+    with_template_rras: true
+    with_user_rras    : false
+    ensure            : true
+
+  'Percona Redis Server HT':
+    filename          : cacti_host_template_percona_redis_server_ht_0.8.6i-sver1.1.4.xml
+    with_template_rras: true
+    with_user_rras    : false
+    ensure            : true
+
+  'Percona JMX Server HT':
+    filename          : cacti_host_template_percona_jmx_server_ht_0.8.6i-sver1.1.4.xml
+    with_template_rras: true
+    with_user_rras    : false
+    ensure            : true
+
+  'UCDNET - NFS ClienT Extend':
+    filename          : cacti_graph_template_ucdnet_-_nfs_clientextend.xml
+    with_template_rras: true
+    with_user_rras    : false
+    ensure            : true
+
+  'UCDNET - NFS Server':
+    filename          : cacti_graph_template_ucdnet_-_nfs_server.xml
+    with_template_rras: true
+    with_user_rras    : false
+    ensure            : true
+
+  'Varnish':
+    filename          : cacti_host_template_varnish.xml
+    with_template_rras: true
+    with_user_rras    : false
+    ensure            : true
+
+  'Elasticsearch':
+    filename          : cacti_host_template_elasticsearch_host.xml
+    with_template_rras: true
+    with_user_rras    : false
+    ensure            : true
+
+
+## TREE SERVICE HOST BASED
+cacti_tree_mode               : graph_by_role   # host_by_role|mixed|graph_by_role
+cacti_tree_parentnode_host    : HOSTS
+cacti_tree_parentnode_service : SERVICES
+Tree                          : []
+
+## IFACE
+cacti_client_iface: eth0

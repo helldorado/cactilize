@@ -5,26 +5,43 @@
 # OS: Debian6 debian7
 
 ---
-    - hosts: all
-      user: vagrant
-      sudo: True
+- hosts: all
+  user: vagrant
+  sudo: True
+  gather_facts:  yes
+  vars:
+    # ABSTRACT
+    deploy                : false
+    webui_admin_user      : helldorado
+    webui_admin_password  : 2A2169234F6BC136j0CFC29EEF8
+    htpassword_admin      : DQWWEaTVmoi2I
+    archi_name            : SPYNOL
+    archi_subnet          : '172.20.20'
+    default_community     : spynol
+    cacti_db_hostname     : localhost
+    cacti_db_password     : tNSimlfnER7d6
+    cacti_mysql_mon_user  : monitoring
+    cacti_mysql_mon_pass  : 4vtYd5axfavQo
+    RRA_VG_NAME           : system
+    #RRA_LV_NAME           : var_lib_rra
+    RRA_LV_SIZE           : 5G
+    RRA_MOUNT_POINT       : '/var/lib/rra'
+    DEFAULT_IP            : '127.0.0.1'
+    WHITELIST             : ''
 
-      vars_files:
-        - ../vars/deploy.yml
-        - ../vars/templates.yml
-        - ../vars/hosts.yml
-        - ../vars/users.yml
-        - ../vars/trees.yml
-        - ../vars/def/mysql_def.yml
-        - ../vars/def/elasticsearch_def.yml
-        - ../vars/def/system_def.yml
-        - ../vars/def/varnish_def.yml
-        - ../vars/def/memcache_def.yml
-        - ../vars/def/apache_def.yml
-        - ../vars/def/redis_def.yml
-        - ../vars/def/mongodb_def.yml
-        - ../vars/def/galera_def.yml
-        - ../vars/def/nginx_def.yml
-
-      roles:
-       - cactilize
+     ## User Access and Permissions
+    Users:
+      'spyviewer':
+         htpassword          : YbXpnONCIG9V2
+         password            : FleninOfAt
+         full_name           : 'SPY Viewer'
+         enabled             : 'on'
+         must_change_password:
+         permissions         :
+           - View_Graphs
+           - Export_Data
+         policy              :
+           - View_Graphs
+           - View_Tree
+  roles:
+   - cactilize

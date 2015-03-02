@@ -1,0 +1,9 @@
+---
+Hosts:
+  'spycache1':
+    #IP   : 172.20.20.10
+    graph:
+      - varnish
+      - memcached
+    tree : CACHE
+

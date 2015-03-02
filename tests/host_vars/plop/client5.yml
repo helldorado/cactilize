@@ -1,0 +1,10 @@
+---
+Hosts:
+  'spybdd1':
+    #IP   : 172.20.20.10
+    graph:
+      - mysql
+      - redis
+      - memcached
+    tree : DATABASES
+

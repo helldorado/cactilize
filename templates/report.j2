@@ -17,17 +17,23 @@
 [ACCESS]
    URL   => http://IP_PUB/cacti , https://IP_PUB/cacti (according your server and archi configuration, If you use Keepalived LVS , HAproxy or other solution for mapping NAT please ensure you have a good port in your URL )
 
-   - WebUI
-       Administrator:
-          Login  => {{ webui_admin_user }}
-          Pass   => {{ webui_admin_password }}
-       {% for (key, value) in Users.iteritems() %}
-       {{ item.value.full_name }}:
-          Login  => {{ item.key }}
-          Pass   => {{ item.value.password }}
-       {% endfor %}
+- WebUI
 
-/!\ Please for nginx server, put this line in your default virtual host:
+[ CACTI AUTH ]
+    Administrator:
+       USERNAME   => {{ webui_admin_user }}
+       HTPASSWORD => {{ htpassword_admin }}
+       PASSWORD   => {{ webui_admin_password }}
+
+{% for (key, value) in Users.iteritems() %}
+    {{ item.value.full_name }}:
+       USERNAME   => {{ item.key }}
+       HTPASSWORD => {{ item.value.htpassword }}
+       PASSWORD   => {{ item.value.password }}
+
+{% endfor %}
+
+/!\ Please for your nginx server, put this line in your default virtual host:
 
 include /etc/nginx/conf.d/status.conf ;
 
