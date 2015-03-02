@@ -52,7 +52,7 @@ In the following :
 
  - MySQL 5.x or greater and ensure you have set a auto-login for root by creating a `/root/.my.cnf` on 0400 mode and put this 3 lines according your mysql server configuration. 
 
- - :coffee: or :beers: 
+ - ::coffee:: or ::beers:: 
 
 ```bash
 [client]
@@ -293,7 +293,7 @@ Hosts:
     tree : NoSQL
 ```
 
-- [host_vars/spyhc1.yml](://github.com/helldorado/cactilize/blob/master/examples/host_vars/spyhc1.yml) :bangbang: Tree Dict need to be set only in Cacti server host_vars. Remove/Add/Organize them according your tree plan.
+- [host_vars/spyhc1.yml](://github.com/helldorado/cactilize/blob/master/examples/host_vars/spyhc1.yml) ::bangbang:: Tree Dict need to be set only in Cacti server host_vars. Remove/Add/Organize them according your tree plan.
 
 ```yaml
 ---
@@ -569,8 +569,6 @@ You can find the documatation on using **Vagrant** and **ServerSpec** via the fo
 
 - [Vagrant](https://docs.vagrantup.com/v2/provisioning/ansible.html)
 - [ServerSpec](http://serverspec.org/resource_types.html)
-
-
 
 
 
