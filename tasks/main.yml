@@ -21,9 +21,6 @@
     - def/galera_def.yml
     - def/nginx_def.yml
 
-- debug: var=Users
-- debug: var=Apache_Def
-
 - include: deploy.yml
   when: deploy and inventory_hostname in groups['server']
   tags: deploy

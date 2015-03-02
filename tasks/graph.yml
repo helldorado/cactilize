@@ -21,13 +21,6 @@
     - def/nginx_def.yml
   when: def is defined and def
 
-- name : DEBUG
-  debug: var=item[0]
-  with_nested:
-    - Hosts
-    - System_Def
-  tags: debug
-
 - name: ADD Graph SYSTEM
   command: ruby {{ cacti_cli }}/cacti_add_graph.rb --name "{{ System_Def[item[1]].title }}" --device {% if item[0] != "" %} {{ item[0] }} {% else %} {{ inventory_hostname }} {% endif %} --graphtemplate "{{ System_Def[item[1]].title }}" --graphtype {{ System_Def[item[1]].graphtype }} {% if System_Def[item[1]].snmpquery is defined %} --snmpquery "{{ System_Def[item[1]].snmpquery }}" {% endif %} {% if System_Def[item[1]].snmpquerytype is defined %} --snmpquerytype  "{{ System_Def[item[1]].snmpquerytype }}" {% endif %} {% if System_Def[item[1]].snmpfield is defined %} --snmpfield "{{ System_Def[item[1]].snmpfield }}" {% endif %} {% if System_Def[item[1]].snmpvalue is defined  %} --snmpvalue "{{ System_Def[item[1]].snmpvalue }}" {% endif %}
   with_nested:
