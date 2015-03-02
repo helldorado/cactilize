@@ -80,21 +80,60 @@ password='You mysql server root password'
 
 ## Installation
 
-From Ansible Galaxy :
+* From Ansible Galaxy :
 ```bash
 su - ansible
 $ ansible-galaxy install helldorado.cactilize
 ```
-Or with [Librarian ansible](https://github.com/bcoe/librarian-ansible), for example add to your **Ansiblefile** :
 
+* From Github with `requirements.yml`
+```yaml
+- src: https://github.com/helldorado/cactilize
+  	  version: origin/master
+  	  name: cactilize
 ```
-role "cactilize", :git => "https://github.com/helldorado/cactilize"
-:ref => '2.0'
 ```
-And update your roles
-```bash
-$ librarian-ansible update
-```
+ansible-galaxy install -r requirements.yml
+``` 
+* with [Librarian ansible](https://github.com/bcoe/librarian-ansible), for example add to your **Ansiblefile** :
+
+	```
+	role "cactilize", :git => "https://github.com/helldorado/cactilize"
+	:ref => '2.0'
+	```
+	And update your roles
+	```bash
+	$ librarian-ansible update
+	```
+
+Parameters
+----------
+
+    VARIABLES                           TYPES/VALUES              DESCRIPTION
+    ----------------------------------------------------------------------------------------------------------------------------------------------------------
+    deploy                              true|false|force    Deploy an cacti sever or force redeploy. By default  `deploy` => `false`
+    webui_admin_user                    STRING              Cacti webui Admin 
+    webui_admin_password                STRING              Password for Admin Webui
+    htpassword_admin                    STRING              Password for Htpassword for the Admin.
+    archi_name                          STRING              Your infrastruture Name. Used for top level Tree.
+    archi_subnet                        IPV4                Your infra subnet. Only 3 first bit. Like `10.0.2`. Used for securing the snmp community access.
+    default_community                   STRING              Your default community. 
+    cacti_db_hostname                   STRING              Cacti database hostname.  
+    cacti_db_password                   STRING              Cacti database password
+    cacti_mysql_mon_user                STRING              Mysql monitoring User. Used for fectching information from Percona scripts.
+    cacti_mysql_mon_pass                STRING              Mysql monitoring password
+    RRA_VG_NAME                         STRING              VG NAME, if you want to mount the RRA dir in a LV.
+    RRA_LV_NAME                         STRING              LV NAME. By default undef.
+    RRA_MOUNT_POINT                     STRING              Where to mount the RRA dir.
+    DEFAULT_IP                          IPV4                Default IP autorized to connect on Webui without providing a htpassword password.
+    WHITELIST                           IPV4                More IP autorized to connect on Webui without providing a htpassword password. Separate theme by blank space.
+    Users                               DICTIONNARY         List of user to be created for access on the Webui. For security raison please provide the htpassword for all user.
+    Hosts                               DICTIONNARY         List of Hosts can be graphed. Hosts.graph is a ARRAY. For more info please see Bootsrap section.
+    cacti_client_iface                  STRING              Wich interface to use for Hosts or service. By default `cacti_client_iface` => `eth0`
+    Tree                                DICTIONNARY         An organised dict to generate your tree. For more info please see Bootsrap section.
+    cacti_tree_mode                     STRING              Tree mode to be use. In the version only graph_by_role passe the Run test -;)
+    cacti_tree_parentnode_host          STRING              Parent Node for all Hosts. By default `cacti_tree_parentnode_host` => `HOSTS`
+    cacti_tree_parentnode_service       STRING              Parent Node for all Service. By default  `cacti_tree_parentnode_service` => `SERVICES`                                               
 
 ## QuickStart
 
@@ -316,32 +355,22 @@ Tree:
 
 ### Ready to fire ? GO ! 
 
- - Step 1 :: Configure your client to send information via SNMP, Scripts and others to the cacti server.
  
 ```bash
-ansible-playbook cactilize.yml -i cactilize --limit client --skip-tags ssh_key
+ansible-playbook cactilize.yml -i cactilize-hosts --extra-vars "deploy=true"
 ```
-Check response from client.
+
+* :warning: Do not use `--extra-vars "deploy=true"` again unless you want to override you installation. Anyway, for that you must set `--extra-vars "deploy=force"`
+
+> This will take some time according your devices and graph list, be patient...
+
+* You can check if all your clients SNMP configuration is good with this command. Replace `YOUR_COMMUNITY` with community your are provided in playbook
 
 ```bash```
 ansible all  --sudo  -m shell -a "snmpwalk -v2c -c YOUR_COMMUNITY localhost IP-MIB::ipAdEntIfIndex"
 ```
 
- - Step 2 :: Deploy cacti server (Be careful don't run this again whith the deploy=true) 
-
-```bash
-ansible-playbook cactilize.yml -i cactilize --limit server --extra-vars deploy=true
-```
-
-This will take some time according your devices and graph list, be patient...
-
-- Step 3 :: Push the ssh public key to your all client.
-
-```bash
-ansible-playbook cactilize.yml -i cactilize --limit client --tags ssh_key
-```
-
-- Step 4 :: check the report file `/root/.cacti` in you cacti server.
+check the report file `/root/.cacti` in you cacti server for recap information.
 
 ## Tips
 - Allways use and ABUSE **--tags** and **--skip-tags**
@@ -416,10 +445,133 @@ Fork, then clone the repo:
 
 Set up your ansible environement for test suite.
 
-Make sure the tests pass:
+Make sure the tests pass via the **Vagrantfile** and **Rspec** :
 
 Make your change. Add examples and documentation for your change. 
 Push to your fork and [submit a pull request](https://github.com/helldorado/cactilize/compare/).
+
+
+
+```bash
+.
+├── Vagrantfile
+├── cactilize -> ../../cactilize
+├── data
+│   └── cactilize
+├── group_vars
+│   ├── caches.yml
+│   ├── databases.yml
+│   └── webs.yml
+├── host_vars
+│   ├── client5.yml
+│   └── server.yml
+├── inventory
+├── my.cnf
+└── playbook.yml
+```
+
+File `tests/Vagrantfile`
+```
+VAGRANTFILE_API_VERSION = "2"
+Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
+
+  config.vm.box_url = "http://puppet-vagrant-boxes.puppetlabs.com/debian-73-x64-virtualbox-nocm.box"
+  
+  config.vm.define :client1 do |client1|
+    config.vm.hostname = "cacti-client1"
+    client1.vm.network "private_network", ip: "172.20.20.10"
+  end
+
+  config.vm.define :client2 do |client2|
+    config.vm.hostname = "cacti-client2"
+    client2.vm.network "private_network", ip: "172.20.20.11"
+  end
+
+  config.vm.define :client3 do |client3|
+    config.vm.hostname = "cacti-client3"
+    client3.vm.network "private_network", ip: "172.20.20.12"
+  end
+
+  config.vm.define :client4 do |client4|
+    config.vm.hostname = "cacti-client4"
+    client4.vm.network "private_network", ip: "172.20.20.13"
+  end
+
+  config.vm.define :client5 do |client5|
+    config.vm.hostname = "cacti-client5"
+    client5.vm.network "private_network", ip: "172.20.20.14"
+  end
+
+  config.vm.define :server do |server|
+    config.vm.hostname = "cacti-server"
+    server.vm.network "private_network", ip: "172.20.20.20"
+    server.vm.network "forwarded_port", guest: 80, host: 8080
+  end
+
+  config.vm.provision "ansible" do |ansible|
+    ansible.playbook = "playbook.yml"
+    ansible.sudo = true
+    ansible.host_key_checking = false
+    ansible.groups = {
+          "server" => "server",
+          "client" => "client",
+    }
+  end
+end
+```
+#### - To bring the test system up, do the following:
+		
+```bash
+cd roles/cactilize/tests
+```
+
+* UP your Vagrant machines *(This stage can last for the first launch. Be patient.)* You can remove client machines [2-5]
+	  
+```bash
+ vagrant up
+```
+
+* Add the SSH connection information to your SSH config, from where Ansible can read it:
+
+```bash
+vagrant ssh-config >> ~/.ssh/config
+```
+
+Now you are ready to run the Ansible roles:
+```bash
+ansible-playbook -i inventory playbook.yml --extra-vars "deploy=true"
+```
+	
+
+- Run the **Rspec** tests suite via **ServerSpec**. For more info check [http://serverspec.org/ ](http://serverspec.org/)
+
+* Install ServerSpec via gem
+
+```bash
+gem install serverspec
+```
+
+For first run, init your ServerSpec
+```bash
+serverspec-init
+```
+
+And run Rspec test suite.
+```bash
+rake spec:server
+```
+
+Output Example
+
+
+
+You can find the documatation on using **Vagrant** and **ServerSpec** via the following links.`
+
+- [Vagrant](https://docs.vagrantup.com/v2/provisioning/ansible.html)
+- [ServerSpec](http://serverspec.org/resource_types.html)
+
+
+
 
 
 Some things that will increase the chance that your pull request is accepted:
