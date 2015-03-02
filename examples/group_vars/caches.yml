@@ -1,0 +1,10 @@
+---
+cacti_client_iface: eth1
+Hosts:
+  '':
+    #IP   : 172.20.20.10
+    graph:
+      - system
+      - varnish
+      - memcache
+    tree : CACHE

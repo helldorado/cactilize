@@ -1,0 +1,3 @@
+---
+cacti_client_iface: eth1
+mysql_server: true

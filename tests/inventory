@@ -2,4 +2,13 @@
 server
 
 [client]
-client
+client[1:5]
+
+[webs]
+client[1:2]
+
+[caches]
+client[3:4]
+
+[databases]
+client5

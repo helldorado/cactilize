@@ -4,10 +4,29 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 
   config.vm.box_url = "http://awh.helldorado.info/helldorado-debian-7-7-amd64.box"
 
-  config.vm.define :client do |client|
-    config.vm.hostname = "cacti-client"
-    client.vm.network "private_network", ip: "172.20.20.10"
-    client.vm.network "forwarded_port", guest: 161, host: 161
+  config.vm.define :client1 do |client1|
+    config.vm.hostname = "cacti-client1"
+    client1.vm.network "private_network", ip: "172.20.20.10"
+  end
+  
+  config.vm.define :client2 do |client2|
+    config.vm.hostname = "cacti-client2"
+    client2.vm.network "private_network", ip: "172.20.20.11"
+  end
+  
+  config.vm.define :client3 do |client3|
+    config.vm.hostname = "cacti-client3"
+    client3.vm.network "private_network", ip: "172.20.20.12"
+  end
+
+  config.vm.define :client4 do |client4|
+    config.vm.hostname = "cacti-client4"
+    client4.vm.network "private_network", ip: "172.20.20.13"
+  end
+  
+  config.vm.define :client5 do |client5|
+    config.vm.hostname = "cacti-client5"
+    client5.vm.network "private_network", ip: "172.20.20.14"
   end
 
   config.vm.define :server do |server|
@@ -16,14 +35,14 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     server.vm.network "forwarded_port", guest: 80, host: 8080
   end
 
-  config.vm.provision "ansible" do |ansible|
-    ansible.playbook = "playbook.yml"
-    ansible.sudo = true
-    #ansible.verbose = 'vvv'
-    ansible.host_key_checking = false
-    ansible.groups = {
-          "server" => "server",
-          "client" => "client",
-    }
-  end
+  #config.vm.provision "ansible" do |ansible|
+  #  ansible.playbook = "playbook.yml"
+  #  ansible.sudo = true
+  #  #ansible.verbose = 'vvv'
+  #  ansible.host_key_checking = false
+  #  ansible.groups = {
+  #        "server" => "server",
+  #        "client" => "client",
+  #  }
+  #end
 end

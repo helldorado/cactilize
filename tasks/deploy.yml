@@ -19,8 +19,8 @@
   changed_when: databases.stdout == 1
 
 - name: Exit Cactilize execution
-  fail: msg="Cacti or Cacti DB exist, please add deploy=--force to extra-vars )"
-  when: (cacti_web_root.stat.exists or databases.stdout.find('{{cacti_db_name}}') != -1) and deploy != "--force"
+  fail: msg="Cacti or Cacti DB exist, please add deploy=force to extra-vars )"
+  when: (cacti_web_root.stat.exists or databases.stdout.find('{{cacti_db_name}}') != -1) and deploy != "force"
 
 - name: Create temp directory
   file: path={{ cactilize_temp_dir }} state=directory
@@ -81,10 +81,10 @@
   file: path={{ cacti_root_dir  }}/templates owner=root group=root state=directory
 
 - name: Create Cacti config file
-  template: src=etc/config.php.j2  dest={{ cacti_config_file }} owner=root group=root mode=0444
+  template: src=etc/config.php.j2  dest={{ cacti_config_file }} owner={{ cacti_user }} group={{ apache_group }} mode=0440
 
 - name: Cacti configuration Step One
-  file: src={{ cacti_config_file }} dest={{ cacti_root_dir }}/include/config.php owner=root group=root state=link force=yes
+  file: src={{ cacti_config_file }} dest={{ cacti_root_dir }}/include/config.php owner={{ cacti_user }} group={{ apache_group }} state=link force=yes
 
 - name: Create database {{ cacti_db_name }}
   mysql_db: name={{ cacti_db_name  }} state=present
@@ -96,7 +96,7 @@
   mysql_db: name={{ cacti_db_name  }} state=import target={{ cacti_db_populate }}
 
 - name: Cacti Alias deploiement Step 1
-  template: src=etc/apache.conf.j2 dest={{ cacti_apache_conf }} owner=root group=root mode=0444
+  template: src=etc/apache.conf.j2 dest={{ cacti_apache_conf }} owner=root group=root mode=0440
   when: domain_name is not defined
   register: ALIAS
 
@@ -106,7 +106,7 @@
   notify: reload_apache2
 
 - name: Cacti Vhost deploiement Step 1
-  template: src=etc/vhost.conf.j2 dest=/etc/apache2/sites-available/{{ domain_name }}.conf owner=root group=root mode=0444
+  template: src=etc/vhost.conf.j2 dest=/etc/apache2/sites-available/{{ domain_name }}.conf owner=root group=root mode=0440
   when: domain_name is defined
   register: VHOST
 
@@ -115,9 +115,14 @@
   when: domain_name is defined and VHOST|success
   notify: reload_apache2
 
-- name: Create Htpasswd users
-  htpasswd: path=/etc/apache2/.htpass_cacti name={{ item.key }} password={{ item.value.passwd }} owner=root group={{ apache_group }} mode=0440
-  with_dict: htpasswd_users
+- name: Set Admin Htpasswd
+  htpasswd: path=/etc/apache2/.htpass_cacti name={{ webui_admin_user }} password={{ htpassword_admin }} owner=root group={{ apache_group }} mode=0440
+  tags: htpasswd
+
+- name: Set Users Htpasswd
+  htpasswd: path=/etc/apache2/.htpass_cacti name={{ item.key }} password={{ item.value.htpassword }} owner=root group={{ apache_group }} mode=0440
+  with_dict: Users
+  tags: htpasswd
 
 - name: Postinstall Configuration
   template: src=postinstall.sql.j2 dest={{ cactilize_temp_dir }}/postinstall.sql
@@ -147,12 +152,13 @@
 
 - name: Post Install Step 7 [ Create cacti user]
   user: name=cacti comment="Cacti user for poller process" generate_ssh_key=yes ssh_key_file={{ cacti_conf_dir }}/.ssh/id_rsa
+  when: deploy or (generate_ssh_key is defined and generate_ssh_key)
 
 - name: Get SSH KEY
   fetch: src={{ cacti_conf_dir }}/.ssh/id_rsa.pub dest=roles/cactilize/files/id_rsa.pub flat=yes
 
 - name: Copy Scripts File
-  template: src={{ item }} dest={{ cacti_root_dir }}/scripts/ owner=root group=root mode=0444
+  template: src={{ item }} dest={{ cacti_root_dir }}/scripts/ owner={{ cacti_user }} group={{ apache_group }} mode=0440
   with_items:
     - scripts/ss_get_by_ssh.php
     - scripts/ss_get_mysql_stats.php
@@ -162,13 +168,13 @@
     - scripts/elasticsearch_stats.rb
 
 - name: Copy Percona Configuration File
-  template: src={{ item }} dest={{ cacti_conf_dir }}/ owner=root group=root mode=0444
+  template: src={{ item }} dest={{ cacti_conf_dir }}/ owner={{ cacti_user }} group={{ apache_group }} mode=0440
   with_items:
     - etc/ss_get_mysql_stats.php.cnf
     - etc/ss_get_by_ssh.php.cnf
 
 - name: Copy Cactilize ruby wrappers
-  template: src={{ item }} dest={{ cacti_root_dir }}/cli/ owner=root group=root mode=0444
+  template: src={{ item }} dest={{ cacti_root_dir }}/cli/ owner={{ cacti_user }} group={{ apache_group }} mode=0440
   with_items:
     - lib/cacti_add_device.rb
     - lib/cacti_add_graph.rb
@@ -180,14 +186,14 @@
     state=directory
     recurse=yes
     mode=0755
-    owner=root
-    group=root
+    owner={{ cacti_user }}
+    group={{ apache_group }}
 
-- name: action | Ensure all file have 0644 mode
-  command: find "{{ cacti_root_dir }}" -type f -exec chmod 0644 {} \;
+- name: action | Ensure all file have 0640 mode
+  command: find "{{ cacti_root_dir }}" -type f -exec chmod 0640 {} \;
 
-- name: action | Ensure conf file have 0444 mode
-  command: chmod 0444 {{ cacti_config_file }}
+- name: action | Ensure conf file have 0440 mode
+  command: chmod 0440 {{ cacti_config_file }}
 
 - name: action | Ensure RRAs link is writable
   command: chown -h {{ cacti_user }}:{{ apache_group }} {{ cacti_root_dir }}/rra
@@ -213,6 +219,6 @@
     job="php --define suhosin.memory_limit=512M /usr/share/cacti/poller.php 2>&1 >/dev/null | if [ -f /usr/bin/ts ] ; then ts ; else tee ; fi >> {{ cacti_log_dir }}/cacti.log"
 
 - name: Report
-  template: src=report.txt.j2 dest=/root/.cacti owner=root group=root mode=0400
+  template: src=report.j2 dest=/root/.cacti owner=root group=root mode=0400
   with_dict: Users
   tags: report

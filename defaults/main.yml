@@ -168,3 +168,6 @@ cacti_tree_mode               : graph_by_role   # host_by_role|mixed|graph_by_ro
 cacti_tree_parentnode_host    : HOSTS
 cacti_tree_parentnode_service : SERVICES
 Tree                          : []
+
+## IFACE
+cacti_client_iface: eth0

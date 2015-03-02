@@ -1,0 +1,13 @@
+---
+cacti_client_iface: eth1
+apache_server: true
+nginx_server: true
+
+Hosts:
+  '':
+    #IP   : 172.20.20.10
+    graph:
+      - system
+      - apache
+      - nginx
+    tree : WEBS

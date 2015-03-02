@@ -7,7 +7,7 @@
 # OS: Debian6 Debian7
 
 - name: Install requires
-  apt: name={{ item }} update-cache=yes state=present
+  apt: name={{ item }} update-cache=no state=present
   with_items:
     - "{{ cacti_client_required_packages }}"
 
@@ -59,3 +59,6 @@
 - name: ssh key for cacti
   authorized_key: user=cacti key="{{ lookup('file', 'id_rsa.pub') }}"
   tags: ssh_key
+
+- name: Ensure Handlers fulshed
+  meta: flush_handlers

@@ -52,9 +52,9 @@ In the following :
 
  - MySQL 5.x or greater and ensure you have set a auto-login for root by creating a `/root/.my.cnf` on 0400 mode and put this 3 lines according your mysql server configuration. 
 
- - ::coffee:: or ::beers:: 
+ - :coffee: or :beers: 
 
-```bash
+```yaml
 [client]
 user=root
 host=localhost
@@ -81,30 +81,34 @@ password='You mysql server root password'
 ## Installation
 
 * From Ansible Galaxy :
-```bash
-su - ansible
-$ ansible-galaxy install helldorado.cactilize
-```
 
-* From Github with `requirements.yml`
-```yaml
-- src: https://github.com/helldorado/cactilize
-  	  version: origin/master
-  	  name: cactilize
-```
-```
-ansible-galaxy install -r requirements.yml
-``` 
-* with [Librarian ansible](https://github.com/bcoe/librarian-ansible), for example add to your **Ansiblefile** :
+ ```bash
+ su - ansible
+ $ ansible-galaxy install helldorado.cactilize
+ ```
 
-	```
-	role "cactilize", :git => "https://github.com/helldorado/cactilize"
-	:ref => '2.0'
-	```
-	And update your roles
-	```bash
-	$ librarian-ansible update
-	```
+* From Github with [requirements.yml](https://github.com/helldorado/cactilize/blob/master/examples/requirements.yml) file.
+
+ ```yaml
+ - src: https://github.com/helldorado/cactilize
+   version: origin/master
+   name: cactilize
+ ```
+ AND
+ ```
+ ansible-galaxy install -r requirements.yml
+ ```
+ 
+* With [Librarian ansible](https://github.com/bcoe/librarian-ansible), for example add to your **Ansiblefile** :
+
+  ```yaml
+  role "cactilize", :git => "https://github.com/helldorado/cactilize"
+  :ref => '2.0'
+  ```
+  And update your roles
+  ```bash
+  $ librarian-ansible update
+  ```
 
 Parameters
 ----------
@@ -133,7 +137,10 @@ Parameters
     Tree                                DICTIONNARY         An organised dict to generate your tree. For more info please see Bootsrap section.
     cacti_tree_mode                     STRING              Tree mode to be use. In the version only graph_by_role passe the Run test -;)
     cacti_tree_parentnode_host          STRING              Parent Node for all Hosts. By default `cacti_tree_parentnode_host` => `HOSTS`
-    cacti_tree_parentnode_service       STRING              Parent Node for all Service. By default  `cacti_tree_parentnode_service` => `SERVICES`                                               
+    cacti_tree_parentnode_service       STRING              Parent Node for all Service. By default  `cacti_tree_parentnode_service` => `SERVICES`
+    apache_server | nginx_server        true|false          Add on all server have apache or nginx. Used for configure the status.conf . Default `undef`
+    mysql_server                        true|false          Add on all server have mysql server. Used for configure the user to monitor the mysql sever . Default `undef`
+    nfs_client|nfs_server               true|false          Add on nfs client or nfs server.                
 
 ## QuickStart
 
@@ -144,7 +151,7 @@ Please edit these files before run the playbook.
 
 - The ansible host file example: [`cactilize-hosts`](https://github.com/helldorado/cactilize/blob/master/examples/cactilize-hosts)
 
-```ini
+```yaml
 ## Cacti Server
 [server]
 spyhc1
@@ -230,130 +237,120 @@ All hosts can be grouped for setting which services to graph. Ensure if you use 
   
   - [group_vars/webs.yml](://github.com/helldorado/cactilize/blob/master/examples/group_vars/webs.yml)
 
-```yaml
----
-cacti_client_iface: eth1
-apache_server: true
-nginx_server: true
+	```yaml
+	---
+	cacti_client_iface: eth1
+	apache_server: true
+	nginx_server: true
 
-Hosts:
-  '':
-    graph:
-      - system
-      - apache
-      - nginx
-    tree : WEB
-```
+	Hosts:
+	  '':
+	    graph:
+	      - system
+	      - apache
+	      - nginx
+	    tree : WEB
+	```
+  - [group_vars/caches.yml](://github.com/helldorado/cactilize/blob/master/examples/group_vars/caches.yml)
+		
+	``` 
+	---
+	cacti_client_iface: eth0:varnish
 
-   - [group_vars/caches.yml](://github.com/helldorado/cactilize/blob/master/examples/group_vars/caches.yml)
+	Hosts:
+	  '':
+	    #IP   : 172.20.20.10
+	    graph:
+	      - system
+	      - varnish
+	      - memcache
+	    tree : CACHE
+	```va- [group_vars/databases.yml](://github.com/helldorado/cactilize/blob/master/examples/group_vars/databases.yml)
+
+	```yaml
+	---
+	cacti_client_iface: eth0:mysql
+	mysql_server: true
+	```
 	
-``` 
----
-# group_vars/caches.yml
-
-cacti_client_iface: eth0:varnish
-
-Hosts:
-  '':
-    #IP   : 172.20.20.10
-    graph:
-      - system
-      - varnish
-      - memcache
-    tree : CACHE
-```
-
-- [group_vars/databases.yml](://github.com/helldorado/cactilize/blob/master/examples/group_vars/databases.yml)
-
-```yaml
----
-# group_vars/databases.yml
-
-cacti_client_iface: eth0:mysql
-mysql_server: true
-```
-
 - [host_vars/spybdd1.yml](://github.com/helldorado/cactilize/blob/master/examples/host_vars/spybdd1.yml)
 
-```yaml
----
-Hosts:
-  'spybdd1':
-    #IP   : 172.20.20.10
-    graph:
-      - system
-      - mysql
-      - memcache
-    tree : DATABASES
+	```yaml
+	---
+	Hosts:
+	  'spybdd1':
+	    #IP   : 172.20.20.10
+	    graph:
+	      - system
+	      - mysql
+	      - memcache
+	    tree : DATABASES
 
-  'spybdd1_redis':
-    IP   : 172.20.20.70
-    graph:
-      - redis
-    tree : NoSQL
-```
+	  'spybdd1_redis':
+	    IP   : 172.20.20.70
+	    graph:
+	      - redis
+	    tree : NoSQL
+	```
 
 - [host_vars/spyhc1.yml](://github.com/helldorado/cactilize/blob/master/examples/host_vars/spyhc1.yml) ::bangbang:: Tree Dict need to be set only in Cacti server host_vars. Remove/Add/Organize them according your tree plan.
 
-```yaml
----
+	```yaml
+	---
 
-Hosts:
-  'spyhc1':
-    IP   : 172.20.20.20
-    graph:
-      - system
-    tree : SYS
+	Hosts:
+	  'spyhc1':
+	    IP   : 172.20.20.20
+	    graph:
+	      - system
+	    tree : SYS
 
-## TREE
-Tree:
+	## TREE
+	Tree:
 
-  - node: "{{ cacti_tree_parentnode_service }}"
-    subnodes:
-      -
+	  - node: "{{ cacti_tree_parentnode_service }}"
+	    subnodes:
+	      -
 
-  - node: "{{ cacti_tree_parentnode_host }}"
-    subnodes:
-      -
+	  - node: "{{ cacti_tree_parentnode_host }}"
+	    subnodes:
+	      -
 
-  - node: WEB
-    subnodes:
-      - NGINX
-      - APACHE
-      - LIGHTTPD
+	  - node: WEB
+	    subnodes:
+	      - NGINX
+	      - APACHE
+	      - LIGHTTPD
 
-  - node: CACHE
-    subnodes:
-      - VARNISH
-      - OPCODE
+	  - node: CACHE
+	    subnodes:
+	      - VARNISH
+	      - OPCODE
 
-  - node: DATABASES
-    subnodes:
-      - MYSQL
-      - GALERA
+	  - node: DATABASES
+	    subnodes:
+	      - MYSQL
+	      - GALERA
 
-  - node: NoSQL
-    subnodes:
-      - REDIS
-      - MEMCACHE
-      - MONGODB
-      - ES
+	  - node: NoSQL
+	    subnodes:
+	      - REDIS
+	      - MEMCACHE
+	      - MONGODB
+	      - ES
 
-  - node: SYSTEM
-    subnodes:
-      - NETWORK
-      - CPU
-      - MEMORY
-      - DISK
-```
-
-**/!\  For the other vars files, PLEASE ‼️ Do not edit setting unless you know what you are doing**
-
+	  - node: SYSTEM
+	    subnodes:
+	      - NETWORK
+	      - CPU
+	      - MEMORY
+	      - DISK
+	```
 
 > You can create several devices, tree and users.
 
 
-### Ready to fire ? GO ! 
+### Install, configure and graph... 
 
  
 ```bash
@@ -366,43 +363,44 @@ ansible-playbook cactilize.yml -i cactilize-hosts --extra-vars "deploy=true"
 
 * You can check if all your clients SNMP configuration is good with this command. Replace `YOUR_COMMUNITY` with community your are provided in playbook
 
-```bash```
-ansible all  --sudo  -m shell -a "snmpwalk -v2c -c YOUR_COMMUNITY localhost IP-MIB::ipAdEntIfIndex"
-```
+	```bash```
+	ansible all  --sudo  -m shell -a "snmpwalk -v2c -c YOUR_COMMUNITY localhost IP-MIB::ipAdEntIfIndex"
+	```
 
-check the report file `/root/.cacti` in you cacti server for recap information.
+> **check the report file `/root/.cacti` in you cacti server for recap information.**
 
 ## Tips
 - Allways use and ABUSE **--tags** and **--skip-tags**
 
-`SERVICE => mysql | mongodb | redis | galera | varnish | memcache | apache | nginx | elasticsearch
-`
+	```
+	SERVICE => mysql | mongodb | redis | galera | varnish | memcache | apache | nginx | elasticsearch
+	```
 
 
-| List of Tags | Description |         Examples |            
-| -------------| ------------- |----------------|
-|  master_user | Create cacti user on server  |```ansible-playbook cactilize.yml -i cactilize --limit server --tags master_user ```|
-|  report      | Create report file  |```ansible-playbook cactilize.yml -i cactilize --limit server --tags report``` |
-|  device      | Create all device  | ```ansible-playbook cactilize.yml -i cactilize --limit server --tags device```|
-|  graph       | Create all graph | ```ansible-playbook cactilize.yml -i cactilize --limit server --tags graph``` |
-|  graph-$SERVICE| Create $SERVICE graph only| ```ansible-playbook cactilize.yml -i cactilize --limit server --tags graph-nginx```|
-|  snmp|Configure snmpd service|```ansible-playbook cactilize.yml -i cactilize --limit server --tags snmp```|
-|  user |Create cacti user on client| ```ansible-playbook cactilize.yml -i cactilize --limit client --tags user```|
-|  nginx_server| Enable Nginx Status| ```ansible-playbook cactilize.yml -i cactilize --limit client --tags nginx_server```|
-|  apache_server|Enable Apache Status| ```ansible-playbook cactilize.yml -i cactilize --limit client --tags apache_server```|
-|  mysql_server|Grants monitor user| ```ansible-playbook cactilize.yml -i cactilize --limit client --tags mysql_server```|
-|  ssh_key | Deploy the ssh key| ```ansible-playbook cactilize.yml -i cactilize --limit client --tags ssh_key```|
-|template |Import host template|```ansible-playbook cactilize.yml -i cactilize --limit server --tags template```|
-|tree|Create all tree|```ansible-playbook cactilize.yml -i cactilize --limit server --tags tree --skip-tags tree-apache```|
-|tree-$SERVICE|Create $SERVICE tree only|```ansible-playbook cactilize.yml -i cactilize --limit server --tags tree-varnish```|
+	| List of Tags | Description |         Examples |            
+	| -------------| ------------- |----------------|
+	|  master_user | Create cacti user on server  |```ansible-playbook cactilize.yml -i cactilize --limit server --tags master_user ```|
+	|  report      | Create report file  |```ansible-playbook cactilize.yml -i cactilize --limit server --tags report``` |
+	|  device      | Create all device  | ```ansible-playbook cactilize.yml -i cactilize --limit server --tags device```|
+	|  graph       | Create all graph | ```ansible-playbook cactilize.yml -i cactilize --limit server --tags graph``` |
+	|  graph-$SERVICE| Create $SERVICE graph only| ```ansible-playbook cactilize.yml -i cactilize --limit server --tags graph-nginx```|
+	|  snmp|Configure snmpd service|```ansible-playbook cactilize.yml -i cactilize --limit server --tags snmp```|
+	|  user |Create cacti user on client| ```ansible-playbook cactilize.yml -i cactilize --limit client --tags user```|
+	|  nginx_server| Enable Nginx Status| ```ansible-playbook cactilize.yml -i cactilize --limit client --tags nginx_server```|
+	|  apache_server|Enable Apache Status| ```ansible-playbook cactilize.yml -i cactilize --limit client --tags apache_server```|
+	|  mysql_server|Grants monitor user| ```ansible-playbook cactilize.yml -i cactilize --limit client --tags mysql_server```|
+	|  ssh_key | Deploy the ssh key| ```ansible-playbook cactilize.yml -i cactilize --limit client --tags ssh_key```|
+	|template |Import host template|```ansible-playbook cactilize.yml -i cactilize --limit server --tags template```|
+	|tree|Create all tree|```ansible-playbook cactilize.yml -i cactilize --limit server --tags tree --skip-tags tree-apache```|
+	|tree-$SERVICE|Create $SERVICE tree only|```ansible-playbook cactilize.yml -i cactilize --limit server --tags tree-varnish```|
 
 - If possible or necessary use **--start-at-task** to start from a specific task 
 
-```bash
-ansible-playbook cactilize.yml -i cactilize --limit client --start-at-task "SNMP CONF"
-``` 
+	```bash
+	ansible-playbook cactilize.yml -i cactilize --limit client --start-at-task "SNMP CONF"
+	``` 
 For example to show task related device or graph, type: 
-``` bash 
+```bash 
 $ ansible-playbook cactilize.yml -i cactilize  --list-tasks |grep -Ei 'device|graph'
     ADD device
     ADD Graph SYSTEM
@@ -561,8 +559,9 @@ And run Rspec test suite.
 rake spec:server
 ```
 
-Output Example
+Rspec Sample Output
 
+![Cactilize Rspec Sample Output](https://github.com/helldorado/cactilize/blob/master/examples/img/cactilize_rspec.png)
 
 
 You can find the documatation on using **Vagrant** and **ServerSpec** via the following links.`

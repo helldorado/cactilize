@@ -13,7 +13,8 @@
     # ABSTRACT
     deploy                : false
     webui_admin_user      : helldorado
-    webui_admin_password  : 2A2169234F6BC1360CFC29EEF8
+    webui_admin_password  : 2A2169234F6BC136j0CFC29EEF8
+    htpassword_admin      : DQWWEaTVmoi2I
     archi_name            : SPYNOL
     archi_subnet          : '172.20.20'
     default_community     : spynol
@@ -28,16 +29,10 @@
     DEFAULT_IP            : '127.0.0.1'
     WHITELIST             : ''
 
-    ### HTPASSWD USERS
-    htpasswd_users:
-      spyadm:
-        passwd: tSuMCNaKvASaU
-      spycombo:
-        passwd: YbXpnONCIG9V2
-
-     ## WEBUI User Permissions
+     ## User Access and Permissions
     Users:
       'spyviewer':
+         htpassword          : YbXpnONCIG9V2
          password            : FleninOfAt
          full_name           : 'SPY Viewer'
          enabled             : 'on'

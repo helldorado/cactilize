@@ -28,6 +28,9 @@
   when: deploy and inventory_hostname in groups['server']
   tags: deploy
 
+- include: client.yml
+  tags: client
+
 - include: template.yml
   when: inventory_hostname in groups['server']
   tags: template
@@ -46,5 +49,4 @@
   when: inventory_hostname in groups['server']
   tags: user
 
-- include: host.yml
-  tags: hosts
+

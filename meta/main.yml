@@ -15,4 +15,4 @@ galaxy_info:
     - { role: apache2 }
     - { role: php }
     - { role: mysql}
-version: 0.0.1
+version: 2.0
