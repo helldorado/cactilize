@@ -91,8 +91,8 @@ password='You mysql server root password'
 
  ```yaml
  - src: https://github.com/helldorado/cactilize
-   version: origin/master
-   name: cactilize
+    version: origin/master
+     name: cactilize
  ```
  AND
  ```
