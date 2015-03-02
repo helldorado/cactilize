@@ -92,7 +92,7 @@ password='You mysql server root password'
  ```yaml
  - src: https://github.com/helldorado/cactilize
     version: origin/master
-     name: cactilize
+    name: cactilize
  ```
  AND
  ```
@@ -235,7 +235,7 @@ Some examples provided in [Examples](https://github.com/helldorado/cactilize/tre
 
 All hosts can be grouped for setting which services to graph. Ensure if you use an heritage method to leave blank for the item key and do not set the IP. I will get it for you dynamicaly. You can set the `cacti_client_iface` in `group_vars`  or host by host in `host_vars`. Look like:
   
-  - [group_vars/webs.yml](://github.com/helldorado/cactilize/blob/master/examples/group_vars/webs.yml)
+* [group_vars/webs.yml](://github.com/helldorado/cactilize/blob/master/examples/group_vars/webs.yml)
 
 	```yaml
 	---
@@ -251,7 +251,7 @@ All hosts can be grouped for setting which services to graph. Ensure if you use 
 	      - nginx
 	    tree : WEB
 	```
-  - [group_vars/caches.yml](://github.com/helldorado/cactilize/blob/master/examples/group_vars/caches.yml)
+* [group_vars/caches.yml](://github.com/helldorado/cactilize/blob/master/examples/group_vars/caches.yml)
 		
 	``` 
 	---
@@ -265,7 +265,8 @@ All hosts can be grouped for setting which services to graph. Ensure if you use 
 	      - varnish
 	      - memcache
 	    tree : CACHE
-	```va- [group_vars/databases.yml](://github.com/helldorado/cactilize/blob/master/examples/group_vars/databases.yml)
+	```
+* [group_vars/databases.yml](://github.com/helldorado/cactilize/blob/master/examples/group_vars/databases.yml)
 
 	```yaml
 	---
@@ -273,7 +274,7 @@ All hosts can be grouped for setting which services to graph. Ensure if you use 
 	mysql_server: true
 	```
 	
-- [host_vars/spybdd1.yml](://github.com/helldorado/cactilize/blob/master/examples/host_vars/spybdd1.yml)
+* [host_vars/spybdd1.yml](://github.com/helldorado/cactilize/blob/master/examples/host_vars/spybdd1.yml)
 
 	```yaml
 	---
@@ -293,7 +294,7 @@ All hosts can be grouped for setting which services to graph. Ensure if you use 
 	    tree : NoSQL
 	```
 
-- [host_vars/spyhc1.yml](://github.com/helldorado/cactilize/blob/master/examples/host_vars/spyhc1.yml) ::bangbang:: Tree Dict need to be set only in Cacti server host_vars. Remove/Add/Organize them according your tree plan.
+* [host_vars/spyhc1.yml](://github.com/helldorado/cactilize/blob/master/examples/host_vars/spyhc1.yml) :bangbang: Tree Dict need to be set only in Cacti server host_vars. Remove/Add/Organize them according your tree plan.
 
 	```yaml
 	---
@@ -350,7 +351,7 @@ All hosts can be grouped for setting which services to graph. Ensure if you use 
 > You can create several devices, tree and users.
 
 
-### Install, configure and graph... 
+## Install, configure and graph... 
 
  
 ```bash
