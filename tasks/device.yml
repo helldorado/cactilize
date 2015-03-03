@@ -12,4 +12,4 @@
   register: device
   with_dict: Hosts
   when: Hosts is defined
-  delegate_to: {{ cacti_server }}
+  delegate_to: "{{ cacti_server }}"
