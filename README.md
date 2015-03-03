@@ -92,7 +92,7 @@ password='You mysql server root password'
  ```yaml
  - src: https://github.com/helldorado/cactilize
     version: origin/master
-    name: cactilize
+     name: cactilize
  ```
  AND
  ```
@@ -126,6 +126,7 @@ Parameters
     cacti_db_password                   STRING              Cacti database password
     cacti_mysql_mon_user                STRING              Mysql monitoring User. Used for fectching information from Percona scripts.
     cacti_mysql_mon_pass                STRING              Mysql monitoring password
+    cacti_server                        STRING              Cacti server to delegate task from client (REQUIRED)
     RRA_VG_NAME                         STRING              VG NAME, if you want to mount the RRA dir in a LV.
     RRA_LV_NAME                         STRING              LV NAME. By default undef.
     RRA_MOUNT_POINT                     STRING              Where to mount the RRA dir.

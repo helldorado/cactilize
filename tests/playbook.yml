@@ -28,6 +28,7 @@
     RRA_MOUNT_POINT       : '/var/lib/rra'
     DEFAULT_IP            : '127.0.0.1'
     WHITELIST             : ''
+    cacti_server          : server
 
      ## User Access and Permissions
     Users:

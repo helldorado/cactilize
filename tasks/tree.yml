@@ -23,14 +23,14 @@
 
 - name: ADD PRIMARY NODES TREE {{ cacti_tree_parentnode_host }}
   command: ruby {{ cacti_cli }}/cacti_add_tree.rb --name "{{ cacti_tree_parentnode_host }}" --type node --nodetype header --tree {{ archi_name }}
-  delegate_to: 'server'
+  delegate_to: {{ cacti_server }}
   tags:
     - tree-node
 
 
 - name: ADD PRIMARY NODES TREE {{ cacti_tree_parentnode_service }}
   command: ruby {{ cacti_cli }}/cacti_add_tree.rb --name "{{ cacti_tree_parentnode_service }}" --type node --nodetype header --tree {{ archi_name }}
-  delegate_to: 'server'
+  delegate_to: {{ cacti_server }}
   tags:
     - tree-node
 
@@ -47,7 +47,7 @@
 
 - name: ADD NODES TREE WHEN TREE MODE LIKE GRAPH BY ROLE
   command: ruby {{ cacti_cli }}/cacti_add_tree.rb --name "{{ item.0.node }}" --type node --nodetype header --tree {{ archi_name }} --parentnode "{{ cacti_tree_parentnode_service }}"
-  delegate_to: 'server'
+  delegate_to: {{ cacti_server }}
   with_nested:
     - Tree
     - subnodes
@@ -67,7 +67,7 @@
 
 - name: ADD SUB NODES WHEN TREE MODE LIKE GRAPH BY ROLE
   command: ruby {{ cacti_cli }}/cacti_add_tree.rb --name "{{ item.1 }}" --type node --nodetype header --tree {{ archi_name }} --parentnode "{{ item.0.node }}"
-  delegate_to: 'server'
+  delegate_to: {{ cacti_server }}
   with_subelements:
     - Tree
     - subnodes
@@ -77,7 +77,7 @@
 
 - name: ADD HOST ON TREE HOST WHEN TREE MODE LIKE BY HOST
   command: ruby {{ cacti_cli }}/cacti_add_tree.rb --name {% if item.key != "" %} "{{ item.key }}" {% else %} "{{ inventory_hostname }}" {% endif %} --type node --nodetype host --tree {{ archi_name }} --parentnode "{{ item.value.tree }}"
-  delegate_to: 'server'
+  delegate_to: {{ cacti_server }}
   with_dict: Hosts
   tags:
     - tree-host
@@ -86,7 +86,7 @@
 
 - name: ADD HOST ON TREE HOST WHEN TREE MODE LIKE GRAPH BY ROLE
   command: ruby {{ cacti_cli }}/cacti_add_tree.rb --name {% if item.key != "" %} "{{ item.key }}" {% else %} "{{ inventory_hostname }}" {% endif %} --type node --nodetype host --tree {{ archi_name }} --parentnode "{{ cacti_tree_parentnode_host }}"
-  delegate_to: 'server'
+  delegate_to: {{ cacti_server }}
   with_dict: Hosts
   tags:
     - tree-host
@@ -94,7 +94,7 @@
 
 - name: ADD SYSTEM (CPU, MEMORY , LOAD, DISK) ON TREE OR NODE
   command: ruby {{ cacti_cli }}/cacti_add_tree.rb --name {% if item[0] != "" %} "{{ item[0] }} - {{ item.1 }}" {% else %} "{{ inventory_hostname }} - {{ item.1 }}" {% endif %} --type node --nodetype graph --tree {{ archi_name }} --parentnode "{{ System_Def[item[1]].tree }}"
-  delegate_to: 'server'
+  delegate_to: {{ cacti_server }}
   with_nested:
     - Hosts
     - System_Def
@@ -105,7 +105,7 @@
 
 - name: ADD GRAPH MYSQL ON TREE OR NODE
   command: ruby {{ cacti_cli }}/cacti_add_tree.rb --name {% if item[0] != "" %} "{{ item[0] }} - {{ item.1 }}" {% else %} "{{ inventory_hostname }} - {{ item.1 }}" {% endif %} --type node --nodetype graph --tree {{ archi_name }} --parentnode "{{ Mysql_Def[item[1]].tree }}"
-  delegate_to: 'server'
+  delegate_to: {{ cacti_server }}
   with_nested:
     - Hosts
     - Mysql_Def
@@ -116,7 +116,7 @@
 
 - name: ADD GRAPH APACHE ON TREE OR NODE
   command: ruby {{ cacti_cli }}/cacti_add_tree.rb --name {% if item[0] != "" %} "{{ item[0] }} - {{ item.1 }}" {% else %} "{{ inventory_hostname }} - {{ item.1 }}" {% endif %} --type node --nodetype graph --tree {{ archi_name }} --parentnode "{{ Apache_Def[item[1]].tree }}"
-  delegate_to: 'server'
+  delegate_to: {{ cacti_server }}
   with_nested:
     - Hosts
     - Apache_Def
@@ -127,7 +127,7 @@
 
 - name: ADD GRAPH NGINX ON TREE OR NODE
   command: ruby {{ cacti_cli }}/cacti_add_tree.rb --name {% if item[0] != "" %} "{{ item[0] }} - {{ item.1 }}" {% else %} "{{ inventory_hostname }} - {{ item.1 }}" {% endif %} --type node --nodetype graph --tree {{ archi_name }} --parentnode "{{ Nginx_Def[item[1]].tree }}"
-  delegate_to: 'server'
+  delegate_to: {{ cacti_server }}
   with_nested:
     - Hosts
     - Nginx_Def
@@ -138,7 +138,7 @@
 
 - name: ADD GRAPH MEMCACHE ON TREE OR NODE
   command: ruby {{ cacti_cli }}/cacti_add_tree.rb --name {% if item[0] != "" %} "{{ item[0] }} - {{ item.1 }}" {% else %} "{{ inventory_hostname }} - {{ item.1 }}" {% endif %} --type node --nodetype graph --tree {{ archi_name }} --parentnode "{{ Memcache_Def[item[1]].tree }}"
-  delegate_to: 'server'
+  delegate_to: {{ cacti_server }}
   with_nested:
     - Hosts
     - Memcache_Def
@@ -149,7 +149,7 @@
 
 - name: ADD GRAPH REDIS ON TREE OR NODE
   command: ruby {{ cacti_cli }}/cacti_add_tree.rb --name {% if item[0] != "" %} "{{ item[0] }} - {{ item.1 }}" {% else %} "{{ inventory_hostname }} - {{ item.1 }}" {% endif %} --type node --nodetype graph --tree {{ archi_name }} --parentnode "{{ Redis_Def[item[1]].tree }}"
-  delegate_to: 'server'
+  delegate_to: {{ cacti_server }}
   with_nested:
     - Hosts
     - Redis_Def
@@ -160,7 +160,7 @@
 
 - name: ADD GRAPH VARNISH ON TREE OR NODE
   command: ruby {{ cacti_cli }}/cacti_add_tree.rb --name {% if item[0] != "" %} "{{ item[0] }} - {{ item.1 }}" {% else %} "{{ inventory_hostname }} - {{ item.1 }}" {% endif %} --type node --nodetype graph --tree {{ archi_name }} --parentnode "{{ Varnish_Def[item[1]].tree }}"
-  delegate_to: 'server'
+  delegate_to: {{ cacti_server }}
   with_nested:
     - Hosts
     - Varnish_Def
@@ -171,7 +171,7 @@
 
 - name: ADD GRAPH ELASTICSEARCH ON TREE OR NODE
   command: ruby {{ cacti_cli }}/cacti_add_tree.rb --name {% if item[0] != "" %} "{{ item[0] }} - {{ item.1 }}" {% else %} "{{ inventory_hostname }} - {{ item.1 }}" {% endif %} --type node --nodetype graph --tree {{ archi_name }} --parentnode "{{ ES_Def[item[1]].tree }}"
-  delegate_to: 'server'
+  delegate_to: {{ cacti_server }}
   with_nested:
     - Hosts
     - ES_Def

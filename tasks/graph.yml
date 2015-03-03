@@ -27,7 +27,7 @@
     - Hosts
     - System_Def
   when: "'system' in Hosts[item[0]].graph"
-  delegate_to: 'server'
+  delegate_to: {{ cacti_server }}
   tags:
     - graph-system
 
@@ -38,7 +38,7 @@
     - Hosts
     - Mysql_Def
   when: "'mysql' in Hosts[item[0]].graph"
-  delegate_to: 'server'
+  delegate_to: {{ cacti_server }}
   tags:
     - graph-mysql
 
@@ -49,19 +49,19 @@
     - Hosts
     - MongoDB_Def
   when: "'mongodb' in Hosts[item[0]].graph"
-  delegate_to: 'server'
+  delegate_to: {{ cacti_server }}
   tags:
     - graph-mongodb
 
 
 - name: ADD Graph REDIS
   command: ruby {{ cacti_cli }}/cacti_add_graph.rb --name "{{ Redis_Def[item[1]].title }}" --device {% if item[0] != "" %} {{ item[0] }} {% else %} {{ inventory_hostname }} {% endif %} --graphtemplate "{{ Redis_Def[item[1]].title }}" --graphtype {{ Redis_Def[item[1]].graphtype }} {% if Redis_Def[item[1]].snmpquery is defined %} --snmpquery "{{ Redis_Def[item[1]].snmpquery }}" {% endif %} {% if Redis_Def[item[1]].snmpquerytype is defined %} --snmpquerytype  "{{ Redis_Def[item[1]].snmpquerytype }}" {% endif %} {% if Redis_Def[item[1]].snmpfield is defined %} --snmpfield "{{ Redis_Def[item[1]].snmpfield }}" {% endif %} {% if Redis_Def[item[1]].snmpvalue is defined  %} --snmpvalue "{{ Redis_Def[item[1]].snmpvalue }}" {% endif %}
-  delegate_to: 'server'
+  delegate_to: {{ cacti_server }}
   with_nested:
     - Hosts
     - Redis_Def
   when: "'redis' in Hosts[item[0]].graph"
-  delegate_to: 'server'
+  delegate_to: {{ cacti_server }}
   tags:
     - graph-redis
 
@@ -71,7 +71,7 @@
     - Hosts
     - Galera_Def
   when: "'galera' in Hosts[item[0]].graph"
-  delegate_to: 'server'
+  delegate_to: {{ cacti_server }}
   tags:
     - graph-galera
 
@@ -82,7 +82,7 @@
     - Hosts
     - Varnish_Def
   when: "'varnish' in Hosts[item[0]].graph"
-  delegate_to: 'server'
+  delegate_to: {{ cacti_server }}
   tags:
     - graph-varnish
 
@@ -93,7 +93,7 @@
     - Hosts
     - Memcache_Def
   when: "'memcache' in Hosts[item[0]].graph"
-  delegate_to: 'server'
+  delegate_to: {{ cacti_server }}
   tags:
     - graph-memcache
 
@@ -104,7 +104,7 @@
     - Hosts
     - Apache_Def
   when: "'apache' in Hosts[item[0]].graph"
-  delegate_to: 'server'
+  delegate_to: {{ cacti_server }}
   tags:
     - graph-apache
 
@@ -115,7 +115,7 @@
     - Hosts
     - Nginx_Def
   when: "'nginx' in Hosts[item[0]].graph"
-  delegate_to: 'server'
+  delegate_to: {{ cacti_server }}
   tags:
     - graph-nginx
 
@@ -126,6 +126,6 @@
     - Hosts
     - ES_Def
   when: "'elasticsearch' in Hosts[item[0]].graph"
-  delegate_to: 'server'
+  delegate_to: {{ cacti_server }}
   tags:
     - graph-elasticsearch
